@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Thư Viện Ảnh Hoạt Động Giảng Dạy & Sinh Hoạt Lớp 5 - Góc Học Tập Thầy Lê Văn Hoàng (CT GDPT 2018).">
+    <title>Thư Viện Ảnh - Góc Học Tập Thầy Lê Văn Hoàng</title>
+    <!-- Icon hiển thị trên tab trình duyệt -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>">
+    <link rel="stylesheet" href="style.css?v=999">
+    <style>
+        /* Tối ưu riêng giao diện 3 nút bấm */
+        .card-actions-3btn {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            width: 100%;
+            margin-top: 12px;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.2s ease;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
+        .btn-view-main { background-color: #0284c7; } /* Xanh Dương */
+        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
+
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Khai báo hình ảnh trong album */
+        .image-preview-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+            background-color: #f1f3f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            position: relative;
+        }
+        .image-preview-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Chỉ báo trạng thái tệp tải lên từ máy tính */
+        .file-status-indicator {
+            font-size: 11px;
+            color: #0f9d58;
+            margin-top: 8px;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
+            <ul>
+                <li><a href="index.html">🏠 Trang chủ</a></li>
+                <li><a href="giao-an.html">📚 Giáo án & Kế hoạch</a></li>
+                <li><a href="de-kiem-tra.html">📝 Đề kiểm tra</a></li>
+                <li><a href="phieu-hoc-tap.html">📄 Phiếu học tập</a></li>
+                <li><a href="slide-bai-giang.html">🎞️ Slide bài giảng</a></li>
+                <li><a href="tai-lieu.html">📁 Tài liệu</a></li>
+                <li><a href="thu-vien-anh.html" class="active">🖼️ Thư viện ảnh</a></li>
+                <li><a href="lien-he.html">📞 Liên hệ</a></li>
+                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 20px; text-align: center;">
+            <h2 style="margin: 0 0 10px 0; color: #1a73e8; font-size: 24px;">📸 Thư Viện Ảnh Hoạt Động Giảng Dạy</h2>
+            <p style="color: #666; margin: 0;">Lưu giữ những khoảnh khắc tiết học trải nghiệm, sinh hoạt lớp và hoạt động giáo dục học sinh lớp 5</p>
+        </div>
+
+        <div class="stats-bar" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 25px; font-weight: 500; color: #555; flex-wrap: wrap;">
+            <span>📸 Hoạt động trải nghiệm</span>
+            <span>🏫 Sinh hoạt lớp 5</span>
+            <span>⭐ Kỷ niệm học tập</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
+            <!-- ALBUM 1: TIẾT HỌC TRẢI NGHIỆM -->
+            <div class="card" data-album="trai-nghiem" style="background: white; border: 1px solid #e0e0e0; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <div class="image-preview-container" id="box-trai-nghiem">
+                    <span style="font-size: 15px; font-weight: 500; color: #555;">🖼️ Ảnh Tiết Học Trải Nghiệm</span>
+                </div>
+                <p style="margin-top: 12px; margin-bottom: 4px; color: #444; font-weight: bold; font-size: 16px;">Hoạt động trải nghiệm sáng tạo môn học</p>
+                <div class="file-status-indicator">✅ Đã tải lên ảnh mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('trai-nghiem')">📤 Tải ảnh lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="xemAnhPhongTo('trai-nghiem')">👁 Xem ảnh</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải ảnh</a>
+                </div>
+            </div>
+
+            <!-- ALBUM 2: SINH HOẠT LỚP -->
+            <div class="card" data-album="sinh-hoat-lop" style="background: white; border: 1px solid #e0e0e0; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <div class="image-preview-container" id="box-sinh-hoat-lop">
+                    <span style="font-size: 15px; font-weight: 500; color: #555;">🖼️ Ảnh Sinh Hoạt Lớp</span>
+                </div>
+                <p style="margin-top: 12px; margin-bottom: 4px; color: #444; font-weight: bold; font-size: 16px;">Buổi sinh hoạt lớp và hoạt động Đội</p>
+                <div class="file-status-indicator">✅ Đã tải lên ảnh mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('sinh-hoat-lop')">📤 Tải ảnh lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="xemAnhPhongTo('sinh-hoat-lop')">👁 Xem ảnh</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải ảnh</a>
+                </div>
+            </div>
+
+            <!-- ALBUM 3: KHÔNG GIAN LỚP HỌC -->
+            <div class="card" data-album="goc-lop-hoc" style="background: white; border: 1px solid #e0e0e0; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <div class="image-preview-container" id="box-goc-lop-hoc">
+                    <span style="font-size: 15px; font-weight: 500; color: #555;">🖼️ Góc Lớp Học & Thư Viện</span>
+                </div>
+                <p style="margin-top: 12px; margin-bottom: 4px; color: #444; font-weight: bold; font-size: 16px;">Trang trí lớp học & Thư viện thân thiện</p>
+                <div class="file-status-indicator">✅ Đã tải lên ảnh mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('goc-lop-hoc')">📤 Tải ảnh lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="xemAnhPhongTo('goc-lop-hoc')">👁 Xem ảnh</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải ảnh</a>
+                </div>
+            </div>
+
+            <!-- ALBUM 4: PHONG TRÀO THI ĐUA -->
+            <div class="card" data-album="phong-trao" style="background: white; border: 1px solid #e0e0e0; padding: 15px; border-radius: 12px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08);">
+                <div class="image-preview-container" id="box-phong-trao">
+                    <span style="font-size: 15px; font-weight: 500; color: #555;">🖼️ Phong Trào & Thi Đua</span>
+                </div>
+                <p style="margin-top: 12px; margin-bottom: 4px; color: #444; font-weight: bold; font-size: 16px;">Kỷ niệm văn nghệ, thể thao & thi đua</p>
+                <div class="file-status-indicator">✅ Đã tải lên ảnh mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('phong-trao')">📤 Tải ảnh lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="xemAnhPhongTo('phong-trao')">👁 Xem ảnh</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải ảnh</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- INPUT CHỌN TỆP ẢNH ẨN DÙNG CHUNG -->
+    <input type="file" id="localImageInput" style="display: none;" accept="image/*" onchange="handleImageSelected(event)">
+
+    <!-- MODAL PHÓNG TO HÌNH ẢNH -->
+    <div id="modalXemAnh" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; justify-content: center; align-items: center; padding: 20px;">
+        <div style="position: relative; max-width: 90%; max-height: 90%;">
+            <button onclick="dongModalXemAnh()" style="position: absolute; top: -15px; right: -15px; background: #ff4d4f; color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 18px; cursor: pointer; font-weight: bold; z-index: 10000; display: flex; align-items: center; justify-content: center;">✕</button>
+            <img id="imgZoomFull" src="" alt="Hình ảnh xem trước" style="max-width: 100%; max-height: 85vh; border-radius: 8px; box-shadow: 0 5px 25px rgba(0,0,0,0.5); object-fit: contain;">
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
+        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        let currentActiveAlbum = "";
+        const imageStore = {}; // Lưu trữ URL ảnh tạm thời
+
+        const localImageInput = document.getElementById("localImageInput");
+
+        // Kích hoạt cửa sổ chọn ảnh từ máy tính
+        function triggerFileUpload(albumKey) {
+            currentActiveAlbum = albumKey;
+            localImageInput.click();
+        }
+
+        // Xử lý khi chọn ảnh từ máy tính thành công
+        function handleImageSelected(event) {
+            const file = event.target.files[0];
+            if (!file || !currentActiveAlbum) return;
+
+            const imageUrl = URL.createObjectURL(file);
+            imageStore[currentActiveAlbum] = {
+                url: imageUrl,
+                name: file.name
+            };
+
+            const card = document.querySelector(`.card[data-album="${currentActiveAlbum}"]`);
+            if (card) {
+                const boxContainer = card.querySelector(".image-preview-container");
+                const btnDownload = card.querySelector(".btn-download");
+                const statusIndicator = card.querySelector(".file-status-indicator");
+
+                // Hiển thị trực tiếp ảnh trong khung album
+                boxContainer.innerHTML = `<img src="${imageUrl}" alt="${file.name}">`;
+
+                // Cập nhật đường dẫn nút Tải ảnh
+                if (btnDownload) {
+                    btnDownload.href = imageUrl;
+                    btnDownload.download = file.name;
+                }
+
+                // Báo trạng thái đã nhận ảnh
+                if (statusIndicator) {
+                    statusIndicator.textContent = `✅ Đã tải ảnh: ${file.name}`;
+                    statusIndicator.style.display = "block";
+                }
+            }
+
+            event.target.value = "";
+        }
+
+        // Mở cửa sổ phóng to ảnh
+        function xemAnhPhongTo(albumKey) {
+            const modal = document.getElementById("modalXemAnh");
+            const imgZoom = document.getElementById("imgZoomFull");
+
+            if (imageStore[albumKey] && imageStore[albumKey].url) {
+                imgZoom.src = imageStore[albumKey].url;
+            } else {
+                // Đường dẫn ảnh mẫu mặc định nếu chưa tải ảnh lên
+                imgZoom.src = `thu-vien-anh/${albumKey}-mau.jpg`;
+            }
+
+            modal.style.display = "flex";
+        }
+
+        function dongModalXemAnh() {
+            document.getElementById("modalXemAnh").style.display = "none";
+            document.getElementById("imgZoomFull").src = "";
+        }
+    </script>
+</body>
+</html>

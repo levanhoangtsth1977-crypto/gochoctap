@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kho Slide Bài Giảng Điện Tử Lớp 5 - Bài giảng PowerPoint sinh động chuẩn CT GDPT 2018 (Kết nối tri thức với cuộc sống) - Thầy Lê Văn Hoàng.">
+    <title>Slide Bài Giảng Điện Tử - Góc Học Tập Thầy Lê Văn Hoàng</title>
+    <!-- Icon hiển thị trên tab trình duyệt -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <link rel="stylesheet" href="style.css?v=999">
+    <style>
+        /* Tối ưu riêng giao diện 3 nút bấm */
+        .card-actions-3btn {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.2s ease;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
+        .btn-view-main { background-color: #0284c7; } /* Xanh Dương */
+        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
+
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        /* Chỉ báo trạng thái tệp tải lên từ máy tính */
+        .file-status-indicator {
+            font-size: 11px;
+            color: #0f9d58;
+            margin-top: 4px;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
+            <ul>
+                <li><a href="index.html">🏠 Trang chủ</a></li>
+                <li><a href="giao-an.html">📚 Giáo án & Kế hoạch</a></li>
+                <li><a href="de-kiem-tra.html">📝 Đề kiểm tra</a></li>
+                <li><a href="phieu-hoc-tap.html">📄 Phiếu học tập</a></li>
+                <li><a href="slide-bai-giang.html" class="active">🎞️ Slide bài giảng</a></li>
+                <li><a href="tai-lieu.html">📁 Tài liệu</a></li>
+                <li><a href="thu-vien-anh.html">🖼️ Thư viện ảnh</a></li>
+                <li><a href="lien-he.html">📞 Liên hệ</a></li>
+                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h2>🎞️ Kho Slide Bài Giảng Điện Tử Lớp 5</h2>
+            <p>Bài giảng PowerPoint sinh động theo chuẩn CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
+        </div>
+
+        <!-- THANH CHỌN TUẦN HỌC CHUNG -->
+        <div class="global-week-selector">
+            <div class="selector-title">📌 CHỌN TUẦN HỌC CHUNG CHO TẤT CẢ CÁC MÔN</div>
+            <select id="tuanChungSelect" class="main-select">
+                <!-- JavaScript tự động nạp từ Tuần 1 đến 35 -->
+            </select>
+            <div class="current-week-display">
+                📖 <span id="hienThiTuanText">ĐANG XEM: TUẦN 1</span> | Năm học 2026–2027
+            </div>
+        </div>
+
+        <!-- HỆ THỐNG CÁC CARD MÔN HỌC VỚI 3 NÚT THAO TÁC -->
+        <div class="card-grid">
+            <!-- 1. TỔNG HỢP SLIDE -->
+            <div class="card card-tong-hop" data-slide-mon="tong-hop-slide" style="border: 2px solid #e65100; background: #fffdf9;">
+                <div class="card-icon">📦</div>
+                <h3>TỔNG HỢP SLIDE</h3>
+                <p>Trọn bộ slide bài giảng tất cả các môn học trong tuần.</p>
+                <div class="card-meta">
+                    <span>📄 Trọn bộ toàn diện</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('tong-hop-slide')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('tong-hop-slide', 'Tổng Hợp Slide')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 2. TOÁN 5 -->
+            <div class="card" data-slide-mon="toan">
+                <div class="card-icon">📐</div>
+                <h3>TOÁN 5</h3>
+                <p>Bài giảng điện tử PowerPoint môn Toán lớp 5 sinh động.</p>
+                <div class="card-meta">
+                    <span>📊 Slide sinh động</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('toan')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('toan', 'Toán 5')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 3. TIẾNG VIỆT 5 -->
+            <div class="card" data-slide-mon="tieng-viet">
+                <div class="card-icon">📖</div>
+                <h3>TIẾNG VIỆT 5</h3>
+                <p>Bài giảng PowerPoint môn Tiếng Việt tích hợp tương tác.</p>
+                <div class="card-meta">
+                    <span>📝 Chuẩn Thông tư 27</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('tieng-viet')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('tieng-viet', 'Tiếng Việt 5')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 4. KHOA HỌC 5 -->
+            <div class="card" data-slide-mon="khoa-hoc">
+                <div class="card-icon">🔬</div>
+                <h3>KHOA HỌC 5</h3>
+                <p>Bài giảng điện tử Khoa học lớp 5 kèm thí nghiệm trực quan.</p>
+                <div class="card-meta">
+                    <span>🔬 Hình ảnh trực quan</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('khoa-hoc')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('khoa-hoc', 'Khoa học 5')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 5. LỊCH SỬ - ĐỊA LÍ 5 -->
+            <div class="card" data-slide-mon="lich-su-dia-li">
+                <div class="card-icon">🌍</div>
+                <h3>LỊCH SỬ - ĐỊA LÍ 5</h3>
+                <p>Bài giảng điện tử Lịch sử và Địa lí với nhiều tư liệu sinh động.</p>
+                <div class="card-meta">
+                    <span>🌍 Bản đồ & Tư liệu</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('lich-su-dia-li')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('lich-su-dia-li', 'Lịch sử - Địa lí 5')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 6. ĐẠO ĐỨC 5 -->
+            <div class="card" data-slide-mon="dao-duc">
+                <div class="card-icon">⭐</div>
+                <h3>ĐẠO ĐỨC 5</h3>
+                <p>Bài giảng điện tử Đạo đức lớp 5 với các tình huống giáo dục.</p>
+                <div class="card-meta">
+                    <span>⭐ Tình huống giáo dục</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('dao-duc')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('dao-duc', 'Đạo đức 5')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 7. CÔNG NGHỆ 5 -->
+            <div class="card" data-slide-mon="cong-nghe">
+                <div class="card-icon">💻</div>
+                <h3>CÔNG NGHỆ 5</h3>
+                <p>Bài giảng điện tử môn Công nghệ lớp 5 kỹ thuật thực hành.</p>
+                <div class="card-meta">
+                    <span>💻 Mô hình kỹ thuật</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('cong-nghe')">📤 Tải lên</button>
+                    <button type="button" class="btn-action btn-view-main" onclick="moXemTruoc('cong-nghe', 'Công nghệ 5')">👁 Xem</button>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- INPUT CHỌN TỆP ẨN DÙNG CHUNG -->
+    <input type="file" id="localFileInput" style="display: none;" accept=".pptx,.ppt,.pdf" onchange="handleFileSelected(event)">
+
+    <!-- MODAL XEM TRỰC TIẾP POWERPOINT -->
+    <div id="modalXemTruoc" class="modal-overlay">
+        <div class="modal-content" style="max-width: 1050px; height: 90vh; padding: 0; display: flex; flex-direction: column; overflow: hidden;">
+            <div style="background: var(--primary, #1565c0); color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 id="modalTitle" style="margin: 0; font-size: 18px; color: white;">📚 XEM TRỰC TIẾP SLIDE BÀI GIẢNG</h3>
+                <button onclick="dongModalXemTruoc()" style="background: #ff4d4f; color: white; border: none; width: 34px; height: 34px; border-radius: 50%; font-size: 16px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center;">✕</button>
+            </div>
+            <div style="flex: 1; background: #e9ecef; position: relative;">
+                <iframe id="iframeXemTruoc" src="" style="width: 100%; height: 100%; border: none;"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
+        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        let currentActiveMon = "";
+        const uploadedSlideFilesStore = {}; // Lưu tệp tải lên theo từng tuần
+
+        const selectTuanSlide = document.getElementById("tuanChungSelect");
+        const hienThiTuanTextSlide = document.getElementById("hienThiTuanText");
+        const localFileInput = document.getElementById("localFileInput");
+
+        if (selectTuanSlide) {
+            if (selectTuanSlide.children.length === 0) {
+                for (let i = 1; i <= 35; i++) {
+                    let opt = document.createElement("option");
+                    opt.value = i;
+                    opt.textContent = `Tuần ${i}`;
+                    selectTuanSlide.appendChild(opt);
+                }
+            }
+            selectTuanSlide.addEventListener("change", capNhatGiaoDienSlide);
+        }
+
+        // Kích hoạt cửa sổ chọn file từ máy tính
+        function triggerFileUpload(monKey) {
+            currentActiveMon = monKey;
+            localFileInput.click();
+        }
+
+        // Xử lý khi chọn file từ máy tính thành công
+        function handleFileSelected(event) {
+            const file = event.target.files[0];
+            const tuanHienTai = selectTuanSlide ? selectTuanSlide.value : 1;
+
+            if (!file || !currentActiveMon) return;
+
+            const fileUrl = URL.createObjectURL(file);
+            
+            if (!uploadedSlideFilesStore[tuanHienTai]) {
+                uploadedSlideFilesStore[tuanHienTai] = {};
+            }
+            uploadedSlideFilesStore[tuanHienTai][currentActiveMon] = {
+                name: file.name,
+                url: fileUrl
+            };
+
+            capNhatGiaoDienSlide();
+            event.target.value = "";
+        }
+
+        function capNhatGiaoDienSlide() {
+            const tuanHienTai = selectTuanSlide ? selectTuanSlide.value : 1;
+            if (hienThiTuanTextSlide) {
+                hienThiTuanTextSlide.textContent = `ĐANG XEM: TUẦN ${tuanHienTai}`;
+            }
+
+            const cards = document.querySelectorAll(".card[data-slide-mon]");
+            cards.forEach(card => {
+                const monKey = card.getAttribute("data-slide-mon");
+                const btnDownload = card.querySelector(".btn-download");
+                const statusIndicator = card.querySelector(".file-status-indicator");
+
+                if (uploadedSlideFilesStore[tuanHienTai] && uploadedSlideFilesStore[tuanHienTai][monKey]) {
+                    const uploadedData = uploadedSlideFilesStore[tuanHienTai][monKey];
+                    if (btnDownload) {
+                        btnDownload.href = uploadedData.url;
+                        btnDownload.download = uploadedData.name;
+                    }
+                    if (statusIndicator) {
+                        statusIndicator.textContent = `✅ Đã tải lên [Tuần ${tuanHienTai}]: ${uploadedData.name}`;
+                        statusIndicator.style.display = "block";
+                    }
+                } else {
+                    let slidePath = monKey === "tong-hop-slide" ? 
+                        `slide-bai-giang/tong-hop/T${tuanHienTai}-Tong-Hop.pptx` : 
+                        `slide-bai-giang/${monKey}/T${tuanHienTai}-${monKey}.pptx`;
+
+                    if (btnDownload) {
+                        btnDownload.href = slidePath;
+                        btnDownload.removeAttribute("download");
+                    }
+                    if (statusIndicator) statusIndicator.style.display = "none";
+                }
+            });
+        }
+
+        function moXemTruoc(monKey, monName) {
+            const tuanHienTai = selectTuanSlide ? selectTuanSlide.value : 1;
+            let fileUrl = "";
+            let titleText = `${monName} - Tuần ${tuanHienTai}`;
+
+            if (uploadedSlideFilesStore[tuanHienTai] && uploadedSlideFilesStore[tuanHienTai][monKey]) {
+                fileUrl = uploadedSlideFilesStore[tuanHienTai][monKey].url;
+                titleText += ` (${uploadedSlideFilesStore[tuanHienTai][monKey].name})`;
+            } else {
+                let filePath = monKey === "tong-hop-slide" ? 
+                    `slide-bai-giang/tong-hop/T${tuanHienTai}-Tong-Hop.pptx` : 
+                    `slide-bai-giang/${monKey}/T${tuanHienTai}-${monKey}.pptx`;
+                fileUrl = window.location.origin + '/' + filePath;
+            }
+
+            let officeViewerUrl = `https://view.officeapps.live.com/op/embed.aspx?src=` + encodeURIComponent(fileUrl);
+            
+            document.getElementById("modalTitle").textContent = `📚 ${titleText.toUpperCase()}`;
+            document.getElementById("iframeXemTruoc").src = officeViewerUrl;
+            document.getElementById("modalXemTruoc").style.display = "flex";
+        }
+
+        function dongModalXemTruoc() {
+            document.getElementById("modalXemTruoc").style.display = "none";
+            document.getElementById("iframeXemTruoc").src = "";
+        }
+
+        // Khởi chạy khi tải trang
+        capNhatGiaoDienSlide();
+    </script>
+</body>
+</html>

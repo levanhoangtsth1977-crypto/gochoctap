@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Kế hoạch bài dạy & Kế hoạch giáo dục lớp 5 theo chuẩn CT GDPT 2018 - Thầy Lê Văn Hoàng.">
+    <title>Giáo Án & Kế Hoạch - Góc Học Tập Thầy Lê Văn Hoàng</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+    <link rel="stylesheet" href="style.css?v=999">
+    <style>
+        /* Tối ưu riêng giao diện 3 nút bấm */
+        .card-actions-3btn {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 4px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.2s ease;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
+        .btn-view-main   { background-color: #0284c7; } /* Xanh Dương */
+        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
+
+        .btn-action:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        /* Chỉ báo trạng thái tệp cục bộ */
+        .file-status-indicator {
+            font-size: 11px;
+            color: #0f9d58;
+            margin-top: 4px;
+            display: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
+            <ul>
+                <li><a href="index.html">🏠 Trang chủ</a></li>
+                <li><a href="giao-an.html" class="active">📚 Giáo án & Kế hoạch</a></li>
+                <li><a href="de-kiem-tra.html">📝 Đề kiểm tra</a></li>
+                <li><a href="phieu-hoc-tap.html">📄 Phiếu học tập</a></li>
+                <li><a href="slide-bai-giang.html">🎞️ Slide bài giảng</a></li>
+                <li><a href="tai-lieu.html">📁 Tài liệu</a></li>
+                <li><a href="thu-vien-anh.html">🖼️ Thư viện ảnh</a></li>
+                <li><a href="lien-he.html">📞 Liên hệ</a></li>
+                <li><a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" style="background-color: #0f9d58 !important; color: white !important; font-weight: bold;">📁 Google Drive</a></li>
+                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="page-header">
+            <h2>📚 Kế Hoạch Bài Dạy & Kế Hoạch Dạy Học Lớp 5</h2>
+            <p>CT GDPT 2018 | Bộ sách Kết nối tri thức với cuộc sống</p>
+        </div>
+
+        <!-- THANH CHỌN TUẦN HỌC CHUNG -->
+        <div class="global-week-selector">
+            <div class="selector-title">📌 CHỌN TUẦN HỌC CHUNG CHO TOÀN BỘ MÔN</div>
+            <select id="tuanChungSelect" class="main-select">
+                <!-- JavaScript tự động nạp từ Tuần 1 đến 35 -->
+            </select>
+            <div class="current-week-display">
+                📖 <span id="hienThiTuanText">ĐANG XEM: TUẦN 1</span> | Hệ thống tự động nhận diện học liệu theo tuần
+            </div>
+        </div>
+
+        <div class="card-grid">
+            <!-- 1. KẾ HOẠCH DẠY HỌC CHUNG -->
+            <div class="card card-tong-hop" data-mon="ke-hoach-day-hoc">
+                <div class="card-icon">📅</div>
+                <h3>KẾ HOẠCH DẠY HỌC</h3>
+                <p>Phân phối chương trình chi tiết các môn học theo tuần và học kỳ.</p>
+                <div class="card-meta">
+                    <span>📄 Định dạng Word/PDF</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('ke-hoach-day-hoc')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 2. GIÁO ÁN TỔNG HỢP -->
+            <div class="card card-tong-hop" data-mon="giao-an-tong-hop">
+                <div class="card-icon">📦</div>
+                <h3>GIÁO ÁN TỔNG HỢP</h3>
+                <p>Trọn bộ giáo án tất cả các môn học trong tuần đã chọn.</p>
+                <div class="card-meta">
+                    <span>📚 Trọn gói tuần</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('giao-an-tong-hop')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 3. TOÁN 5 -->
+            <div class="card" data-mon="toan">
+                <div class="card-icon">📐</div>
+                <h3>TOÁN 5</h3>
+                <p>Kế hoạch bài dạy môn Toán lớp 5 chuẩn phương pháp phát triển năng lực.</p>
+                <div class="card-meta">
+                    <span>📐 Sách Kết nối tri thức</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('toan')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 4. TIẾNG VIỆT 5 -->
+            <div class="card" data-mon="tieng-viet">
+                <div class="card-icon">📖</div>
+                <h3>TIẾNG VIỆT 5</h3>
+                <p>Kế hoạch bài dạy môn Tiếng Việt lớp 5 đầy đủ các phân môn.</p>
+                <div class="card-meta">
+                    <span>📖 Đọc, Viết, Nói & Nghe</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('tieng-viet')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 5. KHOA HỌC 5 -->
+            <div class="card" data-mon="khoa-hoc">
+                <div class="card-icon">🔬</div>
+                <h3>KHOA HỌC 5</h3>
+                <p>Kế hoạch bài dạy môn Khoa học lớp 5 thí nghiệm và khám phá.</p>
+                <div class="card-meta">
+                    <span>🔬 Thực hành trực quan</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('khoa-hoc')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 6. LỊCH SỬ - ĐỊA LÍ 5 -->
+            <div class="card" data-mon="lich-su-dia-li">
+                <div class="card-icon">🌍</div>
+                <h3>LỊCH SỬ - ĐỊA LÍ 5</h3>
+                <p>Kế hoạch bài dạy môn Lịch sử và Địa lí lớp 5.</p>
+                <div class="card-meta">
+                    <span>🌍 Khám phá lịch sử & địa phương</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('lich-su-dia-li')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 7. ĐẠO ĐỨC 5 -->
+            <div class="card" data-mon="dao-duc">
+                <div class="card-icon">⭐</div>
+                <h3>ĐẠO ĐỨC 5</h3>
+                <p>Kế hoạch bài dạy môn Đạo đức lớp 5 giáo dục phẩm chất.</p>
+                <div class="card-meta">
+                    <span>⭐ Hoạt động trải nghiệm</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('dao-duc')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+
+            <!-- 8. CÔNG NGHỆ 5 -->
+            <div class="card" data-mon="cong-nghe">
+                <div class="card-icon">💻</div>
+                <h3>CÔNG NGHỆ 5</h3>
+                <p>Kế hoạch bài dạy môn Công nghệ lớp 5 hướng nghiệp và kỹ thuật.</p>
+                <div class="card-meta">
+                    <span>💻 Kỹ thuật thực hành</span>
+                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+                </div>
+                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
+                <div class="card-actions-3btn">
+                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('cong-nghe')">📤 Tải lên</button>
+                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
+                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- INPUT CHỌN TỆP ẨN DÙNG CHUNG -->
+    <input type="file" id="localFileInput" style="display: none;" accept=".doc,.docx,.pdf" onchange="handleFileSelected(event)">
+
+    <footer>
+        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
+        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
+    </footer>
+
+    <script>
+        let currentActiveMon = "";
+        const selectTuan = document.getElementById("tuanChungSelect");
+        const hienThiTuanText = document.getElementById("hienThiTuanText");
+        const localFileInput = document.getElementById("localFileInput");
+
+        if (selectTuan) {
+            if (selectTuan.children.length === 0) {
+                for (let i = 1; i <= 35; i++) {
+                    let opt = document.createElement("option");
+                    opt.value = i;
+                    opt.textContent = `Tuần ${i}`;
+                    selectTuan.appendChild(opt);
+                }
+            }
+            selectTuan.addEventListener("change", capNhatGiaoDien);
+        }
+
+        // Kích hoạt cửa sổ chọn file từ máy tính
+        function triggerFileUpload(monKey) {
+            currentActiveMon = monKey;
+            localFileInput.click();
+        }
+
+        // Xử lý khi người dùng đã chọn file từ máy tính
+        function handleFileSelected(event) {
+            const file = event.target.files[0];
+            if (!file || !currentActiveMon) return;
+
+            const fileUrl = URL.createObjectURL(file);
+            const card = document.querySelector(`.card[data-mon="${currentActiveMon}"]`);
+
+            if (card) {
+                const btnView = card.querySelector(".btn-view-main");
+                const btnDownload = card.querySelector(".btn-download");
+                const statusIndicator = card.querySelector(".file-status-indicator");
+
+                // Cập nhật link xem và tải cho nút bấm
+                if (btnView) btnView.href = fileUrl;
+                if (btnDownload) {
+                    btnDownload.href = fileUrl;
+                    btnDownload.download = file.name;
+                }
+
+                // Hiển thị thông báo trạng thái tệp
+                if (statusIndicator) {
+                    statusIndicator.textContent = `✅ Đã nhận: ${file.name}`;
+                    statusIndicator.style.display = "block";
+                }
+            }
+
+            // Reset input file để có thể chọn lại cùng 1 file nếu cần
+            event.target.value = "";
+        }
+
+        function capNhatGiaoDien() {
+            const tuanHienTai = selectTuan ? selectTuan.value : 1;
+            if (hienThiTuanText) {
+                hienThiTuanText.textContent = `ĐANG XEM: TUẦN ${tuanHienTai} | Hệ thống tự động nhận diện học liệu theo tuần`;
+            }
+
+            const cards = document.querySelectorAll(".card[data-mon]");
+            cards.forEach(card => {
+                const monKey = card.getAttribute("data-mon");
+                const btnView = card.querySelector(".btn-view-main");
+                const btnDownload = card.querySelector(".btn-download");
+                const statusIndicator = card.querySelector(".file-status-indicator");
+
+                // Đặt lại các đường dẫn mặc định theo hệ thống thư mục local
+                let pdfPath = monKey === "ke-hoach-day-hoc" ? `tai-lieu/ke-hoach-day-hoc/ke-hoach-tuan-${tuanHienTai}.pdf` :
+                              monKey === "giao-an-tong-hop" ? `tai-lieu/giao-an-tong-hop/giao-an-tong-hop-tuan-${tuanHienTai}.pdf` :
+                              `tai-lieu/${monKey}/${monKey}-tuan-${tuanHienTai}.pdf`;
+                
+                let wordPath = monKey === "ke-hoach-day-hoc" ? `tai-lieu/ke-hoach-day-hoc/ke-hoach-tuan-${tuanHienTai}.docx` :
+                               monKey === "giao-an-tong-hop" ? `tai-lieu/giao-an-tong-hop/giao-an-tong-hop-tuan-${tuanHienTai}.docx` :
+                               `tai-lieu/${monKey}/${monKey}-tuan-${tuanHienTai}.docx`;
+
+                if (btnView) btnView.href = pdfPath;
+                if (btnDownload) {
+                    btnDownload.href = wordPath;
+                    btnDownload.removeAttribute("download");
+                }
+                if (statusIndicator) statusIndicator.style.display = "none";
+            });
+        }
+
+        // Khởi chạy khi tải trang
+        capNhatGiaoDien();
+    </script>
+</body>
+</html>
