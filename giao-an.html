@@ -9,7 +9,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f1f5f9; color: #0f172a; line-height: 1.6; }
         
-        /* Thanh điều hướng phía trên */
         .top-bar { background-color: #0f172a; color: #cbd5e1; font-size: 14px; padding: 12px 24px; display: flex; justify-content: flex-start; align-items: center; gap: 12px; flex-wrap: wrap; }
         .top-bar a { color: #cbd5e1; text-decoration: none; padding: 6px 12px; border-radius: 6px; font-weight: 500; transition: all 0.2s; }
         .top-bar a:hover, .top-bar a.active { background-color: #2563eb; color: #ffffff; }
@@ -21,7 +20,6 @@
         .card-title { font-size: 22px; font-weight: 700; color: #0f172a; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
         .card-desc { color: #64748b; font-size: 14px; margin-bottom: 24px; }
         
-        /* Lưới hiển thị các môn */
         .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
         .item-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s ease; }
         .item-card:hover { border-color: #2563eb; transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
@@ -30,15 +28,17 @@
         .item-header h3 { font-size: 17px; color: #0f172a; font-weight: 700; }
         .item-card p { font-size: 13px; color: #64748b; margin-bottom: 16px; }
         
-        /* Nút 2 mục: Tải lên - Xem & Tải về */
-        .button-group { display: flex; gap: 8px; }
-        .btn-view { flex: 1; background-color: #2563eb; color: #ffffff !important; text-decoration: none; padding: 10px 10px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; }
-        .btn-view:hover { background-color: #1d4ed8; }
+        /* Cấu trúc 2 nút nằm ngang cân đối */
+        .button-group { display: flex; gap: 10px; }
         
-        .btn-upload { flex: 1; background-color: #16a34a; color: #ffffff !important; text-decoration: none; padding: 10px 10px; border-radius: 8px; font-size: 13px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; }
+        /* Nút Tải lên nằm bên TRÁI (Xanh lá) */
+        .btn-upload { flex: 1; background-color: #16a34a; color: #ffffff !important; text-decoration: none; padding: 10px 12px; border-radius: 8px; font-size: 13.5px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; white-space: nowrap; }
         .btn-upload:hover { background-color: #15803d; }
         
-        /* Màu sắc biểu tượng */
+        /* Nút Kho Dữ Liệu nằm bên PHẢI (Xanh dương) */
+        .btn-drive { flex: 1; background-color: #2563eb; color: #ffffff !important; text-decoration: none; padding: 10px 12px; border-radius: 8px; font-size: 13.5px; font-weight: 600; text-align: center; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; white-space: nowrap; }
+        .btn-drive:hover { background-color: #1d4ed8; }
+        
         .icon-toan { color: #d97706; } .icon-tv { color: #2563eb; } .icon-kh { color: #059669; } .icon-lsdi { color: #dc2626; } .icon-hdtn { color: #9333ea; } .icon-dd { color: #db2777; } .icon-cn { color: #15803d; }
     </style>
 </head>
@@ -66,7 +66,7 @@
                 <i class="fa-solid fa-folder-tree" style="color: #2563eb;"></i>
                 <span>KHO GIÁO ÁN LỚP 5 - BỘ SÁCH KẾT NỐI TRI THỨC</span>
             </div>
-            <p class="card-desc">Chọn "Xem & Tải về" để tải giáo án về máy hoặc "Tải lên" để thêm tệp giáo án mới vào Google Drive.</p>
+            <p class="card-desc">Chọn "Tải Lên" để thêm tệp mới hoặc "Kho Dữ Liệu" để xem và tải bài học về máy.</p>
 
             <div class="content-grid">
                 <!-- Môn Toán -->
@@ -79,8 +79,8 @@
                         <p>Kế hoạch bài dạy môn Toán lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
 
@@ -94,8 +94,8 @@
                         <p>Kế hoạch bài dạy môn Tiếng Việt lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=1r2xvXn4WJciIYQ00g93mceThGemRQANp#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/1r2xvXn4WJciIYQ00g93mceThGemRQANp?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/1r2xvXn4WJciIYQ00g93mceThGemRQANp?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=1r2xvXn4WJciIYQ00g93mceThGemRQANp#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
 
@@ -109,8 +109,8 @@
                         <p>Kế hoạch bài dạy môn Khoa học lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
 
@@ -124,8 +124,8 @@
                         <p>Kế hoạch bài dạy Lịch sử & Địa lí lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
 
@@ -139,8 +139,8 @@
                         <p>Kế hoạch bài dạy HDTN lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
 
@@ -154,8 +154,8 @@
                         <p>Kế hoạch bài dạy môn Đạo đức lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
 
@@ -169,8 +169,8 @@
                         <p>Kế hoạch bài dạy môn Công nghệ lớp 5 chuẩn GDPT 2018.</p>
                     </div>
                     <div class="button-group">
-                        <a href="https://drive.google.com/embeddedfolderview?id=1iB3fgdSWjU5hZitashNDDAvNXEBakKQt#list" target="_blank" class="btn-view"><i class="fa-solid fa-file-arrow-down"></i> Xem & Tải về</a>
-                        <a href="https://drive.google.com/drive/folders/1iB3fgdSWjU5hZitashNDDAvNXEBakKQt?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải lên</a>
+                        <a href="https://drive.google.com/drive/folders/1iB3fgdSWjU5hZitashNDDAvNXEBakKQt?usp=sharing" target="_blank" class="btn-upload"><i class="fa-solid fa-cloud-arrow-up"></i> Tải Lên</a>
+                        <a href="https://drive.google.com/embeddedfolderview?id=1iB3fgdSWjU5hZitashNDDAvNXEBakKQt#list" target="_blank" class="btn-drive"><i class="fa-solid fa-database"></i> Kho Dữ Liệu</a>
                     </div>
                 </div>
             </div>
