@@ -4,43 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kho Giáo Án Lớp 5 - Thầy Lê Văn Hoàng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #e2e8f0; color: #1e293b; padding: 40px 20px; text-align: center; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f1f5f9; color: #0f172a; padding: 30px 20px; text-align: center; }
         
-        .title-container { margin-bottom: 25px; }
-        h1 { font-size: 22px; color: #0f172a; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 6px; text-transform: uppercase; font-weight: 700; }
-        p { color: #64748b; font-size: 13.5px; }
+        h1 { font-size: 22px; color: #0f172a; margin-bottom: 6px; text-transform: uppercase; font-weight: 700; }
+        p { color: #64748b; font-size: 14px; margin-bottom: 25px; }
         
-        .grid-container { display: grid; grid-template-columns: repeat(3, minmax(200px, 240px)); gap: 12px; justify-content: center; max-width: 800px; margin: 0 auto; }
+        /* Cấu trúc lưới chia 2 cột song song */
+        .grid-drive { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto; }
         
-        .btn-mon { background-color: #1d4ed8; color: #ffffff !important; text-decoration: none; padding: 12px 16px; border-radius: 8px; font-size: 14.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.2s ease; }
-        .btn-mon:hover { background-color: #1e40af; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .drive-card { background: #ffffff; border: 1px solid #cbd5e1; border-radius: 10px; padding: 16px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: left; }
+        .drive-card h2 { font-size: 16px; color: #1d4ed8; margin-bottom: 12px; font-weight: 700; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
         
-        .btn-full { grid-column: 2; }
-
-        @media (max-width: 768px) {
-            .grid-container { grid-template-columns: 1fr; }
-            .btn-full { grid-column: auto; }
-        }
+        iframe { width: 100%; height: 380px; border: none; border-radius: 6px; }
     </style>
 </head>
 <body>
 
-    <div class="title-container">
-        <h1>📚 KHO GIÁO ÁN LỚP 5 - THẦY LÊ VĂN HOÀNG</h1>
-        <p>Bấm vào môn học bên dưới để mở trực tiếp thư mục Google Drive tương ứng</p>
-    </div>
+    <h1>📚 KHO GIÁO ÁN LỚP 5 - THẦY LÊ VĂN HOÀNG</h1>
+    <p>Danh sách kế hoạch bài dạy các môn học chuẩn Bộ sách Kết nối tri thức</p>
 
-    <div class="grid-container">
-        <a href="https://drive.google.com/embeddedfolderview?id=12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv#list" target="_blank" class="btn-mon"><i class="fa-solid fa-calculator"></i> Môn Toán 5</a>
-        <a href="https://drive.google.com/embeddedfolderview?id=1r2xvXn4WJciIYQ00g93mceThGemRQANp#list" target="_blank" class="btn-mon"><i class="fa-solid fa-book"></i> Tiếng Việt 5</a>
-        <a href="https://drive.google.com/embeddedfolderview?id=1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU#list" target="_blank" class="btn-mon"><i class="fa-solid fa-flask"></i> Khoa Học 5</a>
-        <a href="https://drive.google.com/embeddedfolderview?id=1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ#list" target="_blank" class="btn-mon"><i class="fa-solid fa-earth-americas"></i> Lịch Sử & Địa Lí 5</a>
-        <a href="https://drive.google.com/embeddedfolderview?id=1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x#list" target="_blank" class="btn-mon"><i class="fa-solid fa-users"></i> Hoạt Động Trải Nghiệm 5</a>
-        <a href="https://drive.google.com/embeddedfolderview?id=1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3#list" target="_blank" class="btn-mon"><i class="fa-solid fa-seedling"></i> Đạo Đức 5</a>
-        <a href="https://drive.google.com/embeddedfolderview?id=1iB3fgdSWjU5hZitashNDDAvNXEBakKQt#list" target="_blank" class="btn-mon btn-full"><i class="fa-solid fa-microchip"></i> Công Nghệ 5</a>
+    <div class="grid-drive">
+        <!-- Môn Toán -->
+        <div class="drive-card">
+            <h2>📐 TOÁN 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv#list"></iframe>
+        </div>
+
+        <!-- Tiếng Việt -->
+        <div class="drive-card">
+            <h2>📖 TIẾNG VIỆT 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1r2xvXn4WJciIYQ00g93mceThGemRQANp#list"></iframe>
+        </div>
+
+        <!-- Khoa học -->
+        <div class="drive-card">
+            <h2>🔬 KHOA HỌC 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU#list"></iframe>
+        </div>
+
+        <!-- Lịch sử & Địa lí -->
+        <div class="drive-card">
+            <h2>🌍 LỊCH SỬ & ĐỊA LÍ 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ#list"></iframe>
+        </div>
+
+        <!-- Hoạt động trải nghiệm -->
+        <div class="drive-card">
+            <h2>🎨 HOẠT ĐỘNG TRẢI NGHIỆM 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x#list"></iframe>
+        </div>
+
+        <!-- Đạo đức -->
+        <div class="drive-card">
+            <h2>🌱 ĐẠO ĐỨC 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3#list"></iframe>
+        </div>
+
+        <!-- Công nghệ -->
+        <div class="drive-card">
+            <h2>💻 CÔNG NGHỆ 5</h2>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=1iB3fgdSWjU5hZitashNDDAvNXEBakKQt#list"></iframe>
+        </div>
     </div>
 
 </body>
