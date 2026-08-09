@@ -3,173 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Thông tin liên hệ Thầy Lê Văn Hoàng - Giáo viên Tiểu học lớp 5, Chương trình GDPT 2018 (Kết nối tri thức với cuộc sống).">
     <title>Liên Hệ - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <!-- Icon hiển thị trên tab trình duyệt -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
-    <link rel="stylesheet" href="style.css?v=999">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tối ưu riêng giao diện 3 nút bấm */
-        .card-actions-3btn {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            width: 100%;
-            margin-top: 15px;
-        }
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px 6px;
-            font-size: 14px;
-            font-weight: 600;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.2s ease;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
-        .btn-view-main { background-color: #0284c7; } /* Xanh Dương */
-        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
-
-        .btn-action:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        /* Chỉ báo trạng thái tệp tải lên */
-        .file-status-indicator {
-            font-size: 13px;
-            color: #0f9d58;
-            margin-top: 10px;
-            display: none;
-            font-weight: bold;
-        }
-
-        .contact-card-box {
-            max-width: 750px;
-            margin: 0 auto 25px auto;
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid #dcdcdc;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.5; }
+        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 13px; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar a { color: #cbd5e1; text-decoration: none; margin-left: 12px; transition: color 0.2s; display: inline-block; }
+        .top-bar a:hover { color: #ffffff; }
+        header { background-color: #0f172a; color: #ffffff; padding: 14px 24px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header i { color: #34d399; font-size: 20px; }
+        .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+        .card { background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .info-item { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; font-size: 14px; }
+        .info-item i { color: #2563eb; font-size: 16px; width: 20px; }
     </style>
 </head>
 <body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+            <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Slide bài giảng</a>
+            <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
+            <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
+            <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
+            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
+            <a href="lien-he.html" style="color:#ffffff; font-weight:bold;"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
+        </div>
+    </div>
     <header>
-        <nav>
-            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
-            <ul>
-                <li><a href="index.html">🏠 Trang chủ</a></li>
-                <li><a href="giao-an.html">📚 Giáo án & Kế hoạch</a></li>
-                <li><a href="de-kiem-tra.html">📝 Đề kiểm tra</a></li>
-                <li><a href="phieu-hoc-tap.html">📄 Phiếu học tập</a></li>
-                <li><a href="slide-bai-giang.html">🎞️ Slide bài giảng</a></li>
-                <li><a href="tai-lieu.html">📁 Tài liệu</a></li>
-                <li><a href="thu-vien-anh.html">🖼️ Thư viện ảnh</a></li>
-                <li><a href="lien-he.html" class="active">📞 Liên hệ</a></li>
-                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
-            </ul>
-        </nav>
+        <i class="fa-solid fa-book-open"></i>
+        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
     </header>
-
-    <main class="container">
-        <div class="page-header">
-            <h2>📞 Thông Tin Liên Hệ & Gửi Học Liệu</h2>
-            <p>Kết nối, trao đổi chuyên môn và chia sẻ tài liệu giáo dục Tiểu học</p>
-        </div>
-
-        <div class="stats-bar">
-            <span>📞 Hỗ trợ chuyên môn</span>
-            <span>🤝 Kết nối giáo viên</span>
-            <span>💬 Góp ý & Chia sẻ học liệu</span>
-        </div>
-
-        <!-- THÔNG TIN GIÁO VIÊN -->
-        <div class="contact-card-box">
-            <h3 style="color: #1565c0; margin-bottom: 20px; font-size: 22px; font-weight: bold; border-bottom: 2px solid #bbdefb; padding-bottom: 10px;">📌 Thông tin giáo viên</h3>
-            <p style="margin-bottom: 14px; font-size: 17px; font-weight: 500;"><strong>👨‍🏫 Giáo viên:</strong> Lê Văn Hoàng</p>
-            <p style="margin-bottom: 14px; font-size: 17px; font-weight: 500;"><strong>🏫 Chức vụ:</strong> Giáo viên Tiểu học (Lớp 5 - Bộ sách Kết nối tri thức)</p>
-            <p style="margin-bottom: 10px; font-size: 17px; font-weight: 500;"><strong>📧 Email liên hệ:</strong> <a href="mailto:levanhoangtsth1977@gmail.com" style="color: #1565c0; text-decoration: none; font-weight: bold;">levanhoangtsth1977@gmail.com</a></p>
-        </div>
-
-        <!-- MỤC TẢI LÊN FILE LIÊN HỆ & CHIA SẺ -->
-        <div class="contact-card-box" id="contactFileBox">
-            <h3 style="color: #0f9d58; margin-bottom: 15px; font-size: 22px; font-weight: bold; border-bottom: 2px solid #c8e6c9; padding-bottom: 10px;">📤 Gửi File Tài Liệu / Góp Ý Trực Tiếp</h3>
-            <p style="color: #555; line-height: 1.6; font-size: 15px;">Ông chủ hoặc đồng nghiệp có thể tải lên tệp góp ý, tài liệu trao đổi hoặc phiếu thông tin từ máy tính tại đây:</p>
-
-            <div class="file-status-indicator" id="contactFileStatus">✅ Đã tải lên tệp từ máy tính</div>
-
-            <div class="card-actions-3btn">
-                <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload()">📤 Tải lên từ máy tính</button>
-                <a href="#" id="btnContactView" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem file</a>
-                <a href="#" id="btnContactDownload" class="btn-action btn-download" download>⬇ Tải về</a>
+    <div class="container">
+        <div class="card">
+            <h2 style="font-size: 20px; color: #0f172a; margin-bottom: 6px;"><i class="fa-solid fa-phone" style="color:#dc2626; margin-right:8px;"></i>Thông Tin Liên Hệ & Gửi Học Liệu</h2>
+            <p style="font-size: 13px; color: #64748b; margin-bottom: 16px;">Kết nối, trao đổi chuyên môn và chia sẻ tài liệu giáo dục Tiểu học</p>
+            <div style="background:#f8fafc; padding:16px; border-radius:6px; border:1px solid #e2e8f0; margin-top:16px;">
+                <h3 style="font-size: 15px; color: #1e293b; margin-bottom: 12px; border-bottom:1px solid #cbd5e1; padding-bottom:8px;">📌 Thông tin giáo viên</h3>
+                <div class="info-item">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span><strong>Giáo viên:</strong> Lê Văn Hoàng</span>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-briefcase"></i>
+                    <span><strong>Chức vụ:</strong> Giáo viên Tiểu học (Lớp 5 - Bộ sách Kết nối tri thức)</span>
+                </div>
+                <div class="info-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span><strong>Email liên hệ:</strong> <a href="mailto:levanhoangtsth1977@gmail.com" style="color:#2563eb; text-decoration:none;">levanhoangtsth1977@gmail.com</a></span>
+                </div>
             </div>
         </div>
-    </main>
-
-    <!-- INPUT CHỌN TỆP ẨN DÙNG CHUNG -->
-    <input type="file" id="localFileInput" style="display: none;" accept=".doc,.docx,.pdf,.zip,.rar" onchange="handleFileSelected(event)">
-
-    <footer>
-        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
-        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        const localFileInput = document.getElementById("localFileInput");
-        const btnContactView = document.getElementById("btnContactView");
-        const btnContactDownload = document.getElementById("btnContactDownload");
-        const contactFileStatus = document.getElementById("contactFileStatus");
-
-        // Đặt đường dẫn mặc định cho nút Xem và Tải về (Phiếu góp ý/Mẫu liên hệ)
-        const defaultPdf = "tai-lieu/phieu-gop-y-mau.pdf";
-        const defaultDoc = "tai-lieu/phieu-gop-y-mau.docx";
-
-        function resetDefaultLinks() {
-            if (btnContactView) btnContactView.href = defaultPdf;
-            if (btnContactDownload) {
-                btnContactDownload.href = defaultDoc;
-                btnContactDownload.removeAttribute("download");
-            }
-            if (contactFileStatus) contactFileStatus.style.display = "none";
-        }
-
-        // Kích hoạt mở hộp thoại chọn tệp từ máy tính
-        function triggerFileUpload() {
-            localFileInput.click();
-        }
-
-        // Xử lý khi người dùng chọn file thành công
-        function handleFileSelected(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const fileUrl = URL.createObjectURL(file);
-
-            if (btnContactView) btnContactView.href = fileUrl;
-            if (btnContactDownload) {
-                btnContactDownload.href = fileUrl;
-                btnContactDownload.download = file.name;
-            }
-
-            if (contactFileStatus) {
-                contactFileStatus.textContent = `✅ Đã nhận tệp: ${file.name}`;
-                contactFileStatus.style.display = "block";
-            }
-
-            event.target.value = "";
-        }
-
-        // Khởi chạy
-        resetDefaultLinks();
-    </script>
+    </div>
 </body>
 </html>
