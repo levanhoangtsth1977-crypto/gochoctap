@@ -3,130 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <title>Giao Án - Góc Học Tập Thầy Lê Văn Hoàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.5; }
+        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 13px; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar a { color: #cbd5e1; text-decoration: none; margin-left: 12px; transition: color 0.2s; display: inline-block; }
+        .top-bar a:hover { color: #ffffff; }
+        header { background-color: #0f172a; color: #ffffff; padding: 14px 24px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header i { color: #34d399; font-size: 20px; }
+        .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+        .card { background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-
-    <!-- Top Sub-bar -->
-    <div class="bg-slate-800 text-gray-300 text-xs py-2 px-6 flex flex-wrap justify-between items-center shadow-sm">
-        <span class="font-semibold"><i class="fa-solid fa-graduation-cap text-emerald-400 mr-1.5"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
-        <div class="space-x-4 flex items-center">
-            <a href="index.html" class="text-white font-medium hover:text-emerald-400 transition"><i class="fa-solid fa-house mr-1"></i> Trang chủ</a>
-            <a href="#" class="hover:text-white transition"><i class="fa-solid fa-calendar-days mr-1"></i> Kế hoạch dạy học</a>
-            <a href="giao-an.html" class="hover:text-white transition"><i class="fa-solid fa-folder-open mr-1"></i> Kho Giáo án</a>
-            <a href="de-kiem-tra.html" class="hover:text-white transition"><i class="fa-solid fa-file-pen mr-1"></i> Đề kiểm tra</a>
-            <a href="lien-he.html" class="hover:text-white transition"><i class="fa-solid fa-envelope mr-1"></i> Liên hệ</a>
+<body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+            <a href="giao-an.html" style="color:#ffffff; font-weight:bold;"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Slide bài giảng</a>
+            <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
+            <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
+            <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
+            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
+            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
         </div>
     </div>
-
-    <!-- Main Navigation Bar -->
-    <header class="bg-slate-900 text-white py-3.5 px-6 shadow-md flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-            <span class="text-emerald-400 text-xl"><i class="fa-solid fa-book-open"></i></span>
-            <h1 class="text-lg font-bold uppercase tracking-wide">GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</h1>
-        </div>
+    <header>
+        <i class="fa-solid fa-book-open"></i>
+        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
     </header>
-
-    <main class="max-w-6xl mx-auto my-6 px-4">
-        <!-- Hero Section -->
-        <div class="bg-white p-6 rounded-lg shadow-sm mb-6 border border-gray-200">
-            <h2 class="text-2xl font-bold text-gray-900 mb-1">Chào mừng đến với Góc học tập</h2>
-            <p class="text-sm text-gray-500 font-medium mb-3">Thầy Lê Văn Hoàng</p>
-            <p class="text-gray-600 text-sm mb-6">Hệ thống tài liệu, giáo án, slide bài giảng điện tử và đề kiểm tra Tiểu học (GDPT 2018 - Bộ sách Kết nối tri thức với cuộc sống).</p>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center border-t pt-4 border-gray-100">
-                <div class="p-2">
-                    <div class="text-2xl font-bold text-blue-600">7 Môn</div>
-                    <div class="text-xs text-gray-500 font-medium">Môn học chuẩn CT mới</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-2xl font-bold text-emerald-600">35 Tuần</div>
-                    <div class="text-xs text-gray-500 font-medium">Học liệu xuyên suốt năm</div>
-                </div>
-                <div class="p-2">
-                    <div class="text-2xl font-bold text-purple-600">100%</div>
-                    <div class="text-xs text-gray-500 font-medium">Chuẩn quy định giáo dục</div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="card">
+            <h2 style="font-size: 20px; color: #0f172a; margin-bottom: 12px;">Kho Giáo Án Lớp 5 - Bộ sách Kết nối tri thức</h2>
+            <p style="font-size: 14px; color: #334155;">Danh sách các giáo án chi tiết theo từng môn học và tuần học. Đang cập nhật nội dung...</p>
         </div>
-
-        <!-- Course Filter Section -->
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-            <h3 class="text-lg font-bold text-gray-800 mb-4">Môn Học Lớp 5 – Kết Nối Tri Thức</h3>
-            
-            <div class="mb-4">
-                <label class="block text-xs font-bold text-red-600 uppercase mb-2">
-                    📌 CHỌN TUẦN HỌC CHUNG XEM HỌC LIỆU MÔN HỌC:
-                </label>
-                <select id="selectTuan" onchange="updateWeek()" class="w-full md:w-1/3 border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="1">Tuần 1</option>
-                    <option value="2">Tuần 2</option>
-                    <option value="3">Tuần 3</option>
-                    <option value="4">Tuần 4</option>
-                </select>
-            </div>
-
-            <!-- Status Banner -->
-            <div class="bg-blue-50 border-l-4 border-blue-600 p-3 rounded mb-6 text-xs text-blue-800 font-medium flex items-center">
-                <i class="fa-solid fa-circle-info mr-2 text-blue-600"></i>
-                <span id="labelTuan">ĐANG HIỂN THỊ HỌC LIỆU: TUẦN 1 | Năm học 2026–2027</span>
-            </div>
-
-            <!-- Subject Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Tiếng Việt -->
-                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
-                    <div class="p-3 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-book text-xl"></i></div>
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-sm">TIẾNG VIỆT 5</h4>
-                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
-                </div>
-
-                <!-- Toán -->
-                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
-                    <div class="p-3 bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-calculator text-xl"></i></div>
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-sm">TOÁN 5</h4>
-                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
-                </div>
-
-                <!-- Lịch sử & Địa lí -->
-                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
-                    <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg"><i class="fa-solid fa-earth-americas text-xl"></i></div>
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-sm">LỊCH SỬ & ĐỊA LÍ 5</h4>
-                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
-                </div>
-
-                <!-- Khoa học -->
-                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
-                    <div class="p-3 bg-purple-100 text-purple-600 rounded-lg"><i class="fa-solid fa-flask text-xl"></i></div>
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-sm">KHOA HỌC 5</h4>
-                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function updateWeek() {
-            const tuan = document.getElementById('selectTuan').value;
-            document.getElementById('labelTuan').innerText = `ĐANG HIỂN THỊ HỌC LIỆU: TUẦN ${tuan} | Năm học 2026–2027`;
-        }
-    </script>
+    </div>
 </body>
 </html>
