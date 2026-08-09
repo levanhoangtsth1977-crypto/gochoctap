@@ -30,8 +30,9 @@
         .item-card p { font-size: 13px; color: #64748b; margin-bottom: 16px; flex-grow: 1; }
         
         .btn-group { display: flex; gap: 6px; margin-top: auto; border-top: 1px solid #f1f5f9; padding-top: 14px; }
-        .btn { flex: 1; padding: 10px 4px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; text-decoration: none; white-space: nowrap; }
+        .btn { flex: 1; padding: 8px 4px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; transition: background 0.2s; text-decoration: none; white-space: nowrap; }
         .btn-orange { background: #f97316; } .btn-orange:hover { background: #ea580c; }
+        .btn-green { background: #059669; } .btn-green:hover { background: #047857; }
         .btn-blue { background: #2563eb; } .btn-blue:hover { background: #1d4ed8; }
         
         .icon-toan { color: #d97706; } .icon-tv { color: #2563eb; } .icon-kh { color: #059669; } .icon-lsdi { color: #dc2626; } .icon-hdtn { color: #9333ea; } .icon-dd { color: #db2777; } .icon-cn { color: #15803d; }
@@ -65,7 +66,7 @@
             <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 8px;">📚 Kho Giáo Án Lớp 5 - Kết Nối Tri Thức</h2>
             <p style="font-size: 15px; color: #64748b; margin-bottom: 16px;">Kế hoạch bài dạy chi tiết (7 môn) chuẩn theo Công văn 2345/BGDĐT.</p>
             <div class="banner">
-                <i class="fa-solid fa-cloud-arrow-up"></i> TÀI LIỆU ĐƯỢC ĐỒNG BỘ TRỰC TIẾP TỪ GOOGLE DRIVE. BẤM "MỞ KHO" ĐỂ TÌM FILE THEO TUẦN.
+                <i class="fa-solid fa-cloud-arrow-up"></i> TÀI LIỆU ĐƯỢC ĐỒNG BỘ TRỰC TIẾP TỪ GOOGLE DRIVE. BẤM CÁC NÚT BÊN DƯỚI ĐỂ VÀO KHO.
             </div>
         </div>
         
@@ -96,8 +97,9 @@
                     </div>
                     <p>Trọn bộ kế hoạch bài dạy môn ${sub.name} (Từ Tuần 1 đến Tuần 35).</p>
                     <div class="btn-group">
-                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-upload"></i> Tải Lên</a>
-                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Kho Tài Liệu</a>
+                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-upload"></i> Tải lên</a>
+                        <a href="${sub.link}" target="_blank" class="btn btn-green"><i class="fa-solid fa-eye"></i> Xem</a>
+                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-download"></i> Tải về</a>
                     </div>
                 </div>
             `;
