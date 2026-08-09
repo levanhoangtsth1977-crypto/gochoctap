@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slide Bài Giảng - Góc Học Tập Thầy Lê Văn Hoàng</title>
+    <title>Kho Giáo Án - Góc Học Tập Thầy Lê Văn Hoàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.6; font-size: 16px; }
         
-        /* Menu chuẩn 9 mục đồng bộ từ trang chủ */
         .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 14px; padding: 14px 24px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 20px; }
         .top-bar-left { font-weight: 600; font-size: 15px; letter-spacing: 0.5px; }
         .top-bar-right { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
@@ -30,7 +29,6 @@
         .item-header h4 { font-size: 16px; color: #1e293b; text-transform: uppercase; }
         .item-card p { font-size: 13px; color: #64748b; margin-bottom: 16px; flex-grow: 1; }
         
-        /* Cấu trúc nút bấm 2 nút dàn đều */
         .btn-group { display: flex; gap: 8px; margin-top: auto; border-top: 1px solid #f1f5f9; padding-top: 14px; }
         .btn { flex: 1; padding: 10px 4px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; text-decoration: none; white-space: nowrap; }
         .btn-orange { background: #f97316; } .btn-orange:hover { background: #ea580c; }
@@ -46,8 +44,8 @@
         </div>
         <div class="top-bar-right">
             <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
-            <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
-            <a href="slide-bai-giang.html" class="active"><i class="fa-solid fa-file-powerpoint"></i> Bài giảng</a>
+            <a href="giao-an.html" class="active"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Bài giảng</a>
             <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
             <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
             <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
@@ -64,28 +62,27 @@
 
     <div class="container">
         <div class="card">
-            <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 8px;">🖥️ Slide Bài Giảng Điện Tử Lớp 5</h2>
-            <p style="font-size: 15px; color: #64748b; margin-bottom: 16px;">Hệ thống bài giảng PowerPoint trực quan (7 môn) theo Kết nối tri thức.</p>
+            <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 8px;">📚 Kho Học Liệu Lớp 5 - Kết Nối Tri Thức</h2>
+            <p style="font-size: 15px; color: #64748b; margin-bottom: 16px;">Hệ thống kế hoạch bài dạy và tài liệu chuẩn theo Công văn 2345/BGDĐT.</p>
             <div class="banner">
-                <i class="fa-solid fa-cloud-arrow-up"></i> BÀI GIẢNG ĐƯỢC ĐỒNG BỘ TRỰC TIẾP TỪ GOOGLE DRIVE. BẤM "MỞ KHO" ĐỂ TÌM FILE THEO TUẦN.
+                <i class="fa-solid fa-cloud-arrow-up"></i> HỆ THỐNG KHO HỌC LIỆU ĐÃ ĐƯỢC ĐỒNG BỘ TRÊN GOOGLE SITES CHUYÊN NGHIỆP.
             </div>
         </div>
         
-        <div class="content-grid" id="gridContainer">
-            <!-- Nội dung các thẻ môn học -->
-        </div>
+        <div class="content-grid" id="gridContainer"></div>
     </div>
 
     <script>
-        // LIÊN KẾT BÀI GIẢNG ĐÃ ĐƯỢC TÍCH HỢP SẴN THEO CUNG CẤP CỦA ÔNG CHỦ
+        const siteLink = 'https://sites.google.com/view/gchctp-lp5';
+
         const folders = [
-            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan', link: 'https://drive.google.com/drive/folders/1ghtDsV-181YILeuIy3SVem-avjnGLJwD?usp=sharing' },
-            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv', link: 'https://drive.google.com/drive/folders/1uKEFpPtcreh9nO4KIa_HwlmhWyqhwse6?usp=sharing' },
-            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh', link: 'https://drive.google.com/drive/folders/1SfpwtCXc-9ZyiUX9yRQ8unH9gbEjQxz7?usp=sharing' },
-            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi', link: 'https://drive.google.com/drive/folders/1KNiRMx61xG1QFHOo7z0rhsM1Oq4-Wvyt?usp=sharing' },
-            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn', link: 'https://drive.google.com/drive/folders/1BeYmy7VAFZnnraJ2Ek5VQZ5NDPvJzbTR?usp=sharing' },
-            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd', link: 'https://drive.google.com/drive/folders/11oK968OGHPIOA1_l7aOXcCSpNEweI898?usp=sharing' },
-            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn', link: 'https://drive.google.com/drive/folders/1PiUGa94EBR1np0zRFSR3FRdFshoxyZbN?usp=sharing' }
+            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan' },
+            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv' },
+            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh' },
+            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi' },
+            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn' },
+            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd' },
+            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn' }
         ];
 
         const grid = document.getElementById('gridContainer');
@@ -94,12 +91,12 @@
                 <div class="item-card">
                     <div class="item-header">
                         <i class="fa-solid ${sub.icon} item-icon ${sub.class}"></i>
-                        <h4>Bài giảng ${sub.name} 5</h4>
+                        <h4>${sub.name} 5</h4>
                     </div>
-                    <p>Trọn bộ slide bài giảng điện tử môn ${sub.name} (Từ Tuần 1 đến Tuần 35).</p>
+                    <p>Trọn bộ học liệu môn ${sub.name} lớp 5 (Từ Tuần 1 đến Tuần 35).</p>
                     <div class="btn-group">
-                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-upload"></i> Tải Lên</a>
-                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Kho Bài Giảng</a>
+                        <a href="${siteLink}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-upload"></i> Tải Lên</a>
+                        <a href="${siteLink}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Kho Học Liệu</a>
                     </div>
                 </div>
             `;
