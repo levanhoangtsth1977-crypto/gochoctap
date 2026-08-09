@@ -65,7 +65,7 @@
             <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 8px;">📚 Kho Học Liệu Lớp 5 - Kết Nối Tri Thức</h2>
             <p style="font-size: 15px; color: #64748b; margin-bottom: 16px;">Hệ thống kế hoạch bài dạy và tài liệu chuẩn theo Công văn 2345/BGDĐT.</p>
             <div class="banner">
-                <i class="fa-solid fa-cloud-arrow-up"></i> HỆ THỐNG KHO HỌC LIỆU ĐÃ ĐƯỢC ĐỒNG BỘ TRÊN GOOGLE SITES CHUYÊN NGHIỆP.
+                <i class="fa-solid fa-bolt"></i> Bấm vào môn học bên dưới để mở trực tiếp kho tài liệu Google Drive tương ứng.
             </div>
         </div>
         
@@ -73,16 +73,15 @@
     </div>
 
     <script>
-        const siteLink = 'https://sites.google.com/view/gchctp-lp5';
-
+        // Danh sách các môn học và đường link Google Drive tương ứng của từng môn
         const folders = [
-            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan' },
-            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv' },
-            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh' },
-            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi' },
-            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn' },
-            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd' },
-            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn' }
+            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv', link: 'https://drive.google.com/drive/folders/1r2xvXn4WJcilYQ0093mceThGemRQAnP' },
+            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }, // Ông chủ có thể thay link Drive môn Khoa học vào đây
+            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }, // Ông chủ thay link Lịch sử Địa lí vào đây
+            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }
         ];
 
         const grid = document.getElementById('gridContainer');
@@ -95,8 +94,8 @@
                     </div>
                     <p>Trọn bộ học liệu môn ${sub.name} lớp 5 (Từ Tuần 1 đến Tuần 35).</p>
                     <div class="btn-group">
-                        <a href="${siteLink}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-upload"></i> Tải Lên</a>
-                        <a href="${siteLink}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Kho Học Liệu</a>
+                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-download"></i> Tải Lên</a>
+                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục</a>
                     </div>
                 </div>
             `;
