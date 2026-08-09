@@ -3,316 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Kho Đề Kiểm Tra Định Kỳ Lớp 5 - Ma trận, bảng đặc tả và đề kiểm tra chuẩn CT GDPT 2018 (Kết nối tri thức với cuộc sống) - Thầy Lê Văn Hoàng.">
     <title>Đề Kiểm Tra Định Kỳ - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
-    <link rel="stylesheet" href="style.css?v=999">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tối ưu riêng giao diện 3 nút bấm */
-        .card-actions-3btn {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 4px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.2s ease;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
-        .btn-view-main { background-color: #0284c7; } /* Xanh Dương */
-        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
-
-        .btn-action:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        /* Chỉ báo trạng thái tệp tải lên từ máy tính */
-        .file-status-indicator {
-            font-size: 11px;
-            color: #0f9d58;
-            margin-top: 4px;
-            display: none;
-            font-weight: bold;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
-            <ul>
-                <li><a href="index.html">🏠 Trang chủ</a></li>
-                <li><a href="giao-an.html">📚 Giáo án & Kế hoạch</a></li>
-                <li><a href="de-kiem-tra.html" class="active">📝 Đề kiểm tra</a></li>
-                <li><a href="phieu-hoc-tap.html">📄 Phiếu học tập</a></li>
-                <li><a href="slide-bai-giang.html">🎞️ Slide bài giảng</a></li>
-                <li><a href="tai-lieu.html">📁 Tài liệu</a></li>
-                <li><a href="thu-vien-anh.html">🖼️ Thư viện ảnh</a></li>
-                <li><a href="lien-he.html">📞 Liên hệ</a></li>
-                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
-            </ul>
-        </nav>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Top Navigation Sub-bar -->
+    <div class="bg-slate-800 text-gray-300 text-xs py-2 px-6 flex flex-wrap justify-between items-center shadow-sm">
+        <span class="font-semibold"><i class="fa-solid fa-graduation-cap text-emerald-400 mr-1.5"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div class="space-x-4 flex items-center">
+            <a href="index.html" class="hover:text-white transition"><i class="fa-solid fa-house mr-1"></i> Trang chủ</a>
+            <a href="#" class="hover:text-white transition"><i class="fa-solid fa-calendar-days mr-1"></i> Kế hoạch dạy học</a>
+            <a href="giao-an.html" class="hover:text-white transition"><i class="fa-solid fa-folder-open mr-1"></i> Kho Giáo án</a>
+            <a href="#" class="hover:text-white transition"><i class="fa-solid fa-upload mr-1"></i> Nộp bài giảng</a>
+            <a href="lien-he.html" class="hover:text-white transition"><i class="fa-solid fa-envelope mr-1"></i> Liên hệ</a>
+        </div>
+    </div>
+
+    <!-- Main Header Bar -->
+    <header class="bg-slate-900 text-white py-3.5 px-6 shadow-md flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <span class="text-emerald-400 text-xl"><i class="fa-solid fa-book-open"></i></span>
+            <h1 class="text-lg font-bold uppercase tracking-wide">GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</h1>
+        </div>
     </header>
 
-    <main class="container">
-        <div class="page-header">
-            <h2>📝 Kho Đề Kiểm Tra Định Kỳ Lớp 5</h2>
-            <p>Ma trận, bảng đặc tả và bộ đề kiểm tra chuẩn theo Thông tư 27 và CT GDPT 2018</p>
-        </div>
+    <!-- Main Content Container -->
+    <main class="max-w-6xl mx-auto my-6 px-4">
+        
+        <!-- Section Header -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-2 flex items-center">
+                <span class="mr-2">📝</span> Kho Đề Kiểm Tra Định Kỳ Lớp 5
+            </h2>
+            <p class="text-xs text-gray-500 mb-3">Ma trận, bảng đặc tả và bộ đề kiểm tra chuẩn theo Thông tư 27 và CT GDPT 2018</p>
+            
+            <div class="flex items-center space-x-3 text-xs text-gray-600 mb-4">
+                <span>📌 Đề kiểm tra định kỳ</span>
+                <span>📊 Ma trận & Bảng đặc tả</span>
+                <span>📚 Đầy đủ các môn học Lớp 5</span>
+            </div>
 
-        <div class="stats-bar">
-            <span>📝 Đề kiểm tra định kỳ</span>
-            <span>📊 Ma trận & Bảng đặc tả</span>
-            <span>🎓 Đầy đủ các môn học lớp 5</span>
-        </div>
+            <!-- Filter Selection -->
+            <div class="border-t pt-4 border-gray-100">
+                <label class="block text-xs font-bold text-red-600 uppercase mb-2">
+                    📌 CHỌN MỐC KIỂM TRA ĐỊNH KỲ CHUNG CHO CÁC MÔN:
+                </label>
+                <select id="selectHocKy" onchange="updateHocKy()" class="w-full md:w-1/4 border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="Giữa Học kỳ 1">Giữa Học kỳ 1</option>
+                    <option value="Cuối Học kỳ 1">Cuối Học kỳ 1</option>
+                    <option value="Giữa Học kỳ 2">Giữa Học kỳ 2</option>
+                    <option value="Cuối Học kỳ 2" selected>Cuối Học kỳ 2</option>
+                </select>
+            </div>
 
-        <!-- THANH CHỌN MỐC KIỂM TRA CHUNG -->
-        <div class="global-week-selector">
-            <div class="selector-title">📌 CHỌN MỐC KIỂM TRA ĐỊNH KỲ CHUNG CHO CÁC MÔN</div>
-            <select id="mocKiemTraSelect" class="main-select">
-                <option value="giua-ky-1">Giữa Học Kỳ 1</option>
-                <option value="cuoi-ky-1">Cuối Học Kỳ 1</option>
-                <option value="giua-ky-2">Giữa Học Kỳ 2</option>
-                <option value="cuoi-ky-2" selected>Cuối Học Kỳ 2</option>
-            </select>
-            <div class="current-week-display">
-                📖 <span id="hienThiMocText">ĐANG XEM: CUỐI HỌC KỲ 2</span> | Hệ thống tự động nhận diện học liệu theo mốc
+            <!-- Dynamic Info Banner -->
+            <div class="mt-4 bg-blue-50 border-l-4 border-blue-600 p-3 rounded text-xs text-blue-800 font-medium flex items-center">
+                <i class="fa-solid fa-circle-info mr-2 text-blue-600"></i>
+                <span id="labelHocKy">ĐANG XEM: CUỐI HỌC KỲ 2 | Hệ thống tự động nhận diện học liệu theo mốc</span>
             </div>
         </div>
 
-        <div class="card-grid">
-            <!-- 1. BỘ ĐỀ TỔNG HỢP -->
-            <div class="card card-tong-hop" data-de-mon="tong-hop">
-                <div class="card-icon">📦</div>
-                <h3>BỘ ĐỀ TỔNG HỢP</h3>
-                <p>Tổng hợp đề kiểm tra và đáp án toàn bộ các môn theo mốc đã chọn.</p>
-                <div class="card-meta">
-                    <span>📚 Trọn gói định kỳ</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+        <!-- Subjects Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Card 1: Bộ đề tổng hợp -->
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="text-2xl mb-2">📦</div>
+                    <h3 class="font-bold text-gray-800 text-sm uppercase">BỘ ĐỀ TỔNG HỢP</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-4">Tổng hợp đề kiểm tra và đáp án toàn bộ các môn học theo mốc đã chọn.</p>
+                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full font-medium mb-4">
+                        ● Trọn gói định kỳ ● Sẵn sàng
+                    </span>
                 </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('tong-hop')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 2. TOÁN 5 -->
-            <div class="card" data-de-mon="toan">
-                <div class="card-icon">📐</div>
-                <h3>TOÁN 5</h3>
-                <p>Kho đề kiểm tra định kỳ, ma trận và bảng đặc tả môn Toán lớp 5.</p>
-                <div class="card-meta">
-                    <span>📊 Đầy đủ ma trận</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('toan')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                <div class="flex space-x-2 pt-3 border-t border-gray-100">
+                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-download mr-1"></i> Tải về</button>
+                    <button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-eye mr-1"></i> Xem</button>
                 </div>
             </div>
 
-            <!-- 3. TIẾNG VIỆT 5 -->
-            <div class="card" data-de-mon="tieng-viet">
-                <div class="card-icon">📖</div>
-                <h3>TIẾNG VIỆT 5</h3>
-                <p>Kho đề kiểm tra đọc hiểu, viết, chính tả môn Tiếng Việt lớp 5.</p>
-                <div class="card-meta">
-                    <span>📝 Chuẩn Thông tư 27</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+            <!-- Card 2: Toán 5 -->
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="text-2xl mb-2">📐</div>
+                    <h3 class="font-bold text-gray-800 text-sm uppercase">TOÁN 5</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-4">Kho đề kiểm tra định kỳ, ma trận và bảng đặc tả môn Toán lớp 5.</p>
+                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full font-medium mb-4">
+                        ● Đầy đủ ma trận ● Sẵn sàng
+                    </span>
                 </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('tieng-viet')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 4. KHOA HỌC 5 -->
-            <div class="card" data-de-mon="khoa-hoc">
-                <div class="card-icon">🔬</div>
-                <h3>KHOA HỌC 5</h3>
-                <p>Đề kiểm tra đánh giá năng lực môn Khoa học lớp 5.</p>
-                <div class="card-meta">
-                    <span>🔬 Trắc nghiệm & Tự luận</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('khoa-hoc')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                <div class="flex space-x-2 pt-3 border-t border-gray-100">
+                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-download mr-1"></i> Tải về</button>
+                    <button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-eye mr-1"></i> Xem</button>
                 </div>
             </div>
 
-            <!-- 5. LỊCH SỬ - ĐỊA LÍ 5 -->
-            <div class="card" data-de-mon="lich-su-dia-li">
-                <div class="card-icon">🌍</div>
-                <h3>LỊCH SỬ - ĐỊA LÍ 5</h3>
-                <p>Đề kiểm tra định kỳ môn Lịch sử và Địa lí lớp 5.</p>
-                <div class="card-meta">
-                    <span>🌍 Kiến thức trọng tâm</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
+            <!-- Card 3: Tiếng Việt 5 -->
+            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="text-2xl mb-2">📖</div>
+                    <h3 class="font-bold text-gray-800 text-sm uppercase">TIẾNG VIỆT 5</h3>
+                    <p class="text-xs text-gray-500 mt-1 mb-4">Kho đề kiểm tra đọc hiểu, viết, chính tả môn Tiếng Việt lớp 5.</p>
+                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full font-medium mb-4">
+                        ● Chuẩn Thông tư 27 ● Sẵn sàng
+                    </span>
                 </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('lich-su-dia-li')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 6. ĐẠO ĐỨC 5 -->
-            <div class="card" data-de-mon="dao-duc">
-                <div class="card-icon">⭐</div>
-                <h3>ĐẠO ĐỨC 5</h3>
-                <p>Đề kiểm tra đánh giá phẩm chất, đạo đức học sinh lớp 5.</p>
-                <div class="card-meta">
-                    <span>⭐ Tình huống thực tế</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('dao-duc')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
+                <div class="flex space-x-2 pt-3 border-t border-gray-100">
+                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-download mr-1"></i> Tải về</button>
+                    <button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-eye mr-1"></i> Xem</button>
                 </div>
             </div>
 
-            <!-- 7. CÔNG NGHỆ 5 -->
-            <div class="card" data-de-mon="cong-nghe">
-                <div class="card-icon">💻</div>
-                <h3>CÔNG NGHỆ 5</h3>
-                <p>Đề kiểm tra đánh giá năng lực môn Công nghệ lớp 5.</p>
-                <div class="card-meta">
-                    <span>💻 Lý thuyết & Thực hành</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('cong-nghe')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
         </div>
     </main>
 
-    <!-- INPUT CHỌN TỆP ẨN DÙNG CHUNG -->
-    <input type="file" id="localFileInput" style="display: none;" accept=".doc,.docx,.pdf" onchange="handleFileSelected(event)">
-
-    <footer>
-        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
-        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
-    </footer>
-
-    <script src="script.js"></script>
     <script>
-        let currentActiveMon = "";
-        // Lưu trữ các file đã tải lên theo từng mốc và môn học
-        const uploadedFilesStore = {}; 
-
-        const selectMoc = document.getElementById("mocKiemTraSelect");
-        const hienThiMocText = document.getElementById("hienThiMocText");
-        const localFileInput = document.getElementById("localFileInput");
-
-        if (selectMoc) {
-            selectMoc.addEventListener("change", capNhatGiaoDienDeKiemTra);
+        function updateHocKy() {
+            const hocky = document.getElementById('selectHocKy').value;
+            document.getElementById('labelHocKy').innerText = `ĐANG XEM: ${hocky.toUpperCase()} | Hệ thống tự động nhận diện học liệu theo mốc`;
         }
-
-        // Kích hoạt cửa sổ chọn file từ máy tính
-        function triggerFileUpload(monKey) {
-            currentActiveMon = monKey;
-            localFileInput.click();
-        }
-
-        // Xử lý khi chọn file từ máy tính thành công
-        function handleFileSelected(event) {
-            const file = event.target.files[0];
-            const mocHienTai = selectMoc ? selectMoc.value : "cuoi-ky-2";
-
-            if (!file || !currentActiveMon) return;
-
-            const fileUrl = URL.createObjectURL(file);
-            
-            // Lưu lại tệp theo cấu trúc { mốc: { môn: { name, url } } }
-            if (!uploadedFilesStore[mocHienTai]) {
-                uploadedFilesStore[mocHienTai] = {};
-            }
-            uploadedFilesStore[mocHienTai][currentActiveMon] = {
-                name: file.name,
-                url: fileUrl
-            };
-
-            // Cập nhật giao diện ngay lập tức
-            capNhatGiaoDienDeKiemTra();
-
-            // Reset giá trị input để có thể chọn lại tệp trùng tên
-            event.target.value = "";
-        }
-
-        function capNhatGiaoDienDeKiemTra() {
-            const mocHienTai = selectMoc ? selectMoc.value : "cuoi-ky-2";
-            const mocText = selectMoc ? selectMoc.options[selectMoc.selectedIndex].text : "CUỐI HỌC KỲ 2";
-
-            if (hienThiMocText) {
-                hienThiMocText.textContent = `ĐANG XEM: ${mocText.toUpperCase()}`;
-            }
-
-            const cards = document.querySelectorAll(".card[data-de-mon]");
-            cards.forEach(card => {
-                const monKey = card.getAttribute("data-de-mon");
-                const btnView = card.querySelector(".btn-view-main");
-                const btnDownload = card.querySelector(".btn-download");
-                const statusIndicator = card.querySelector(".file-status-indicator");
-
-                // Kiểm tra xem mốc hiện tại của môn học này có tệp vừa tải lên từ máy tính hay không
-                if (uploadedFilesStore[mocHienTai] && uploadedFilesStore[mocHienTai][monKey]) {
-                    const uploadedData = uploadedFilesStore[mocHienTai][monKey];
-                    if (btnView) btnView.href = uploadedData.url;
-                    if (btnDownload) {
-                        btnDownload.href = uploadedData.url;
-                        btnDownload.download = uploadedData.name;
-                    }
-                    if (statusIndicator) {
-                        statusIndicator.textContent = `✅ Đã tải lên [${mocText}]: ${uploadedData.name}`;
-                        statusIndicator.style.display = "block";
-                    }
-                } else {
-                    // Nếu chưa tải lên tệp mới, dùng đường dẫn tệp mặc định theo mốc
-                    let pdfPath = `tai-lieu/de-kiem-tra/${monKey}/${mocHienTai}.pdf`;
-                    let wordPath = `tai-lieu/de-kiem-tra/${monKey}/${mocHienTai}.docx`;
-
-                    if (btnView) btnView.href = pdfPath;
-                    if (btnDownload) {
-                        btnDownload.href = wordPath;
-                        btnDownload.removeAttribute("download");
-                    }
-                    if (statusIndicator) statusIndicator.style.display = "none";
-                }
-            });
-        }
-
-        // Khởi chạy khi tải trang
-        capNhatGiaoDienDeKiemTra();
     </script>
 </body>
 </html>
