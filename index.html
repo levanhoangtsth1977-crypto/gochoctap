@@ -8,77 +8,79 @@
     <style>
         /* Shared Styles */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.5; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.6; font-size: 15px; }
         
         /* Top Navigation Sub-bar */
-        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 13px; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .top-bar a { color: #cbd5e1; text-decoration: none; margin-left: 12px; transition: color 0.2s; display: inline-block; }
-        .top-bar a:hover { color: #ffffff; }
+        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 14px; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar-left { font-weight: 600; }
+        .top-bar-right { display: flex; gap: 5px; align-items: center; }
+        .top-bar a { color: #cbd5e1; text-decoration: none; padding: 5px 10px; border-radius: 4px; transition: background 0.2s, color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .top-bar a:hover, .top-bar a.active { background-color: rgba(255, 255, 255, 0.1); color: #ffffff; }
         
         /* Header Bar */
-        header { background-color: #0f172a; color: #ffffff; padding: 14px 24px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        header i { color: #34d399; font-size: 20px; }
+        header { background-color: #0f172a; color: #ffffff; padding: 16px 24px; font-weight: bold; font-size: 22px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header i { color: #34d399; font-size: 24px; }
         
         /* Layout Container */
-        .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+        .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
         
         /* White Card Box */
         .card { background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         
         /* Hero Section Stats */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; text-align: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f1f5f9; }
-        .stat-number { font-size: 22px; font-weight: bold; margin-bottom: 2px; }
-        .stat-label { font-size: 12px; color: #64748b; font-weight: 500; }
+        .stat-number { font-size: 24px; font-weight: bold; margin-bottom: 2px; }
+        .stat-label { font-size: 13px; color: #64748b; font-weight: 500; }
         
         /* Select Dropdown & Banner */
-        select { padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; max-width: 280px; font-size: 14px; outline: none; margin-top: 6px; }
+        select { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; max-width: 300px; font-size: 15px; outline: none; margin-top: 8px; margin-bottom: 16px; }
         select:focus { border-color: #2563eb; }
-        .banner { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 16px; color: #1e40af; font-size: 13px; margin: 16px 0; border-radius: 4px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .banner { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; color: #1e40af; font-size: 14px; border-radius: 4px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
         
         /* Subject Cards Grid */
-        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
-        .subject-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; display: flex; align-items: center; gap: 14px; transition: all 0.2s ease; cursor: pointer; }
-        .subject-card:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); border-color: #cbd5e1; }
-        .subject-icon { width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 24px; }
+        .subject-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; display: flex; align-items: center; gap: 14px; transition: all 0.2s ease; cursor: pointer; }
+        .subject-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+        .subject-icon { width: 56px; height: 56px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
         
         .icon-tv { background: #dbeafe; color: #2563eb; }
         .icon-toan { background: #fef3c7; color: #d97706; }
-        .icon-ls { background: #d1fae5; color: #059669; }
-        .icon-kh { background: #f3e8ff; color: #9333ea; }
+        .icon-kh { background: #d1fae5; color: #059669; }
+        .icon-lsdi { background: #fee2e2; color: #dc2626; }
         
-        .subject-info h4 { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
-        .subject-info p { font-size: 11px; color: #64748b; }
+        .subject-info h4 { font-size: 16px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+        .subject-info p { font-size: 12px; color: #64748b; }
     </style>
 </head>
 <body>
 
     <!-- Top Navigation Sub-bar -->
     <div class="top-bar">
-        <span><i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
-        <div>
-            <a href="index.html" style="color:#ffffff; font-weight:bold;"><i class="fa-solid fa-house"></i> Trang chủ</a>
+        <div class="top-bar-left">
+            <i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC
+        </div>
+        <div class="top-bar-right">
+            <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Trang chủ</a>
             <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
-            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Slide bài giảng</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Bài giảng</a>
             <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
             <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
             <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
-            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
-            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
         </div>
     </div>
 
     <!-- Header Bar -->
     <header>
         <i class="fa-solid fa-book-open"></i>
-        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
+        <span>GÓC HỌC TẬP – THẦY LÊ V VĂN HOÀNG</span>
     </header>
 
     <div class="container">
         <!-- Hero Section -->
         <div class="card">
-            <h2 style="font-size: 22px; color: #0f172a; margin-bottom: 4px;">Chào mừng đến với Góc học tập</h2>
-            <p style="font-size: 13px; color: #64748b; font-weight: 500; margin-bottom: 12px;">Thầy Lê Văn Hoàng</p>
-            <p style="font-size: 13px; color: #334155;">Hệ thống tài liệu, giáo án, slide bài giảng điện tử và đề kiểm tra Tiểu học (GDPT 2018 - Bộ sách Kết nối tri thức với cuộc sống).</p>
+            <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 4px;">Chào mừng đến với Góc học tập</h2>
+            <p style="font-size: 14px; color: #64748b; font-weight: 500; margin-bottom: 12px;">Thầy Lê Văn Hoàng</p>
+            <p style="font-size: 14px; color: #334155;">Hệ thống tài liệu, giáo án, slide bài giảng điện tử và đề kiểm tra Tiểu học (GDPT 2018 - Bộ sách Kết nối tri thức với cuộc sống).</p>
             
             <div class="stats-grid">
                 <div>
@@ -98,10 +100,10 @@
 
         <!-- Course Section -->
         <div class="card">
-            <h3 style="font-size: 16px; color: #1e293b; margin-bottom: 16px;">Môn Học Lớp 5 – Kết Nối Tri Thức</h3>
+            <h3 style="font-size: 18px; color: #1e293b; margin-bottom: 16px;">Môn Học Lớp 5 – Kết Nối Tri Thức</h3>
             
             <div style="margin-bottom: 16px;">
-                <label style="font-size: 12px; font-weight: bold; color: #dc2626; display: block;">
+                <label style="font-size: 13px; font-weight: bold; color: #dc2626; display: block;">
                     📌 CHỌN TUẦN HỌC CHUNG XEM HỌC LIỆU MÔN HỌC:
                 </label>
                 <select id="selectTuan" onchange="updateWeek()">
@@ -134,17 +136,17 @@
                 </div>
 
                 <div class="subject-card">
-                    <div class="subject-icon icon-ls"><i class="fa-solid fa-earth-americas"></i></div>
+                    <div class="subject-icon icon-kh"><i class="fa-solid fa-flask"></i></div>
                     <div class="subject-info">
-                        <h4>LỊCH SỬ & ĐỊA LÍ 5</h4>
+                        <h4>KHOA HỌC 5</h4>
                         <p>Học liệu bài giảng và kế hoạch bài dạy</p>
                     </div>
                 </div>
 
                 <div class="subject-card">
-                    <div class="subject-icon icon-kh"><i class="fa-solid fa-flask"></i></div>
+                    <div class="subject-icon icon-lsdi"><i class="fa-solid fa-earth-americas"></i></div>
                     <div class="subject-info">
-                        <h4>KHOA HỌC 5</h4>
+                        <h4>LỊCH SỬ & ĐỊA LÍ 5</h4>
                         <p>Học liệu bài giảng và kế hoạch bài dạy</p>
                     </div>
                 </div>
