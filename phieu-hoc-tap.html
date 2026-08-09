@@ -3,296 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Phiếu Học Tập & Bài Tập Cuối Tuần lớp 5 theo Chương trình GDPT 2018 (Kết nối tri thức với cuộc sống) - Thầy Lê Văn Hoàng.">
     <title>Phiếu Học Tập - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <!-- Icon hiển thị trên tab trình duyệt -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
-    <link rel="stylesheet" href="style.css?v=999">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tối ưu riêng giao diện 3 nút bấm */
-        .card-actions-3btn {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 4px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.2s ease;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
-        .btn-view-main { background-color: #0284c7; } /* Xanh Dương */
-        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
-
-        .btn-action:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        /* Chỉ báo trạng thái tệp tải lên từ máy tính */
-        .file-status-indicator {
-            font-size: 11px;
-            color: #0f9d58;
-            margin-top: 4px;
-            display: none;
-            font-weight: bold;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.5; }
+        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 13px; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar a { color: #cbd5e1; text-decoration: none; margin-left: 12px; transition: color 0.2s; display: inline-block; }
+        .top-bar a:hover { color: #ffffff; }
+        header { background-color: #0f172a; color: #ffffff; padding: 14px 24px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header i { color: #34d399; font-size: 20px; }
+        .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+        .card { background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+            <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Slide bài giảng</a>
+            <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
+            <a href="phieu-hoc-tap.html" style="color:#ffffff; font-weight:bold;"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
+            <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
+            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
+            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
+        </div>
+    </div>
     <header>
-        <nav>
-            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
-            <ul>
-                <li><a href="index.html">🏠 Trang chủ</a></li>
-                <li><a href="giao-an.html">📚 Giáo án & Kế hoạch</a></li>
-                <li><a href="de-kiem-tra.html">📝 Đề kiểm tra</a></li>
-                <li><a href="phieu-hoc-tap.html" class="active">📄 Phiếu học tập</a></li>
-                <li><a href="slide-bai-giang.html">🎞️ Slide bài giảng</a></li>
-                <li><a href="tai-lieu.html">📁 Tài liệu</a></li>
-                <li><a href="thu-vien-anh.html">🖼️ Thư viện ảnh</a></li>
-                <li><a href="lien-he.html">📞 Liên hệ</a></li>
-                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
-            </ul>
-        </nav>
+        <i class="fa-solid fa-book-open"></i>
+        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
     </header>
-
-    <main class="container">
-        <div class="page-header">
-            <h2>📄 Phiếu Học Tập & Bài Tập Cuối Tuần</h2>
-            <p>Hệ thống phiếu bài tập bổ trợ theo tuần | CT GDPT 2018</p>
+    <div class="container">
+        <div class="card">
+            <h2 style="font-size: 20px; color: #0f172a; margin-bottom: 12px;">Phiếu Học Tập Củng Cố Kiến Thức</h2>
+            <p style="font-size: 14px; color: #334155;">Tổng hợp các phiếu bài tập cuối tuần, phiếu ôn tập kiến thức cốt lõi. Đang cập nhật nội dung...</p>
         </div>
-
-        <div class="stats-bar">
-            <span>📄 Phiếu bài tập hàng ngày</span>
-            <span>📝 Bài tập cuối tuần</span>
-            <span>📅 Đầy đủ 35 tuần học</span>
-            <span>🎓 Lớp 5 – Kết nối tri thức</span>
-        </div>
-
-        <!-- THANH CHỌN TUẦN CHUNG CHO PHIẾU HỌC TẬP -->
-        <div class="global-week-selector" style="background: #e0f7fa; border-color: #4dd0e1;">
-            <div class="selector-title" style="color: #006064;">📅 CHỌN TUẦN HỌC CHUNG CHO PHIẾU HỌC TẬP</div>
-            <select id="tuanChungPhieuSelect" class="main-select"></select>
-            <div class="current-week-display">
-                📖 <span id="hienThiTuanPhieuText">ĐANG XEM: TUẦN 1</span> | Năm học 2026–2027
-            </div>
-        </div>
-
-        <div class="card-grid">
-            <!-- 0. PHIẾU TỔNG HỢP -->
-            <div class="card card-tong-hop" data-phieu-mon="phieu-tong-hop" style="border: 2px solid #00acc1; background: #e0f7fa;">
-                <div class="card-icon">📁</div>
-                <h3>PHIẾU TỔNG HỢP</h3>
-                <p>Trọn bộ phiếu học tập và bài tập tất cả các môn theo tuần đã chọn.</p>
-                <div class="card-meta">
-                    <span>📅 35 tuần học</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('phieu-tong-hop')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 1. TOÁN -->
-            <div class="card" data-phieu-mon="toan">
-                <div class="card-icon">📐</div>
-                <h3>PHIẾU BÀI TẬP TOÁN 5</h3>
-                <p>Phiếu bài tập luyện tập và vận dụng môn Toán theo tuần.</p>
-                <div class="card-meta">
-                    <span>📅 Theo mạch kiến thức</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('toan')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 2. TIẾNG VIỆT -->
-            <div class="card" data-phieu-mon="tieng-viet">
-                <div class="card-icon">📖</div>
-                <h3>PHIẾU BÀI TẬP TIẾNG VIỆT 5</h3>
-                <p>Phiếu đọc hiểu, luyện từ và câu, tập làm văn theo tuần.</p>
-                <div class="card-meta">
-                    <span>📅 Theo mạch kiến thức</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('tieng-viet')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 3. KHOA HỌC -->
-            <div class="card" data-phieu-mon="khoa-hoc">
-                <div class="card-icon">🔬</div>
-                <h3>PHIẾU HỌC TẬP KHOA HỌC 5</h3>
-                <p>Phiếu thực hành và bài tập củng cố kiến thức môn Khoa học.</p>
-                <div class="card-meta">
-                    <span>📅 Theo tuần học</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('khoa-hoc')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 4. LỊCH SỬ - ĐỊA LÍ -->
-            <div class="card" data-phieu-mon="lich-su-dia-ly">
-                <div class="card-icon">🌍</div>
-                <h3>PHIẾU HỌC TẬP LỊCH SỬ - ĐỊA LÍ</h3>
-                <p>Phiếu bài tập khám phá lịch sử và địa lí địa phương, đất nước.</p>
-                <div class="card-meta">
-                    <span>📅 Theo tuần học</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('lich-su-dia-ly')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 5. NGOẠI NGỮ / CÁC MÔN KHÁC -->
-            <div class="card" data-phieu-mon="hoat-dong-khac">
-                <div class="card-icon">🎨</div>
-                <h3>PHIẾU BỔ TRỢ KỸ NĂNG</h3>
-                <p>Phiếu học tập các hoạt động giáo dục và bổ trợ kỹ năng sống.</p>
-                <div class="card-meta">
-                    <span>📅 Theo tuần học</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('hoat-dong-khac')">📤 Tải lên</button>
-                    <a href="#" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="#" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- INPUT CHỌN TỆP ẨN DÙNG CHUNG -->
-    <input type="file" id="localFileInput" style="display: none;" accept=".doc,.docx,.pdf" onchange="handleFileSelected(event)">
-
-    <footer>
-        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
-        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        let currentActiveMon = "";
-        const uploadedPhieuFilesStore = {}; // Lưu tệp theo từng tuần
-
-        const selectPhieu = document.getElementById("tuanChungPhieuSelect");
-        const hienThiTuanPhieuText = document.getElementById("hienThiTuanPhieuText");
-        const localFileInput = document.getElementById("localFileInput");
-
-        if (selectPhieu) {
-            if (selectPhieu.children.length === 0) {
-                for (let i = 1; i <= 35; i++) {
-                    let opt = document.createElement("option");
-                    opt.value = i;
-                    opt.textContent = `Tuần ${i}`;
-                    selectPhieu.appendChild(opt);
-                }
-            }
-            selectPhieu.addEventListener("change", capNhatGiaoDienPhieuHocTap);
-        }
-
-        // Kích hoạt cửa sổ chọn file từ máy tính
-        function triggerFileUpload(monKey) {
-            currentActiveMon = monKey;
-            localFileInput.click();
-        }
-
-        // Xử lý khi chọn file từ máy tính thành công
-        function handleFileSelected(event) {
-            const file = event.target.files[0];
-            const tuanHienTai = selectPhieu ? selectPhieu.value : 1;
-
-            if (!file || !currentActiveMon) return;
-
-            const fileUrl = URL.createObjectURL(file);
-            
-            if (!uploadedPhieuFilesStore[tuanHienTai]) {
-                uploadedPhieuFilesStore[tuanHienTai] = {};
-            }
-            uploadedPhieuFilesStore[tuanHienTai][currentActiveMon] = {
-                name: file.name,
-                url: fileUrl
-            };
-
-            capNhatGiaoDienPhieuHocTap();
-            event.target.value = "";
-        }
-
-        function capNhatGiaoDienPhieuHocTap() {
-            const tuanHienTai = selectPhieu ? selectPhieu.value : 1;
-
-            if (hienThiTuanPhieuText) {
-                hienThiTuanPhieuText.textContent = `ĐANG XEM: TUẦN ${tuanHienTai}`;
-            }
-
-            const cards = document.querySelectorAll(".card[data-phieu-mon]");
-            cards.forEach(card => {
-                const monKey = card.getAttribute("data-phieu-mon");
-                const btnView = card.querySelector(".btn-view-main");
-                const btnDownload = card.querySelector(".btn-download");
-                const statusIndicator = card.querySelector(".file-status-indicator");
-
-                if (uploadedPhieuFilesStore[tuanHienTai] && uploadedPhieuFilesStore[tuanHienTai][monKey]) {
-                    const uploadedData = uploadedPhieuFilesStore[tuanHienTai][monKey];
-                    if (btnView) btnView.href = uploadedData.url;
-                    if (btnDownload) {
-                        btnDownload.href = uploadedData.url;
-                        btnDownload.download = uploadedData.name;
-                    }
-                    if (statusIndicator) {
-                        statusIndicator.textContent = `✅ Đã tải lên [Tuần ${tuanHienTai}]: ${uploadedData.name}`;
-                        statusIndicator.style.display = "block";
-                    }
-                } else {
-                    let pdfPath = `tai-lieu/phieu-hoc-tap/${monKey}/${monKey}-tuan-${tuanHienTai}.pdf`;
-                    let wordPath = `tai-lieu/phieu-hoc-tap/${monKey}/${monKey}-tuan-${tuanHienTai}.docx`;
-
-                    if (btnView) btnView.href = pdfPath;
-                    if (btnDownload) {
-                        btnDownload.href = wordPath;
-                        btnDownload.removeAttribute("download");
-                    }
-                    if (statusIndicator) statusIndicator.style.display = "none";
-                }
-            });
-        }
-
-        // Khởi chạy khi tải trang
-        capNhatGiaoDienPhieuHocTap();
-    </script>
+    </div>
 </body>
 </html>
