@@ -71,19 +71,25 @@
         <div class="content-grid" id="gridContainer"></div>
     </div>
 
+    <!-- Tự động kết nối tới script.js để tạo đường dẫn sạch -->
+    <script src="script.js"></script>
     <script>
-        const folders = [
-            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv', link: 'https://drive.google.com/drive/folders/1r2xvXn4WJcilYQ0093mceThGemRQAnP' },
-            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }
+        // Danh sách môn học chỉ lưu Mã ID thư mục Drive chuẩn, hoàn toàn bỏ URL rườm rà
+        const subjectData = [
+            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan', id: '12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv', id: '1r2xvXn4WJcilYQ0093mceThGemRQAnP' },
+            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh', id: '12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi', id: '12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn', id: '12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd', id: '12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
+            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn', id: '12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }
         ];
 
         const grid = document.getElementById('gridContainer');
-        folders.forEach(sub => {
+        subjectData.forEach(sub => {
+            // Tự động lắp ráp thành đường link Google Drive hoàn chỉnh
+            const driveUrl = 'https://drive.google.com/drive/folders/' + sub.id;
+            
             grid.innerHTML += `
                 <div class="item-card">
                     <div class="item-header">
@@ -92,8 +98,8 @@
                     </div>
                     <p>Trọn bộ học liệu môn ${sub.name} lớp 5 (Từ Tuần 1 đến Tuần 35).</p>
                     <div class="btn-group">
-                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-download"></i> Xem / Tải</a>
-                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục</a>
+                        <a href="${driveUrl}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-download"></i> Xem / Tải</a>
+                        <a href="${driveUrl}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục</a>
                     </div>
                 </div>
             `;
