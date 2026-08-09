@@ -3,223 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giáo Án & Kế Hoạch - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Trang Chủ - Góc Học Tập Thầy Lê Văn Hoàng</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    </style>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
 
-    <header>
-        <div class="nav-container">
-            <h1 class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</h1>
-            <nav class="nav-menu">
-                <a href="index.html">🏠 Trang chủ</a>
-                <a href="giao-an.html" class="active">📖 Giáo án & Kế hoạch</a>
-                <a href="de-kiem-tra.html">📝 Đề kiểm tra</a>
-                <a href="phieu-hoc-tap.html">📄 Phiếu học tập</a>
-                <a href="slide-bai-giang.html">🖥️ Slide bài giảng</a>
-            </nav>
+    <!-- Top Sub-bar -->
+    <div class="bg-slate-800 text-gray-300 text-xs py-2 px-6 flex flex-wrap justify-between items-center shadow-sm">
+        <span class="font-semibold"><i class="fa-solid fa-graduation-cap text-emerald-400 mr-1.5"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div class="space-x-4 flex items-center">
+            <a href="index.html" class="text-white font-medium hover:text-emerald-400 transition"><i class="fa-solid fa-house mr-1"></i> Trang chủ</a>
+            <a href="#" class="hover:text-white transition"><i class="fa-solid fa-calendar-days mr-1"></i> Kế hoạch dạy học</a>
+            <a href="giao-an.html" class="hover:text-white transition"><i class="fa-solid fa-folder-open mr-1"></i> Kho Giáo án</a>
+            <a href="de-kiem-tra.html" class="hover:text-white transition"><i class="fa-solid fa-file-pen mr-1"></i> Đề kiểm tra</a>
+            <a href="lien-he.html" class="hover:text-white transition"><i class="fa-solid fa-envelope mr-1"></i> Liên hệ</a>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="bg-slate-900 text-white py-3.5 px-6 shadow-md flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <span class="text-emerald-400 text-xl"><i class="fa-solid fa-book-open"></i></span>
+            <h1 class="text-lg font-bold uppercase tracking-wide">GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</h1>
         </div>
     </header>
 
-    <main class="container">
-        <div class="header-banner">
-            <h2>📖 Kế Hoạch Dạy Học & Giáo Án Lớp 5 (GDPT 2018)</h2>
-            <p>Hệ thống tự động đồng bộ học liệu theo từng tuần học</p>
+    <main class="max-w-6xl mx-auto my-6 px-4">
+        <!-- Hero Section -->
+        <div class="bg-white p-6 rounded-lg shadow-sm mb-6 border border-gray-200">
+            <h2 class="text-2xl font-bold text-gray-900 mb-1">Chào mừng đến với Góc học tập</h2>
+            <p class="text-sm text-gray-500 font-medium mb-3">Thầy Lê Văn Hoàng</p>
+            <p class="text-gray-600 text-sm mb-6">Hệ thống tài liệu, giáo án, slide bài giảng điện tử và đề kiểm tra Tiểu học (GDPT 2018 - Bộ sách Kết nối tri thức với cuộc sống).</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center border-t pt-4 border-gray-100">
+                <div class="p-2">
+                    <div class="text-2xl font-bold text-blue-600">7 Môn</div>
+                    <div class="text-xs text-gray-500 font-medium">Môn học chuẩn CT mới</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-2xl font-bold text-emerald-600">35 Tuần</div>
+                    <div class="text-xs text-gray-500 font-medium">Học liệu xuyên suốt năm</div>
+                </div>
+                <div class="p-2">
+                    <div class="text-2xl font-bold text-purple-600">100%</div>
+                    <div class="text-xs text-gray-500 font-medium">Chuẩn quy định giáo dục</div>
+                </div>
+            </div>
         </div>
 
-        <div class="select-week-box">
-            <div class="select-wrapper">
-                <label for="select-tuan">📌 <strong>CHỌN TUẦN HỌC:</strong></label>
-                <select id="select-tuan" class="form-select">
+        <!-- Course Filter Section -->
+        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
+            <h3 class="text-lg font-bold text-gray-800 mb-4">Môn Học Lớp 5 – Kết Nối Tri Thức</h3>
+            
+            <div class="mb-4">
+                <label class="block text-xs font-bold text-red-600 uppercase mb-2">
+                    📌 CHỌN TUẦN HỌC CHUNG XEM HỌC LIỆU MÔN HỌC:
+                </label>
+                <select id="selectTuan" onchange="updateWeek()" class="w-full md:w-1/3 border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="1">Tuần 1</option>
                     <option value="2">Tuần 2</option>
                     <option value="3">Tuần 3</option>
                     <option value="4">Tuần 4</option>
-                    <option value="5">Tuần 5</option>
-                    <option value="6">Tuần 6</option>
-                    <option value="7">Tuần 7</option>
-                    <option value="8">Tuần 8</option>
-                    <option value="9">Tuần 9</option>
-                    <option value="10">Tuần 10</option>
-                    <option value="11">Tuần 11</option>
-                    <option value="12">Tuần 12</option>
-                    <option value="13">Tuần 13</option>
-                    <option value="14">Tuần 14</option>
-                    <option value="15">Tuần 15</option>
-                    <option value="16">Tuần 16</option>
-                    <option value="17">Tuần 17</option>
-                    <option value="18">Tuần 18</option>
-                    <option value="19">Tuần 19</option>
-                    <option value="20">Tuần 20</option>
-                    <option value="21">Tuần 21</option>
-                    <option value="22">Tuần 22</option>
-                    <option value="23">Tuần 23</option>
-                    <option value="24">Tuần 24</option>
-                    <option value="25">Tuần 25</option>
-                    <option value="26">Tuần 26</option>
-                    <option value="27">Tuần 27</option>
-                    <option value="28">Tuần 28</option>
-                    <option value="29">Tuần 29</option>
-                    <option value="30">Tuần 30</option>
-                    <option value="31">Tuần 31</option>
-                    <option value="32">Tuần 32</option>
-                    <option value="33">Tuần 33</option>
-                    <option value="34">Tuần 34</option>
-                    <option value="35">Tuần 35</option>
                 </select>
             </div>
-            <p id="txt-tuan-hien-tai" class="status-text">📖 ĐANG HIỂN THỊ HỌC LIỆU: TUẦN 1 | Năm học 2026–2027</p>
-        </div>
 
-        <div class="card-grid">
-            
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">📅</span>
-                    <h3>KẾ HOẠCH DẠY HỌC</h3>
+            <!-- Status Banner -->
+            <div class="bg-blue-50 border-l-4 border-blue-600 p-3 rounded mb-6 text-xs text-blue-800 font-medium flex items-center">
+                <i class="fa-solid fa-circle-info mr-2 text-blue-600"></i>
+                <span id="labelTuan">ĐANG HIỂN THỊ HỌC LIỆU: TUẦN 1 | Năm học 2026–2027</span>
+            </div>
+
+            <!-- Subject Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Tiếng Việt -->
+                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
+                    <div class="p-3 bg-blue-100 text-blue-600 rounded-lg"><i class="fa-solid fa-book text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm">TIẾNG VIỆT 5</h4>
+                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
+                    </div>
                 </div>
-                <p>Phân phối chương trình chi tiết các môn học theo tuần và học kỳ.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-kehoach" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-kehoach" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-kehoach" href="#" class="btn btn-red">⬇️ Tải về</a>
+
+                <!-- Toán -->
+                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
+                    <div class="p-3 bg-amber-100 text-amber-600 rounded-lg"><i class="fa-solid fa-calculator text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm">TOÁN 5</h4>
+                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
+                    </div>
+                </div>
+
+                <!-- Lịch sử & Địa lí -->
+                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
+                    <div class="p-3 bg-emerald-100 text-emerald-600 rounded-lg"><i class="fa-solid fa-earth-americas text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm">LỊCH SỬ & ĐỊA LÍ 5</h4>
+                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
+                    </div>
+                </div>
+
+                <!-- Khoa học -->
+                <div class="p-4 border border-gray-200 rounded-lg card-hover bg-white flex items-start space-x-3 cursor-pointer">
+                    <div class="p-3 bg-purple-100 text-purple-600 rounded-lg"><i class="fa-solid fa-flask text-xl"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm">KHOA HỌC 5</h4>
+                        <p class="text-xs text-gray-500">Học liệu bài giảng và kế hoạch bài dạy</p>
                     </div>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">📦</span>
-                    <h3>GIÁO ÁN TỔNG HỢP</h3>
-                </div>
-                <p>Trọn bộ giáo án tất cả các môn học trong tuần đã chọn.</p>
-                <div class="card-footer">
-                    <span class="tag">Trọn gói tuần</span>
-                    <div class="button-group">
-                        <a id="btn-up-giaoan" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-giaoan" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-giaoan" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">📖</span>
-                    <h3>TIẾNG VIỆT 5</h3>
-                </div>
-                <p>Kế hoạch bài dạy môn Tiếng Việt đầy đủ các tiết đọc, viết, nói và nghe.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-tiengviet" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-tiengviet" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-tiengviet" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">📐</span>
-                    <h3>TOÁN 5</h3>
-                </div>
-                <p>Kế hoạch bài dạy môn Toán lớp 5 chuẩn phát triển năng lực học sinh.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-toan" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-toan" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-toan" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">🔬</span>
-                    <h3>KHOA HỌC 5</h3>
-                </div>
-                <p>Kế hoạch bài dạy môn Khoa học lớp 5 tích hợp thí nghiệm và thực hành.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-khoahoc" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-khoahoc" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-khoahoc" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">🗺️</span>
-                    <h3>LỊCH SỬ & ĐỊA LÍ 5</h3>
-                </div>
-                <p>Kế hoạch bài dạy môn Lịch sử & Địa lí lớp 5 theo chuẩn GDPT 2018.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-lsdl" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-lsdl" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-lsdl" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">🌱</span>
-                    <h3>ĐẠO ĐỨC 5</h3>
-                </div>
-                <p>Kế hoạch bài dạy môn Đạo đức lớp 5 giáo dục nhân cách sống.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-daoduc" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-daoduc" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-daoduc" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">🛠️</span>
-                    <h3>CÔNG NGHỆ 5</h3>
-                </div>
-                <p>Kế hoạch bài dạy môn Công nghệ lớp 5 hướng dẫn thực hành sáng tạo.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-congnghe" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-congnghe" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-congnghe" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span class="card-icon">🎨</span>
-                    <h3>HOẠT ĐỘNG TRẢI NGHIỆM</h3>
-                </div>
-                <p>Kế hoạch bài dạy Hoạt động trải nghiệm theo các chủ đề tuần.</p>
-                <div class="card-footer">
-                    <span class="tag">Bộ Kết nối tri thức</span>
-                    <div class="button-group">
-                        <a id="btn-up-hdtn" href="#" class="btn btn-green">📤 Nộp bài</a>
-                        <a id="btn-xem-hdtn" href="#" class="btn btn-blue">👁️ Xem</a>
-                        <a id="btn-tai-hdtn" href="#" class="btn btn-red">⬇️ Tải về</a>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+        function updateWeek() {
+            const tuan = document.getElementById('selectTuan').value;
+            document.getElementById('labelTuan').innerText = `ĐANG HIỂN THỊ HỌC LIỆU: TUẦN ${tuan} | Năm học 2026–2027`;
+        }
+    </script>
 </body>
 </html>
