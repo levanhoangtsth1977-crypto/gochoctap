@@ -3,205 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Tài Liệu Dạy Học & Hồ Sơ Nghiệp Vụ - Văn bản thông tư, quyết định, sổ sách giáo viên và mẫu nhận xét học sinh theo Thông tư 27 - Thầy Lê Văn Hoàng.">
-    <title>Tài Liệu Dạy Học & Hồ Sơ Nghiệp Vụ - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <!-- Icon hiển thị trên tab trình duyệt -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
-    <link rel="stylesheet" href="style.css?v=999">
+    <title>Tài Liệu - Góc Học Tập Thầy Lê Văn Hoàng</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Tối ưu riêng giao diện 3 nút bấm */
-        .card-actions-3btn {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            width: 100%;
-            margin-top: 10px;
-        }
-        .btn-action {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 4px;
-            font-size: 13px;
-            font-weight: 600;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.2s ease;
-            text-align: center;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-upload { background-color: #0f9d58; } /* Xanh Lá */
-        .btn-view-main { background-color: #0284c7; } /* Xanh Dương */
-        .btn-download { background-color: #e11d48; } /* Đỏ Đậm */
-
-        .btn-action:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        /* Chỉ báo trạng thái tệp tải lên từ máy tính */
-        .file-status-indicator {
-            font-size: 11px;
-            color: #0f9d58;
-            margin-top: 4px;
-            display: none;
-            font-weight: bold;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.5; }
+        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 13px; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar a { color: #cbd5e1; text-decoration: none; margin-left: 12px; transition: color 0.2s; display: inline-block; }
+        .top-bar a:hover { color: #ffffff; }
+        header { background-color: #0f172a; color: #ffffff; padding: 14px 24px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header i { color: #34d399; font-size: 20px; }
+        .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+        .card { background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+            <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Slide bài giảng</a>
+            <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
+            <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
+            <a href="tai-lieu.html" style="color:#ffffff; font-weight:bold;"><i class="fa-solid fa-book"></i> Tài liệu</a>
+            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
+            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
+        </div>
+    </div>
     <header>
-        <nav>
-            <div class="logo">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
-            <ul>
-                <li><a href="index.html">🏠 Trang chủ</a></li>
-                <li><a href="giao-an.html">📚 Giáo án & Kế hoạch</a></li>
-                <li><a href="de-kiem-tra.html">📝 Đề kiểm tra</a></li>
-                <li><a href="phieu-hoc-tap.html">📄 Phiếu học tập</a></li>
-                <li><a href="slide-bai-giang.html">🎞️ Slide bài giảng</a></li>
-                <li><a href="tai-lieu.html" class="active">📁 Tài liệu</a></li>
-                <li><a href="thu-vien-anh.html">🖼️ Thư viện ảnh</a></li>
-                <li><a href="lien-he.html">📞 Liên hệ</a></li>
-                <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="ai-btn">🤖 AI hỗ trợ</a></li>
-            </ul>
-        </nav>
+        <i class="fa-solid fa-book-open"></i>
+        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
     </header>
-
-    <main class="container">
-        <div class="page-header">
-            <h2>📁 Tài Liệu Dạy Học & Hồ Sơ Nghiệp Vụ</h2>
-            <p>Hệ thống thông tư, quyết định, sổ sách chủ nhiệm, mẫu nhận xét và tài liệu chuyên môn</p>
+    <div class="container">
+        <div class="card">
+            <h2 style="font-size: 20px; color: #0f172a; margin-bottom: 12px;">Tài Liệu Tham Khảo Bổ Ích</h2>
+            <p style="font-size: 14px; color: #334155;">Tuyển tập các sách điện tử, bài viết chuyên môn và tài liệu hỗ trợ giảng dạy. Đang cập nhật nội dung...</p>
         </div>
-
-        <div class="stats-bar">
-            <span>📁 Hồ sơ nghiệp vụ giáo viên</span>
-            <span>⚖️ Thông tư & Quyết định chuẩn</span>
-            <span>📚 Sổ sách giảng dạy & chủ nhiệm</span>
-            <span>🎓 Lớp 5 – Kết nối tri thức</span>
-        </div>
-
-        <div class="card-grid">
-            <!-- 1. MẪU NHẬN XÉT HỌC SINH TT27 -->
-            <div class="card" data-tai-lieu="nhan-xet-tt27">
-                <div class="card-icon">📋</div>
-                <h3>MẪU NHẬN XÉT HỌC SINH TT27</h3>
-                <p>Hệ thống câu lệnh và mẫu nhận xét định kỳ, thường xuyên theo Thông tư 27.</p>
-                <div class="card-meta">
-                    <span>📄 Định dạng chuẩn</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('nhan-xet-tt27')">📤 Tải lên</button>
-                    <a href="tai-lieu/nhan-xet-tt27.pdf" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="tai-lieu/nhan-xet-tt27.docx" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 2. KẾ HOẠCH CHỦ NHIỆM LỚP 5 -->
-            <div class="card" data-tai-lieu="ke-hoach-chu-nhiem">
-                <div class="card-icon">📖</div>
-                <h3>KẾ HOẠCH CHỦ NHIỆM LỚP 5</h3>
-                <p>Mẫu kế hoạch công tác chủ nhiệm lớp năm học 2026–2027 hoàn chỉnh.</p>
-                <div class="card-meta">
-                    <span>📄 Đầy đủ biểu mẫu</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('ke-hoach-chu-nhiem')">📤 Tải lên</button>
-                    <a href="tai-lieu/ke-hoach-chu-nhiem.pdf" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="tai-lieu/ke-hoach-chu-nhiem.docx" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 3. HỆ THỐNG THÔNG TƯ - QUYẾT ĐỊNH -->
-            <div class="card" data-tai-lieu="thong-tu-quyet-dinh">
-                <div class="card-icon">⚖️</div>
-                <h3>THÔNG TƯ & QUYẾT ĐỊNH</h3>
-                <p>Tổng hợp các văn bản quy phạm pháp luật, Điều lệ trường tiểu học và quy định đánh giá.</p>
-                <div class="card-meta">
-                    <span>📚 Văn bản pháp quy</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('thong-tu-quyet-dinh')">📤 Tải lên</button>
-                    <a href="tai-lieu/thong-tu-quyet-dinh.pdf" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="tai-lieu/thong-tu-quyet-dinh.docx" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-
-            <!-- 4. SỔ SÁCH NGHIỆP VỤ GIÁO VIÊN -->
-            <div class="card" data-tai-lieu="so-sach-nghiep-vu">
-                <div class="card-icon">📒</div>
-                <h3>SỔ SÁCH CHỦ NHIỆM & GIẢNG DẠY</h3>
-                <p>Biểu mẫu sổ chủ nhiệm, theo dõi chất lượng giáo dục, kế hoạch giáo dục cá nhân học sinh.</p>
-                <div class="card-meta">
-                    <span>📊 Biểu mẫu hành chính</span>
-                    <span class="status-badge status-ready">🟢 Sẵn sàng</span>
-                </div>
-                <div class="file-status-indicator">✅ Đã tải lên tệp mới từ máy tính</div>
-                <div class="card-actions-3btn">
-                    <button type="button" class="btn-action btn-upload" onclick="triggerFileUpload('so-sach-nghiep-vu')">📤 Tải lên</button>
-                    <a href="tai-lieu/so-sach-nghiep-vu.pdf" class="btn-action btn-view-main" target="_blank" rel="noopener noreferrer">👁 Xem</a>
-                    <a href="tai-lieu/so-sach-nghiep-vu.docx" class="btn-action btn-download" download>⬇ Tải về</a>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- INPUT CHỌN TỆP ẨN DÙNG CHUNG -->
-    <input type="file" id="localFileInput" style="display: none;" accept=".doc,.docx,.pdf,.zip,.rar" onchange="handleFileSelected(event)">
-
-    <footer>
-        <p>© 2026 Góc học tập – Thầy Lê Văn Hoàng</p>
-        <p>Giáo án và học liệu lớp 5 | CT GDPT 2018 – Kết nối tri thức với cuộc sống</p>
-    </footer>
-
-    <script src="script.js"></script>
-    <script>
-        let currentActiveItem = "";
-        const localFileInput = document.getElementById("localFileInput");
-
-        // Kích hoạt cửa sổ chọn file từ máy tính
-        function triggerFileUpload(itemKey) {
-            currentActiveItem = itemKey;
-            localFileInput.click();
-        }
-
-        // Xử lý khi chọn file từ máy tính thành công
-        function handleFileSelected(event) {
-            const file = event.target.files[0];
-            if (!file || !currentActiveItem) return;
-
-            const fileUrl = URL.createObjectURL(file);
-            const card = document.querySelector(`.card[data-tai-lieu="${currentActiveItem}"]`);
-
-            if (card) {
-                const btnView = card.querySelector(".btn-view-main");
-                const btnDownload = card.querySelector(".btn-download");
-                const statusIndicator = card.querySelector(".file-status-indicator");
-
-                // Cập nhật đường dẫn cho nút Xem và Tải về
-                if (btnView) btnView.href = fileUrl;
-                if (btnDownload) {
-                    btnDownload.href = fileUrl;
-                    btnDownload.download = file.name;
-                }
-
-                // Hiển thị trạng thái tệp đã nhận
-                if (statusIndicator) {
-                    statusIndicator.textContent = `✅ Đã nhận: ${file.name}`;
-                    statusIndicator.style.display = "block";
-                }
-            }
-
-            // Reset input file để có thể chọn lại tệp cùng tên nếu cần
-            event.target.value = "";
-        }
-    </script>
+    </div>
 </body>
 </html>
