@@ -8,30 +8,34 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.6; font-size: 16px; }
+        
+        /* Menu chuẩn 9 mục đồng bộ từ trang chủ */
         .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 14px; padding: 14px 24px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 20px; }
         .top-bar-left { font-weight: 600; font-size: 15px; letter-spacing: 0.5px; }
         .top-bar-right { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
         .top-bar a { color: #cbd5e1; text-decoration: none; padding: 8px 10px; border-radius: 6px; transition: background 0.2s, color 0.2s; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
         .top-bar a:hover, .top-bar a.active { background-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
+        
         header { background-color: #0f172a; color: #ffffff; padding: 20px 24px; font-weight: bold; font-size: 24px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         header i { color: #34d399; font-size: 28px; }
         .container { max-width: 1100px; margin: 30px auto; padding: 0 16px; }
         .card { background: #ffffff; padding: 28px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        select { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; max-width: 300px; font-size: 16px; outline: none; margin-top: 8px; margin-bottom: 16px; cursor: pointer; }
-        select:focus { border-color: #2563eb; }
         .banner { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; color: #1e40af; font-size: 15px; border-radius: 4px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 24px; }
+        
+        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 24px; }
         .item-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
         .item-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #cbd5e1; }
-        .item-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 12px; }
-        .item-icon { font-size: 26px; }
-        .item-header h4 { font-size: 17px; color: #1e293b; text-transform: uppercase; }
+        .item-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+        .item-icon { font-size: 24px; }
+        .item-header h4 { font-size: 16px; color: #1e293b; text-transform: uppercase; }
         .item-card p { font-size: 13px; color: #64748b; margin-bottom: 16px; flex-grow: 1; }
-        .btn-group { display: flex; gap: 8px; margin-top: auto; border-top: 1px solid #f1f5f9; padding-top: 16px; }
-        .btn { flex: 1; padding: 10px 0; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; }
+        
+        /* Cấu trúc nút bấm 2 nút dàn đều */
+        .btn-group { display: flex; gap: 8px; margin-top: auto; border-top: 1px solid #f1f5f9; padding-top: 14px; }
+        .btn { flex: 1; padding: 10px 4px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; text-decoration: none; white-space: nowrap; }
         .btn-orange { background: #f97316; } .btn-orange:hover { background: #ea580c; }
-        .btn-green { background: #059669; } .btn-green:hover { background: #047857; }
         .btn-blue { background: #2563eb; } .btn-blue:hover { background: #1d4ed8; }
+        
         .icon-toan { color: #d97706; } .icon-tv { color: #2563eb; } .icon-kh { color: #059669; } .icon-lsdi { color: #dc2626; } .icon-hdtn { color: #9333ea; } .icon-dd { color: #db2777; } .icon-cn { color: #15803d; }
     </style>
 </head>
@@ -52,63 +56,54 @@
             <a href="hoi-ai.html" style="background-color: #2563eb; color: white;"><i class="fa-solid fa-wand-magic-sparkles"></i> Hỏi AI</a>
         </div>
     </div>
+
     <header>
         <i class="fa-solid fa-book-open"></i>
         <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
     </header>
+
     <div class="container">
         <div class="card">
             <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 8px;">🖥️ Slide Bài Giảng Điện Tử Lớp 5</h2>
             <p style="font-size: 15px; color: #64748b; margin-bottom: 16px;">Hệ thống bài giảng PowerPoint trực quan (7 môn) theo Kết nối tri thức.</p>
-            <div style="border-top: 1px solid #f1f5f9; padding-top: 16px;">
-                <label style="font-size: 14px; font-weight: bold; color: #dc2626; display: block;">📌 CHỌN TUẦN HỌC:</label>
-                <select id="selectTuan" onchange="updateTuan()">
-                    <option value="1">Tuần 1</option>
-                    <option value="2">Tuần 2</option>
-                    <option value="3">Tuần 3</option>
-                    <option value="4">Tuần 4</option>
-                </select>
-                <div class="banner" id="labelTuan">
-                    <i class="fa-solid fa-circle-info"></i> ĐANG HIỂN THỊ BÀI GIẢNG: TUẦN 1
-                </div>
+            <div class="banner">
+                <i class="fa-solid fa-cloud-arrow-up"></i> BÀI GIẢNG ĐƯỢC ĐỒNG BỘ TRỰC TIẾP TỪ GOOGLE DRIVE. BẤM "MỞ KHO" ĐỂ TÌM FILE THEO TUẦN.
             </div>
         </div>
-        <div class="content-grid">
-            <script>
-                const subjects = [
-                    { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan' },
-                    { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv' },
-                    { name: 'KH', icon: 'fa-flask', class: 'icon-kh' },
-                    { name: 'LSDI', icon: 'fa-earth-americas', class: 'icon-lsdi' },
-                    { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn' },
-                    { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd' },
-                    { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn' }
-                ];
-                subjects.forEach(sub => {
-                    document.write(`
-                        <div class="item-card">
-                            <div class="item-header">
-                                <i class="fa-solid ${sub.icon} item-icon ${sub.class}"></i>
-                                <h4>Bài giảng ${sub.name} 5</h4>
-                            </div>
-                            <p>Slide bài giảng điện tử môn ${sub.name} lớp 5 sinh động.</p>
-                            <div class="btn-group">
-                                <button class="btn btn-orange" onclick="action('Tải lên', '${sub.name}')"><i class="fa-solid fa-upload"></i> Tải lên</button>
-                                <button class="btn btn-green" onclick="action('Xem', '${sub.name}')"><i class="fa-solid fa-eye"></i> Xem</button>
-                                <button class="btn btn-blue" onclick="action('Tải về', '${sub.name}')"><i class="fa-solid fa-download"></i> Tải về</button>
-                            </div>
-                        </div>
-                    `);
-                });
-                function action(type, subject) { alert(`${type} bài giảng môn ${subject} thành công!`); }
-            </script>
+        
+        <div class="content-grid" id="gridContainer">
+            <!-- Nội dung các thẻ môn học -->
         </div>
     </div>
+
     <script>
-        function updateTuan() {
-            var tuan = document.getElementById('selectTuan').value;
-            document.getElementById('labelTuan').innerHTML = '<i class="fa-solid fa-circle-info"></i> ĐANG HIỂN THỊ BÀI GIẢNG: TUẦN ' + tuan;
-        }
+        // LIÊN KẾT BÀI GIẢNG ĐÃ ĐƯỢC TÍCH HỢP SẴN THEO CUNG CẤP CỦA ÔNG CHỦ
+        const folders = [
+            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan', link: 'https://drive.google.com/drive/folders/1ghtDsV-181YILeuIy3SVem-avjnGLJwD?usp=sharing' },
+            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv', link: 'https://drive.google.com/drive/folders/1uKEFpPtcreh9nO4KIa_HwlmhWyqhwse6?usp=sharing' },
+            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh', link: 'https://drive.google.com/drive/folders/1SfpwtCXc-9ZyiUX9yRQ8unH9gbEjQxz7?usp=sharing' },
+            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi', link: 'https://drive.google.com/drive/folders/1KNiRMx61xG1QFHOo7z0rhsM1Oq4-Wvyt?usp=sharing' },
+            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn', link: 'https://drive.google.com/drive/folders/1BeYmy7VAFZnnraJ2Ek5VQZ5NDPvJzbTR?usp=sharing' },
+            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd', link: 'https://drive.google.com/drive/folders/11oK968OGHPIOA1_l7aOXcCSpNEweI898?usp=sharing' },
+            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn', link: 'https://drive.google.com/drive/folders/1PiUGa94EBR1np0zRFSR3FRdFshoxyZbN?usp=sharing' }
+        ];
+
+        const grid = document.getElementById('gridContainer');
+        folders.forEach(sub => {
+            grid.innerHTML += `
+                <div class="item-card">
+                    <div class="item-header">
+                        <i class="fa-solid ${sub.icon} item-icon ${sub.class}"></i>
+                        <h4>Bài giảng ${sub.name} 5</h4>
+                    </div>
+                    <p>Trọn bộ slide bài giảng điện tử môn ${sub.name} (Từ Tuần 1 đến Tuần 35).</p>
+                    <div class="btn-group">
+                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-upload"></i> Tải Lên</a>
+                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Kho Bài Giảng</a>
+                    </div>
+                </div>
+            `;
+        });
     </script>
 </body>
 </html>
