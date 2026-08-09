@@ -3,134 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đề Kiểm Tra Định Kỳ - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
+    <title>Đề Kiểm Tra - Góc Học Tập Thầy Lê Văn Hoàng</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.5; }
+        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 13px; padding: 10px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .top-bar a { color: #cbd5e1; text-decoration: none; margin-left: 12px; transition: color 0.2s; display: inline-block; }
+        .top-bar a:hover { color: #ffffff; }
+        header { background-color: #0f172a; color: #ffffff; padding: 14px 24px; font-weight: bold; font-size: 18px; display: flex; align-items: center; gap: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        header i { color: #34d399; font-size: 20px; }
+        .container { max-width: 1050px; margin: 24px auto; padding: 0 16px; }
+        .card { background: #ffffff; padding: 24px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
-
-    <!-- Top Navigation Sub-bar -->
-    <div class="bg-slate-800 text-gray-300 text-xs py-2 px-6 flex flex-wrap justify-between items-center shadow-sm">
-        <span class="font-semibold"><i class="fa-solid fa-graduation-cap text-emerald-400 mr-1.5"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
-        <div class="space-x-4 flex items-center">
-            <a href="index.html" class="hover:text-white transition"><i class="fa-solid fa-house mr-1"></i> Trang chủ</a>
-            <a href="#" class="hover:text-white transition"><i class="fa-solid fa-calendar-days mr-1"></i> Kế hoạch dạy học</a>
-            <a href="giao-an.html" class="hover:text-white transition"><i class="fa-solid fa-folder-open mr-1"></i> Kho Giáo án</a>
-            <a href="#" class="hover:text-white transition"><i class="fa-solid fa-upload mr-1"></i> Nộp bài giảng</a>
-            <a href="lien-he.html" class="hover:text-white transition"><i class="fa-solid fa-envelope mr-1"></i> Liên hệ</a>
+<body>
+    <div class="top-bar">
+        <span><i class="fa-solid fa-graduation-cap" style="color:#34d399;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</span>
+        <div>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+            <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
+            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Slide bài giảng</a>
+            <a href="de-kiem-tra.html" style="color:#ffffff; font-weight:bold;"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
+            <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
+            <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
+            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
+            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
         </div>
     </div>
-
-    <!-- Main Header Bar -->
-    <header class="bg-slate-900 text-white py-3.5 px-6 shadow-md flex justify-between items-center">
-        <div class="flex items-center space-x-3">
-            <span class="text-emerald-400 text-xl"><i class="fa-solid fa-book-open"></i></span>
-            <h1 class="text-lg font-bold uppercase tracking-wide">GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</h1>
-        </div>
+    <header>
+        <i class="fa-solid fa-book-open"></i>
+        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
     </header>
-
-    <!-- Main Content Container -->
-    <main class="max-w-6xl mx-auto my-6 px-4">
-        
-        <!-- Section Header -->
-        <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-6">
-            <h2 class="text-xl font-bold text-gray-900 mb-2 flex items-center">
-                <span class="mr-2">📝</span> Kho Đề Kiểm Tra Định Kỳ Lớp 5
-            </h2>
-            <p class="text-xs text-gray-500 mb-3">Ma trận, bảng đặc tả và bộ đề kiểm tra chuẩn theo Thông tư 27 và CT GDPT 2018</p>
-            
-            <div class="flex items-center space-x-3 text-xs text-gray-600 mb-4">
-                <span>📌 Đề kiểm tra định kỳ</span>
-                <span>📊 Ma trận & Bảng đặc tả</span>
-                <span>📚 Đầy đủ các môn học Lớp 5</span>
-            </div>
-
-            <!-- Filter Selection -->
-            <div class="border-t pt-4 border-gray-100">
-                <label class="block text-xs font-bold text-red-600 uppercase mb-2">
-                    📌 CHỌN MỐC KIỂM TRA ĐỊNH KỲ CHUNG CHO CÁC MÔN:
-                </label>
-                <select id="selectHocKy" onchange="updateHocKy()" class="w-full md:w-1/4 border border-gray-300 rounded p-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="Giữa Học kỳ 1">Giữa Học kỳ 1</option>
-                    <option value="Cuối Học kỳ 1">Cuối Học kỳ 1</option>
-                    <option value="Giữa Học kỳ 2">Giữa Học kỳ 2</option>
-                    <option value="Cuối Học kỳ 2" selected>Cuối Học kỳ 2</option>
-                </select>
-            </div>
-
-            <!-- Dynamic Info Banner -->
-            <div class="mt-4 bg-blue-50 border-l-4 border-blue-600 p-3 rounded text-xs text-blue-800 font-medium flex items-center">
-                <i class="fa-solid fa-circle-info mr-2 text-blue-600"></i>
-                <span id="labelHocKy">ĐANG XEM: CUỐI HỌC KỲ 2 | Hệ thống tự động nhận diện học liệu theo mốc</span>
-            </div>
+    <div class="container">
+        <div class="card">
+            <h2 style="font-size: 20px; color: #0f172a; margin-bottom: 12px;">Ngân Hàng Đề Kiểm Tra Lớp 5</h2>
+            <p style="font-size: 14px; color: #334155;">Tuyển tập các đề kiểm tra định kỳ, đề học kỳ môn Toán, Tiếng Việt, v.v. Đang cập nhật nội dung...</p>
         </div>
-
-        <!-- Subjects Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            
-            <!-- Card 1: Bộ đề tổng hợp -->
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 card-hover flex flex-col justify-between">
-                <div>
-                    <div class="text-2xl mb-2">📦</div>
-                    <h3 class="font-bold text-gray-800 text-sm uppercase">BỘ ĐỀ TỔNG HỢP</h3>
-                    <p class="text-xs text-gray-500 mt-1 mb-4">Tổng hợp đề kiểm tra và đáp án toàn bộ các môn học theo mốc đã chọn.</p>
-                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full font-medium mb-4">
-                        ● Trọn gói định kỳ ● Sẵn sàng
-                    </span>
-                </div>
-                <div class="flex space-x-2 pt-3 border-t border-gray-100">
-                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-download mr-1"></i> Tải về</button>
-                    <button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-eye mr-1"></i> Xem</button>
-                </div>
-            </div>
-
-            <!-- Card 2: Toán 5 -->
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 card-hover flex flex-col justify-between">
-                <div>
-                    <div class="text-2xl mb-2">📐</div>
-                    <h3 class="font-bold text-gray-800 text-sm uppercase">TOÁN 5</h3>
-                    <p class="text-xs text-gray-500 mt-1 mb-4">Kho đề kiểm tra định kỳ, ma trận và bảng đặc tả môn Toán lớp 5.</p>
-                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full font-medium mb-4">
-                        ● Đầy đủ ma trận ● Sẵn sàng
-                    </span>
-                </div>
-                <div class="flex space-x-2 pt-3 border-t border-gray-100">
-                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-download mr-1"></i> Tải về</button>
-                    <button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-eye mr-1"></i> Xem</button>
-                </div>
-            </div>
-
-            <!-- Card 3: Tiếng Việt 5 -->
-            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 card-hover flex flex-col justify-between">
-                <div>
-                    <div class="text-2xl mb-2">📖</div>
-                    <h3 class="font-bold text-gray-800 text-sm uppercase">TIẾNG VIỆT 5</h3>
-                    <p class="text-xs text-gray-500 mt-1 mb-4">Kho đề kiểm tra đọc hiểu, viết, chính tả môn Tiếng Việt lớp 5.</p>
-                    <span class="inline-block bg-emerald-100 text-emerald-800 text-[11px] px-2.5 py-0.5 rounded-full font-medium mb-4">
-                        ● Chuẩn Thông tư 27 ● Sẵn sàng
-                    </span>
-                </div>
-                <div class="flex space-x-2 pt-3 border-t border-gray-100">
-                    <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-download mr-1"></i> Tải về</button>
-                    <button class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white text-xs py-2 rounded font-medium transition"><i class="fa-solid fa-eye mr-1"></i> Xem</button>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <script>
-        function updateHocKy() {
-            const hocky = document.getElementById('selectHocKy').value;
-            document.getElementById('labelHocKy').innerText = `ĐANG XEM: ${hocky.toUpperCase()} | Hệ thống tự động nhận diện học liệu theo mốc`;
-        }
-    </script>
+    </div>
 </body>
 </html>
