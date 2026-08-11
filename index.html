@@ -3,165 +3,816 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Chủ - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <title>Góc Học Tập – Thầy Lê Văn Hoàng</title>
+
+    <meta name="description"
+          content="Hệ thống quản lý học liệu Tiểu học của Thầy Lê Văn Hoàng – GDPT 2018, bộ Kết nối tri thức với cuộc sống.">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* Shared Styles */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.6; font-size: 16px; }
-        
-        /* Top Navigation Sub-bar - Cân đối dồn trái, đủ 9 mục, cỡ chữ lớn rõ nét */
-        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 14px; padding: 14px 24px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .top-bar-left { font-weight: 600; font-size: 15px; letter-spacing: 0.5px; }
-        .top-bar-right { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
-        .top-bar a { color: #cbd5e1; text-decoration: none; padding: 8px 10px; border-radius: 6px; transition: background 0.2s, color 0.2s; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
-        .top-bar a:hover, .top-bar a.active { background-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
-        
-        /* Header Bar */
-        header { background-color: #0f172a; color: #ffffff; padding: 20px 24px; font-weight: bold; font-size: 24px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        header i { color: #34d399; font-size: 28px; }
-        
-        /* Layout Container */
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 16px; }
-        
-        /* White Card Box */
-        .card { background: #ffffff; padding: 28px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        
-        /* Hero Section Stats */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #f1f5f9; }
-        .stat-number { font-size: 26px; font-weight: bold; margin-bottom: 4px; }
-        .stat-label { font-size: 14px; color: #64748b; font-weight: 500; }
-        
-        /* Select Dropdown & Banner */
-        select { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; width: 100%; max-width: 300px; font-size: 16px; outline: none; margin-top: 8px; margin-bottom: 16px; cursor: pointer; }
-        select:focus { border-color: #2563eb; }
-        .banner { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; color: #1e40af; font-size: 15px; border-radius: 4px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-        
-        /* Subject Cards Grid */
-        .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; margin-top: 24px; }
-        .subject-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; display: flex; align-items: center; gap: 16px; transition: all 0.2s ease; cursor: pointer; }
-        .subject-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #cbd5e1; }
-        .subject-icon { width: 60px; height: 60px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
-        
-        .icon-tv { background: #dbeafe; color: #2563eb; }
-        .icon-toan { background: #fef3c7; color: #d97706; }
-        .icon-kh { background: #d1fae5; color: #059669; }
-        .icon-lsdi { background: #fee2e2; color: #dc2626; }
-        
-        .subject-info h4 { font-size: 17px; font-weight: 700; color: #1e293b; margin-bottom: 4px; }
-        .subject-info p { font-size: 13px; color: #64748b; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f3f4f6;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           THANH TRÊN
+        ========================= */
+
+        .top-bar {
+            background: #1e293b;
+            color: #cbd5e1;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .top-title {
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: .3px;
+        }
+
+        .top-title i {
+            color: #34d399;
+            margin-right: 7px;
+        }
+
+        /* =========================
+           MENU
+        ========================= */
+
+        .menu {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .menu a {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: rgba(255,255,255,.15);
+            color: white;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #0f172a;
+            color: white;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,.12);
+        }
+
+        header i {
+            color: #34d399;
+            font-size: 30px;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            max-width: 1150px;
+            margin: 30px auto;
+            padding: 0 16px;
+        }
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 7px rgba(0,0,0,.05);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero h2 {
+            color: #0f172a;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .hero .teacher {
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .hero-description {
+            color: #475569;
+            max-width: 900px;
+        }
+
+        /* =========================
+           THỐNG KÊ
+        ========================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 25px;
+            padding-top: 22px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* =========================
+           TIÊU ĐỀ
+        ========================= */
+
+        .section-title {
+            font-size: 22px;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .section-description {
+            color: #64748b;
+            margin-bottom: 22px;
+        }
+
+        /* =========================
+           KHO HỌC LIỆU
+        ========================= */
+
+        .drive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 18px;
+        }
+
+        .drive-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 18px;
+            text-decoration: none;
+            color: #1e293b;
+            transition: .2s;
+        }
+
+        .drive-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 18px rgba(0,0,0,.09);
+            border-color: #94a3b8;
+        }
+
+        .drive-icon {
+            width: 55px;
+            height: 55px;
+            min-width: 55px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+        }
+
+        .drive-info h3 {
+            font-size: 17px;
+            margin-bottom: 3px;
+        }
+
+        .drive-info p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* Màu biểu tượng */
+
+        .icon-blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .icon-red {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .icon-yellow {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .icon-green {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .icon-purple {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .icon-orange {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .icon-pink {
+            background: #fce7f3;
+            color: #db2777;
+        }
+
+        .icon-cyan {
+            background: #cffafe;
+            color: #0891b2;
+        }
+
+        .icon-indigo {
+            background: #e0e7ff;
+            color: #4f46e5;
+        }
+
+        .icon-slate {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        /* =========================
+           THÔNG BÁO
+        ========================= */
+
+        .notice {
+            background: #eff6ff;
+            border-left: 4px solid #2563eb;
+            border-radius: 6px;
+            padding: 15px 17px;
+            color: #1e40af;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .notice i {
+            margin-right: 7px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #0f172a;
+            color: #cbd5e1;
+            text-align: center;
+            padding: 25px 15px;
+            margin-top: 40px;
+        }
+
+        footer strong {
+            color: white;
+        }
+
+        footer p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        /* =========================
+           ĐIỆN THOẠI
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .top-bar {
+                padding: 12px 15px;
+            }
+
+            .top-title {
+                width: 100%;
+            }
+
+            .menu {
+                width: 100%;
+            }
+
+            .menu a {
+                font-size: 13px;
+                padding: 7px 8px;
+            }
+
+            header h1 {
+                font-size: 19px;
+            }
+
+            .hero h2 {
+                font-size: 23px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <!-- Top Navigation Sub-bar -->
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <i class="fa-solid fa-graduation-cap" style="color:#34d399; margin-right: 6px;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC
-        </div>
-        <div class="top-bar-right">
-            <a href="index.html" class="active"><i class="fa-solid fa-house"></i> Trang chủ</a>
-            <a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
-            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Bài giảng</a>
-            <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
-            <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
-            <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
-            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
-            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
-            <a href="hoi-ai.html" style="background-color: #2563eb; color: white;"><i class="fa-solid fa-wand-magic-sparkles"></i> Hỏi AI</a>
-        </div>
+<!-- =====================================================
+     THANH TIÊU ĐỀ + MENU
+===================================================== -->
+
+<div class="top-bar">
+
+    <div class="top-title">
+        <i class="fa-solid fa-graduation-cap"></i>
+        HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC
     </div>
 
-    <!-- Header Bar -->
-    <header>
-        <i class="fa-solid fa-book-open"></i>
-        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
-    </header>
+    <nav class="menu">
 
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="card">
-            <h2 style="font-size: 26px; color: #0f172a; margin-bottom: 6px;">Chào mừng đến với Góc học tập</h2>
-            <p style="font-size: 15px; color: #64748b; font-weight: 500; margin-bottom: 14px;">Thầy Lê Văn Hoàng</p>
-            <p style="font-size: 15px; color: #334155;">Hệ thống tài liệu, giáo án, slide bài giảng điện tử và đề kiểm tra Tiểu học (GDPT 2018 - Bộ sách Kết nối tri thức với cuộc sống).</p>
-            
-            <div class="stats-grid">
-                <div>
-                    <div class="stat-number" style="color: #2563eb;">7 Môn</div>
-                    <div class="stat-label">Môn học chuẩn CT mới</div>
+        <a href="index.html" class="active">
+            <i class="fa-solid fa-house"></i>
+            Trang chủ
+        </a>
+
+        <a href="giao-an.html">
+            <i class="fa-solid fa-folder-open"></i>
+            Giáo án
+        </a>
+
+        <a href="slide-bai-giang.html">
+            <i class="fa-solid fa-file-powerpoint"></i>
+            Bài giảng
+        </a>
+
+        <a href="de-kiem-tra.html">
+            <i class="fa-solid fa-file-pen"></i>
+            Đề kiểm tra
+        </a>
+
+        <a href="phieu-hoc-tap.html">
+            <i class="fa-solid fa-file-lines"></i>
+            Phiếu học tập
+        </a>
+
+        <a href="tai-lieu.html">
+            <i class="fa-solid fa-book"></i>
+            Tài liệu
+        </a>
+
+        <a href="thu-vien-anh.html">
+            <i class="fa-solid fa-images"></i>
+            Thư viện ảnh
+        </a>
+
+        <a href="lien-he.html">
+            <i class="fa-solid fa-envelope"></i>
+            Liên hệ
+        </a>
+
+    </nav>
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header>
+
+    <i class="fa-solid fa-book-open"></i>
+
+    <h1>
+        GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG
+    </h1>
+
+</header>
+
+
+<!-- =====================================================
+     NỘI DUNG CHÍNH
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =========================
+         GIỚI THIỆU
+    ========================== -->
+
+    <section class="card hero">
+
+        <h2>
+            Chào mừng đến với Góc học tập
+        </h2>
+
+        <p class="teacher">
+            Thầy Lê Văn Hoàng
+        </p>
+
+        <p class="hero-description">
+            Hệ thống học liệu Tiểu học phục vụ dạy học theo
+            Chương trình Giáo dục phổ thông 2018,
+            bộ sách Kết nối tri thức với cuộc sống.
+        </p>
+
+
+        <!-- THỐNG KÊ -->
+
+        <div class="stats">
+
+            <div class="stat">
+                <div class="stat-number" style="color:#2563eb;">
+                    7 Môn
                 </div>
-                <div>
-                    <div class="stat-number" style="color: #059669;">35 Tuần</div>
-                    <div class="stat-label">Học liệu xuyên suốt năm</div>
-                </div>
-                <div>
-                    <div class="stat-number" style="color: #9333ea;">100%</div>
-                    <div class="stat-label">Chuẩn quy định giáo dục</div>
+
+                <div class="stat-label">
+                    Môn học lớp 5
                 </div>
             </div>
+
+
+            <div class="stat">
+                <div class="stat-number" style="color:#059669;">
+                    35 Tuần
+                </div>
+
+                <div class="stat-label">
+                    Học liệu xuyên suốt năm học
+                </div>
+            </div>
+
+
+            <div class="stat">
+                <div class="stat-number" style="color:#7c3aed;">
+                    100%
+                </div>
+
+                <div class="stat-label">
+                    Học liệu được quản lý tập trung
+                </div>
+            </div>
+
         </div>
 
-        <!-- Course Section -->
-        <div class="card">
-            <h3 style="font-size: 20px; color: #1e293b; margin-bottom: 18px;">Môn Học Lớp 5 – Kết Nối Tri Thức</h3>
-            
-            <div style="margin-bottom: 18px;">
-                <label style="font-size: 14px; font-weight: bold; color: #dc2626; display: block;">
-                    📌 CHỌN TUẦN HỌC CHUNG XEM HỌC LIỆU MÔN HỌC:
-                </label>
-                <select id="selectTuan" onchange="updateWeek()">
-                    <option value="1">Tuần 1</option>
-                    <option value="2">Tuần 2</option>
-                    <option value="3">Tuần 3</option>
-                    <option value="4">Tuần 4</option>
-                </select>
-            </div>
+    </section>
 
-            <div class="banner" id="labelTuan">
-                <i class="fa-solid fa-circle-info"></i> ĐANG HIỂN THỊ HỌC LIỆU: TUẦN 1 | Năm học 2026–2027
-            </div>
 
-            <div class="subject-grid">
-                <div class="subject-card">
-                    <div class="subject-icon icon-tv"><i class="fa-solid fa-book"></i></div>
-                    <div class="subject-info">
-                        <h4>TIẾNG VIỆT 5</h4>
-                        <p>Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
+    <!-- =================================================
+         KHO HỌC LIỆU GOOGLE DRIVE
+    ================================================== -->
+
+    <section class="card">
+
+        <h2 class="section-title">
+            📚 KHO HỌC LIỆU
+        </h2>
+
+        <p class="section-description">
+            Chọn kho học liệu cần truy cập. Các tài liệu được lưu trữ
+            trên Google Drive và cập nhật tập trung.
+        </p>
+
+
+        <div class="drive-grid">
+
+
+            <!-- 01 GIÁO ÁN -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1qUskYxV-cebM1kscJ9HARjIbszwXvgmJ?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-blue">
+                    <i class="fa-solid fa-folder-open"></i>
                 </div>
 
-                <div class="subject-card">
-                    <div class="subject-icon icon-toan"><i class="fa-solid fa-calculator"></i></div>
-                    <div class="subject-info">
-                        <h4>TOÁN 5</h4>
-                        <p>Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
+                <div class="drive-info">
+                    <h3>Giáo án</h3>
+                    <p>Kế hoạch bài dạy và giáo án</p>
                 </div>
 
-                <div class="subject-card">
-                    <div class="subject-icon icon-kh"><i class="fa-solid fa-flask"></i></div>
-                    <div class="subject-info">
-                        <h4>KHOA HỌC 5</h4>
-                        <p>Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
+            </a>
+
+
+            <!-- 02 ĐỀ KIỂM TRA -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/14PR5RKbAwg6tduhRzaASdDpJAreRTEoV?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-red">
+                    <i class="fa-solid fa-file-pen"></i>
                 </div>
 
-                <div class="subject-card">
-                    <div class="subject-icon icon-lsdi"><i class="fa-solid fa-earth-americas"></i></div>
-                    <div class="subject-info">
-                        <h4>LỊCH SỬ & ĐỊA LÍ 5</h4>
-                        <p>Học liệu bài giảng và kế hoạch bài dạy</p>
-                    </div>
+                <div class="drive-info">
+                    <h3>Đề kiểm tra</h3>
+                    <p>Đề, đáp án và ma trận</p>
                 </div>
-            </div>
+
+            </a>
+
+
+            <!-- 03 PHIẾU HỌC TẬP -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/177gtDtN--ZMI8A51QNctTV-wc_4Hcsuv?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-yellow">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Phiếu học tập</h3>
+                    <p>Phiếu học tập Tiểu học</p>
+                </div>
+
+            </a>
+
+
+            <!-- 04 BÀI GIẢNG -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1wGiX3s64mPQFktmbsenRYXJ6IKjcf2l2?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-green">
+                    <i class="fa-solid fa-file-powerpoint"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Bài giảng</h3>
+                    <p>Slide bài giảng điện tử</p>
+                </div>
+
+            </a>
+
+
+            <!-- 05 TÀI LIỆU -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1rN9ZVXI23jdApjILn3ahgPGV9Tvoksr2?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-purple">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Tài liệu</h3>
+                    <p>Tài liệu tham khảo và chuyên môn</p>
+                </div>
+
+            </a>
+
+
+            <!-- 06 TÀI NGUYÊN -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1kdCG1tYOX-wwc8JPy0m1g_LgaPcU7bSu?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-orange">
+                    <i class="fa-solid fa-toolbox"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Tài nguyên</h3>
+                    <p>Tài nguyên phục vụ dạy học</p>
+                </div>
+
+            </a>
+
+
+            <!-- 07 THƯ VIỆN ẢNH -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1p5ef9QP1QcAadwE7fBAfNKdhEC-CDk0-?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-pink">
+                    <i class="fa-solid fa-images"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Thư viện ảnh</h3>
+                    <p>Hình ảnh phục vụ bài giảng</p>
+                </div>
+
+            </a>
+
+
+            <!-- 08 VIDEO -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1IexvedT04fJZF80iAe5fJUzbJ72lDSHb?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-cyan">
+                    <i class="fa-solid fa-video"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Video</h3>
+                    <p>Video phục vụ dạy và học</p>
+                </div>
+
+            </a>
+
+
+            <!-- 09 BÀI VIẾT -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/12ubYEtEVoYQoyuQRTKIfp3GTgD1Cuk_S?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-indigo">
+                    <i class="fa-solid fa-newspaper"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Bài viết</h3>
+                    <p>Nội dung và bài viết website</p>
+                </div>
+
+            </a>
+
+
+            <!-- 10 DỮ LIỆU WEBSITE -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/1D8qfvrN7eAx1Hbvm2vzic_pf5JgDI8No?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-slate">
+                    <i class="fa-solid fa-database"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Dữ liệu website</h3>
+                    <p>Dữ liệu phục vụ vận hành website</p>
+                </div>
+
+            </a>
+
+
+            <!-- 11 KHO LƯU TRỮ -->
+
+            <a class="drive-card"
+               href="https://drive.google.com/drive/folders/11FMh9uCmWHgMDkbNrYA5ujXNaaSWUdNR?usp=sharing"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <div class="drive-icon icon-blue">
+                    <i class="fa-solid fa-box-archive"></i>
+                </div>
+
+                <div class="drive-info">
+                    <h3>Kho lưu trữ</h3>
+                    <p>Sao lưu và lưu trữ dữ liệu</p>
+                </div>
+
+            </a>
+
+
         </div>
-    </div>
 
-    <script>
-        function updateWeek() {
-            var tuan = document.getElementById('selectTuan').value;
-            document.getElementById('labelTuan').innerHTML = '<i class="fa-solid fa-circle-info"></i> ĐANG HIỂN THỊ HỌC LIỆU: TUẦN ' + tuan + ' | Năm học 2026–2027';
-        }
-    </script>
+
+        <!-- THÔNG BÁO -->
+
+        <div class="notice">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            Học liệu được lưu trữ tập trung trên Google Drive.
+            Người truy cập chỉ có quyền xem và tải tài liệu theo
+            thiết lập chia sẻ của từng thư mục.
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         GIỚI THIỆU HỆ THỐNG
+    ================================================== -->
+
+    <section class="card">
+
+        <h2 class="section-title">
+            🏫 Về hệ thống
+        </h2>
+
+        <p>
+            <strong>Góc học tập – Thầy Lê Văn Hoàng</strong>
+            là hệ thống quản lý và cung cấp học liệu phục vụ
+            dạy học Tiểu học theo Chương trình GDPT 2018.
+        </p>
+
+        <br>
+
+        <p>
+            Website đóng vai trò là cổng truy cập.
+            Các tài liệu được quản lý tập trung trên Google Drive,
+            giúp dễ dàng cập nhật, bổ sung và sao lưu.
+        </p>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        <strong>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</strong>
+    </p>
+
+    <p>
+        Hệ thống học liệu Tiểu học – GDPT 2018
+    </p>
+
+    <p>
+        © 2026 Lê Văn Hoàng
+    </p>
+
+</footer>
+
+
 </body>
 </html>
