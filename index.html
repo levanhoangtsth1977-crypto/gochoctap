@@ -1,940 +1,920 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Góc Học Tập – Thầy Lê Văn Hoàng</title>
-
-    <meta name="description"
-          content="Hệ thống quản lý học liệu Tiểu học – Thầy Lê Văn Hoàng – GDPT 2018 – Kết nối tri thức với cuộc sống">
-
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #f1f5f9;
-            color: #1e293b;
-            line-height: 1.6;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        /* =========================
-           TOP BAR
-        ========================== */
-
-        .top-bar {
-            background: #0f172a;
-            color: #cbd5e1;
-            min-height: 58px;
-            padding: 10px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .brand-mini {
-            font-weight: 700;
-            font-size: 15px;
-            letter-spacing: .3px;
-            white-space: nowrap;
-        }
-
-        .brand-mini i {
-            color: #34d399;
-            margin-right: 7px;
-        }
-
-        .top-menu {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .top-menu a {
-            color: #cbd5e1;
-            padding: 8px 10px;
-            border-radius: 7px;
-            font-size: 14px;
-            font-weight: 600;
-            transition: .2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .top-menu a:hover,
-        .top-menu a.active {
-            background: #1e293b;
-            color: #ffffff;
-        }
-
-        /* =========================
-           HEADER
-        ========================== */
-
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 24px 20px;
-            text-align: center;
-        }
-
-        .header-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .header-title i {
-            color: #2563eb;
-            margin-right: 8px;
-        }
-
-        .header-subtitle {
-            margin-top: 5px;
-            color: #64748b;
-            font-size: 15px;
-        }
-
-        /* =========================
-           CONTAINER
-        ========================== */
-
-        .container {
-            width: min(1150px, calc(100% - 32px));
-            margin: 30px auto 50px;
-        }
-
-        /* =========================
-           HERO
-        ========================== */
-
-        .hero {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 34px;
-            box-shadow: 0 4px 15px rgba(15, 23, 42, .05);
-            margin-bottom: 26px;
-        }
-
-        .hero h1 {
-            font-size: 28px;
-            color: #0f172a;
-            margin-bottom: 6px;
-        }
-
-        .hero-name {
-            color: #2563eb;
-            font-weight: 700;
-            margin-bottom: 14px;
-            font-size: 17px;
-        }
-
-        .hero-description {
-            color: #475569;
-            font-size: 16px;
-            max-width: 900px;
-        }
-
-        /* =========================
-           STATS
-        ========================== */
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-top: 28px;
-            padding-top: 24px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .stat {
-            text-align: center;
-            padding: 12px;
-        }
-
-        .stat-number {
-            font-size: 27px;
-            font-weight: 800;
-        }
-
-        .stat-label {
-            color: #64748b;
-            font-size: 14px;
-            margin-top: 3px;
-        }
-
-        .blue {
-            color: #2563eb;
-        }
-
-        .green {
-            color: #059669;
-        }
-
-        .purple {
-            color: #7c3aed;
-        }
-
-        /* =========================
-           SECTION
-        ========================== */
-
-        .section {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 30px;
-            box-shadow: 0 4px 15px rgba(15, 23, 42, .05);
-        }
-
-        .section-heading {
-            text-align: center;
-            margin-bottom: 8px;
-            font-size: 25px;
-            color: #0f172a;
-        }
-
-        .section-heading i {
-            color: #2563eb;
-            margin-right: 7px;
-        }
-
-        .section-description {
-            text-align: center;
-            color: #64748b;
-            font-size: 15px;
-            margin-bottom: 26px;
-        }
-
-        /* =========================
-           DRIVE BUTTONS
-        ========================== */
-
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-
-        .resource-btn {
-            min-height: 92px;
-            background: #ffffff;
-            border: 1px solid #dbe3ec;
-            border-radius: 12px;
-            padding: 16px 18px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: #1e293b;
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease,
-                border-color .2s ease,
-                background .2s ease;
-        }
-
-        .resource-btn:hover {
-            transform: translateY(-3px);
-            border-color: #93c5fd;
-            background: #f8fbff;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, .12);
-        }
-
-        .resource-icon {
-            width: 54px;
-            height: 54px;
-            min-width: 54px;
-            border-radius: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 25px;
-            background: #eff6ff;
-        }
-
-        .resource-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .resource-content strong {
-            display: block;
-            font-size: 17px;
-            font-weight: 800;
-            color: #0f172a;
-        }
-
-        .resource-content small {
-            display: block;
-            color: #64748b;
-            font-size: 13px;
-            margin-top: 2px;
-        }
-
-        .resource-arrow {
-            color: #94a3b8;
-            font-size: 18px;
-            transition: .2s ease;
-        }
-
-        .resource-btn:hover .resource-arrow {
-            color: #2563eb;
-            transform: translateX(4px);
-        }
-
-        /* Màu riêng từng nhóm */
-
-        .resource-btn:nth-child(1) .resource-icon {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-
-        .resource-btn:nth-child(2) .resource-icon {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-
-        .resource-btn:nth-child(3) .resource-icon {
-            background: #fef3c7;
-            color: #d97706;
-        }
-
-        .resource-btn:nth-child(4) .resource-icon {
-            background: #ede9fe;
-            color: #7c3aed;
-        }
-
-        .resource-btn:nth-child(5) .resource-icon {
-            background: #dcfce7;
-            color: #16a34a;
-        }
-
-        .resource-btn:nth-child(6) .resource-icon {
-            background: #cffafe;
-            color: #0891b2;
-        }
-
-        .resource-btn:nth-child(7) .resource-icon {
-            background: #fce7f3;
-            color: #db2777;
-        }
-
-        .resource-btn:nth-child(8) .resource-icon {
-            background: #ffedd5;
-            color: #ea580c;
-        }
-
-        .resource-btn:nth-child(9) .resource-icon {
-            background: #e0e7ff;
-            color: #4f46e5;
-        }
-
-        .resource-btn:nth-child(10) .resource-icon {
-            background: #f1f5f9;
-            color: #475569;
-        }
-
-        .resource-btn:nth-child(11) .resource-icon {
-            background: #ecfccb;
-            color: #65a30d;
-        }
-
-        /* =========================
-           NOTE
-        ========================== */
-
-        .note {
-            margin-top: 24px;
-            padding: 15px 17px;
-            border-left: 4px solid #2563eb;
-            background: #eff6ff;
-            color: #1e40af;
-            border-radius: 7px;
-            font-size: 14px;
-        }
-
-        .note i {
-            margin-right: 6px;
-        }
-
-        /* =========================
-           FOOTER
-        ========================== */
-
-        footer {
-            background: #0f172a;
-            color: #cbd5e1;
-            text-align: center;
-            padding: 28px 20px;
-            margin-top: 40px;
-        }
-
-        footer strong {
-            color: #ffffff;
-            display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        footer p {
-            font-size: 14px;
-            margin-top: 3px;
-        }
-
-        /* =========================
-           MOBILE
-        ========================== */
-
-        @media (max-width: 850px) {
-
-            .top-bar {
-                justify-content: center;
-            }
-
-            .brand-mini {
-                width: 100%;
-                text-align: center;
-            }
-
-            .top-menu {
-                justify-content: center;
-            }
-
-            .resource-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-
-            .container {
-                width: min(100% - 20px, 1150px);
-                margin-top: 15px;
-            }
-
-            .top-bar {
-                padding: 10px;
-            }
-
-            .top-menu a {
-                font-size: 13px;
-                padding: 7px 8px;
-            }
-
-            .header-title {
-                font-size: 22px;
-            }
-
-            .hero,
-            .section {
-                padding: 20px 16px;
-                border-radius: 10px;
-            }
-
-            .hero h1 {
-                font-size: 23px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
-                gap: 5px;
-            }
-
-            .resource-btn {
-                min-height: 82px;
-                padding: 13px;
-            }
-
-            .resource-icon {
-                width: 48px;
-                height: 48px;
-                min-width: 48px;
-                font-size: 21px;
-            }
-
-            .resource-content strong {
-                font-size: 15px;
-            }
-
-            .resource-content small {
-                font-size: 12px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1538">
+<title>Góc học tập – Thầy Lê Văn Hoàng</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<header class="topbar">
+  <div class="system-title">🎓 HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC</div>
+  <div class="brand">📚 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</div>
+  <nav class="menu" aria-label="Menu học liệu">
+    <div class="menu-row"><button class="nav-btn nav-0" data-target="home" type="button"><span>🏠</span>Trang chủ</button><button class="nav-btn nav-1" data-target="Giáo án" type="button"><span>📘</span>Giáo án</button><button class="nav-btn nav-2" data-target="Đề kiểm tra" type="button"><span>📝</span>Đề kiểm tra</button><button class="nav-btn nav-3" data-target="Phiếu học tập" type="button"><span>📄</span>Phiếu học tập</button><button class="nav-btn nav-4" data-target="Bài giảng" type="button"><span>📊</span>Bài giảng</button><button class="nav-btn nav-5" data-target="Tài liệu" type="button"><span>📚</span>Tài liệu</button></div>
+    <div class="menu-row"><button class="nav-btn nav-6" data-target="Tài nguyên" type="button"><span>🧰</span>Tài nguyên</button><button class="nav-btn nav-7" data-target="Thư viện ảnh" type="button"><span>🖼️</span>Thư viện ảnh</button><button class="nav-btn nav-8" data-target="Video" type="button"><span>🎬</span>Video</button><button class="nav-btn nav-9" data-target="Bài viết" type="button"><span>📰</span>Bài viết</button><button class="nav-btn nav-10" data-target="Dữ liệu" type="button"><span>🗃️</span>Dữ liệu</button><button class="nav-btn nav-11" data-target="Kho học liệu" type="button"><span>🏛️</span>Kho học liệu</button></div>
+  </nav>
+</header>
 
-    <!-- =========================
-         TOP MENU
-    ========================== -->
-
-    <div class="top-bar">
-
-        <div class="brand-mini">
-            <i class="fa-solid fa-graduation-cap"></i>
-            HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC
-        </div>
-
-        <nav class="top-menu">
-
-            <a href="index.html" class="active">
-                <i class="fa-solid fa-house"></i>
-                Trang chủ
-            </a>
-
-            <a href="#kho-hoc-lieu">
-                <i class="fa-solid fa-folder-open"></i>
-                Kho học liệu
-            </a>
-
-            <a href="lien-he.html">
-                <i class="fa-solid fa-envelope"></i>
-                Liên hệ
-            </a>
-
-        </nav>
-
+<main class="container">
+  <div id="content">
+    
+<section id="section-home" class="content-section active" data-section="home">
+  <div class="hero">
+    <div class="hero-badge">📚 GDPT 2018 · Kết nối tri thức với cuộc sống</div>
+    <h1>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</h1>
+    <p>Kho học liệu Tiểu học tập trung, truy cập nhanh và trực tiếp từ Google Drive.</p>
+    <div class="hero-stats">
+      <div><strong>11</strong><span>Kho học liệu</span></div>
+      <div><strong>Lớp 5</strong><span>Trọng tâm sử dụng</span></div>
+      <div><strong>2026–2027</strong><span>Năm học</span></div>
     </div>
+  </div>
+</section>
 
-
-    <!-- =========================
-         HEADER
-    ========================== -->
-
-    <header>
-
-        <div class="header-title">
-            <i class="fa-solid fa-book-open"></i>
-            GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG
+    
+    <section id="section-Giáo án" class="content-section" data-section="Giáo án">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>📘 Giáo án</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
         </div>
-
-        <div class="header-subtitle">
-            Hệ thống học liệu Tiểu học · GDPT 2018 · Kết nối tri thức với cuộc sống
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">💻</div>
+          <div class="resource-main">
+            <h3>Công nghệ</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1l04mV58gwBPvOD1U8KMwokieom7YprSG?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1l04mV58gwBPvOD1U8KMwokieom7YprSG?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">💻</div>
+          <div class="resource-main">
+            <h3>Công nghệ</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1kx9oSkI60r3iN7BG--XMPS1T7opFSGal?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1kx9oSkI60r3iN7BG--XMPS1T7opFSGal?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🧭</div>
+          <div class="resource-main">
+            <h3>Đạo đức</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1zZUL2m4Kw9RXYhoNcKE3txKHjfLX3OEp?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1zZUL2m4Kw9RXYhoNcKE3txKHjfLX3OEp?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🧭</div>
+          <div class="resource-main">
+            <h3>Đạo đức</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1IpXC21fHa15qPes4gOhq9_VDFpWpFfuL?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1IpXC21fHa15qPes4gOhq9_VDFpWpFfuL?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌱</div>
+          <div class="resource-main">
+            <h3>Hoạt động trải nghiệm</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1apzh9c8Zzk2s77CdG9KhdEbNslgRqFzt?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1apzh9c8Zzk2s77CdG9KhdEbNslgRqFzt?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌱</div>
+          <div class="resource-main">
+            <h3>Hoạt động trải nghiệm</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1-Rn1qJk88Wjy7C0bpjaz6gGeRksyGZ9H?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1-Rn1qJk88Wjy7C0bpjaz6gGeRksyGZ9H?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🗂️</div>
+          <div class="resource-main">
+            <h3>Kế hoạch</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/15lo46sf3rQWnV1Bwcg8hNxQ72JrCYJkw?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/15lo46sf3rQWnV1Bwcg8hNxQ72JrCYJkw?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🗂️</div>
+          <div class="resource-main">
+            <h3>Kế hoạch</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1DpbwTa8pdBPAzYMt9iCUfSsstexvAf2K?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1DpbwTa8pdBPAzYMt9iCUfSsstexvAf2K?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🔬</div>
+          <div class="resource-main">
+            <h3>Khoa học</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1WjWWGocURqyvFKKaljb9NUOabp2KK7Ww?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1WjWWGocURqyvFKKaljb9NUOabp2KK7Ww?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🔬</div>
+          <div class="resource-main">
+            <h3>Khoa học</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1JwuSvU4w0rqFD20JTDJ1jGJOJO-Swo5D?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1JwuSvU4w0rqFD20JTDJ1jGJOJO-Swo5D?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌍</div>
+          <div class="resource-main">
+            <h3>Lịch sử & Địa lí</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1CZCIwJZHEpGlultI1PpfpU3_EgjxhUVb?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1CZCIwJZHEpGlultI1PpfpU3_EgjxhUVb?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌍</div>
+          <div class="resource-main">
+            <h3>Lịch sử & Địa lí</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1vXX7J-edncTYEswZq2I3GftTliPkCAoX?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1vXX7J-edncTYEswZq2I3GftTliPkCAoX?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1e_XE902alqpql_HC3Z5-4N5yxM10IqCK?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1e_XE902alqpql_HC3Z5-4N5yxM10IqCK?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1Eio1kZo-flvlNDC7KRzxTIh5UGjm2Taj?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1Eio1kZo-flvlNDC7KRzxTIh5UGjm2Taj?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>HK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1Z6_5hgj7rwMLnNRjRnwes-Vu4zoCHgPQ?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1Z6_5hgj7rwMLnNRjRnwes-Vu4zoCHgPQ?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>HK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/17PLRAoyQW64J64kKKRLpER4rzABN3mAY?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/17PLRAoyQW64J64kKKRLpER4rzABN3mAY?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Đề kiểm tra" class="content-section" data-section="Đề kiểm tra">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>📝 Đề kiểm tra</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
         </div>
-
-    </header>
-
-
-    <!-- =========================
-         MAIN
-    ========================== -->
-
-    <main class="container">
-
-
-        <!-- HERO -->
-
-        <section class="hero">
-
-            <h1>
-                Chào mừng đến với Góc học tập
-            </h1>
-
-            <div class="hero-name">
-                Thầy Lê Văn Hoàng
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">💻</div>
+          <div class="resource-main">
+            <h3>Công nghệ</h3>
+            <p>CK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1nH438Y2aEpjJyduWZNY283odn0EyX5-B?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1nH438Y2aEpjJyduWZNY283odn0EyX5-B?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
             </div>
-
-            <p class="hero-description">
-                Hệ thống quản lý và khai thác học liệu Tiểu học,
-                phục vụ dạy học theo Chương trình Giáo dục phổ thông 2018,
-                Bộ sách Kết nối tri thức với cuộc sống.
-            </p>
-
-
-            <!-- THỐNG KÊ -->
-
-            <div class="stats">
-
-                <div class="stat">
-                    <div class="stat-number blue">
-                        11
-                    </div>
-                    <div class="stat-label">
-                        Kho học liệu
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-number green">
-                        Lớp 5
-                    </div>
-                    <div class="stat-label">
-                        Trọng tâm sử dụng
-                    </div>
-                </div>
-
-                <div class="stat">
-                    <div class="stat-number purple">
-                        2026–2027
-                    </div>
-                    <div class="stat-label">
-                        Năm học
-                    </div>
-                </div>
-
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">💻</div>
+          <div class="resource-main">
+            <h3>Công nghệ</h3>
+            <p>CK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1NqCSN7eSJpki0VFsc0MFlRb28DzLaL6o?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1NqCSN7eSJpki0VFsc0MFlRb28DzLaL6o?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
             </div>
-
-        </section>
-
-
-        <!-- =========================
-             KHO HỌC LIỆU
-        ========================== -->
-
-        <section class="section" id="kho-hoc-lieu">
-
-            <h2 class="section-heading">
-                <i class="fa-solid fa-layer-group"></i>
-                KHO HỌC LIỆU
-            </h2>
-
-            <p class="section-description">
-                Chọn một kho bên dưới để mở trực tiếp thư mục học liệu trên Google Drive.
-            </p>
-
-
-            <div class="resource-grid">
-
-
-                <!-- 01 GIÁO ÁN -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1qUskYxV-cebM1kscJ9HARjIbszwXvgmJ?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        📘
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>GIÁO ÁN</strong>
-                        <small>Kế hoạch bài dạy và giáo án</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 02 ĐỀ KIỂM TRA -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/14PR5RKbAwg6tduhRzaASdDpJAreRTEoV?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        📝
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>ĐỀ KIỂM TRA</strong>
-                        <small>Đề kiểm tra và tài liệu đánh giá</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 03 PHIẾU HỌC TẬP -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/177gtDtN--ZMI8A51QNctTV-wc_4Hcsuv?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        📄
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>PHIẾU HỌC TẬP</strong>
-                        <small>Phiếu học tập dành cho học sinh</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 04 BÀI GIẢNG -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1wGiX3s64mPQFktmbsenRYXJ6IKjcf2l2?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        📊
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>BÀI GIẢNG</strong>
-                        <small>Slide bài giảng điện tử</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 05 TÀI LIỆU -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1rN9ZVXI23jdApjILn3ahgPGV9Tvoksr2?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        📚
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>TÀI LIỆU</strong>
-                        <small>Sách, tài liệu và tư liệu tham khảo</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 06 TÀI NGUYÊN -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1kdCG1tYOX-wwc8JPy0m1g_LgaPcU7bSu?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        🧰
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>TÀI NGUYÊN</strong>
-                        <small>Tài nguyên phục vụ dạy và học</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 07 THƯ VIỆN ẢNH -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1p5ef9QP1QcAadwE7fBAfNKdhEC-CDk0-?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        🖼️
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>THƯ VIỆN ẢNH</strong>
-                        <small>Hình ảnh minh họa và học liệu trực quan</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 08 VIDEO -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1IexvedT04fJZF80iAe5fJUzbJ72lDSHb?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        🎬
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>VIDEO</strong>
-                        <small>Video phục vụ dạy học</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 09 BÀI VIẾT -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/12ubYEtEVoYQoyuQRTKIfp3GTgD1Cuk_S?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        📰
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>BÀI VIẾT</strong>
-                        <small>Bài viết và nội dung tham khảo</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 10 DỮ LIỆU -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/1D8qfvrN7eAx1Hbvm2vzic_pf5JgDI8No?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        🗃️
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>DỮ LIỆU</strong>
-                        <small>Dữ liệu và tài nguyên hệ thống</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
-
-                <!-- 11 KHO HỌC LIỆU -->
-
-                <a
-                    class="resource-btn"
-                    href="https://drive.google.com/drive/folders/11FMh9uCmWHgMDkbNrYA5ujXNaaSWUdNR?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-
-                    <span class="resource-icon">
-                        🏛️
-                    </span>
-
-                    <span class="resource-content">
-                        <strong>KHO HỌC LIỆU</strong>
-                        <small>Kho lưu trữ và học liệu tổng hợp</small>
-                    </span>
-
-                    <span class="resource-arrow">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </span>
-
-                </a>
-
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🔬</div>
+          <div class="resource-main">
+            <h3>Khoa học</h3>
+            <p>CK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1Xa58oBPhY_DjI7yVZQzoBxi8TGL6uRb6?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1Xa58oBPhY_DjI7yVZQzoBxi8TGL6uRb6?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
             </div>
-
-
-            <!-- GHI CHÚ -->
-
-            <div class="note">
-
-                <i class="fa-solid fa-circle-info"></i>
-
-                <strong>Lưu ý:</strong>
-                Website đóng vai trò là giao diện quản lý và truy cập.
-                Các tệp học liệu được lưu trữ trên Google Drive.
-                Quyền xem hoặc tải xuống phụ thuộc vào quyền chia sẻ
-                của từng thư mục Google Drive.
-
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🔬</div>
+          <div class="resource-main">
+            <h3>Khoa học</h3>
+            <p>CK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/19BaxdT-Lw8SnbZz-yJ0SzL7tr-t77QfN?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/19BaxdT-Lw8SnbZz-yJ0SzL7tr-t77QfN?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
             </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌍</div>
+          <div class="resource-main">
+            <h3>Lịch sử & Địa lí</h3>
+            <p>CK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1iz49uVzviZYUuz3wFMEAn4abrpJQjRqw?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1iz49uVzviZYUuz3wFMEAn4abrpJQjRqw?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌍</div>
+          <div class="resource-main">
+            <h3>Lịch sử & Địa lí</h3>
+            <p>CK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1gbB5Musx9OWFA-JwZmNkooxCSxmhj1e0?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1gbB5Musx9OWFA-JwZmNkooxCSxmhj1e0?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>CK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/12Vn6ZD7xNN2uTkXLXdlJHWcFnGUtNqNE?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/12Vn6ZD7xNN2uTkXLXdlJHWcFnGUtNqNE?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>CK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1hUnX2aBSqxJGjrJfXpHz7Gx6mzjZiY_x?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1hUnX2aBSqxJGjrJfXpHz7Gx6mzjZiY_x?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>GK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1qx67zevqemU4Slros_JWVjMozHiOsQ0d?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1qx67zevqemU4Slros_JWVjMozHiOsQ0d?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>GK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1-OcFbXFtCdiEfo4B6pxGGIjx7WhdKfEI?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1-OcFbXFtCdiEfo4B6pxGGIjx7WhdKfEI?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>CK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/13z7QlVN5AdtI816m8GqxXC4sXqx-UTz6?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/13z7QlVN5AdtI816m8GqxXC4sXqx-UTz6?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>CK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1_NDIp1ndCozGki0IUDFen0Y6FP6nqwNU?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1_NDIp1ndCozGki0IUDFen0Y6FP6nqwNU?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>GK I</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1-8IgnTEwjJgAipayEd_LSZGQy76QGj6i?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1-8IgnTEwjJgAipayEd_LSZGQy76QGj6i?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>GK II</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1gJXgdl5CLyilAZ5tCPbXX4KuiBGJY_af?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1gJXgdl5CLyilAZ5tCPbXX4KuiBGJY_af?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Phiếu học tập" class="content-section" data-section="Phiếu học tập">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>📄 Phiếu học tập</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">🔬</div>
+          <div class="resource-main">
+            <h3>Khoa học</h3>
+            <p>Kho phiếu học tập</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1wotzj_iBmIRyJWhdEK4NY-LHe-yIJmyR?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1wotzj_iBmIRyJWhdEK4NY-LHe-yIJmyR?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌍</div>
+          <div class="resource-main">
+            <h3>Lịch sử & Địa lí</h3>
+            <p>Kho phiếu học tập</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1-MfN8AlusVVYZToeaOvo3WKNeo7Hr3IY?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1-MfN8AlusVVYZToeaOvo3WKNeo7Hr3IY?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>Kho phiếu học tập</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1pyuL_XXZWoC6ahgAyqqU7-d6jNTHGWS8?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1pyuL_XXZWoC6ahgAyqqU7-d6jNTHGWS8?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>Kho phiếu học tập</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/14p6Un5sG5T8vF27dUO6k9pfH0otA3BDA?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/14p6Un5sG5T8vF27dUO6k9pfH0otA3BDA?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Bài giảng" class="content-section" data-section="Bài giảng">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>📊 Bài giảng</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">🌍</div>
+          <div class="resource-main">
+            <h3>Lịch sử & Địa lí</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1JBpik9bkC1QfdyGtIbs2G86zBL-jcnQK?usp=drive_link" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1JBpik9bkC1QfdyGtIbs2G86zBL-jcnQK?usp=drive_link" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">💻</div>
+          <div class="resource-main">
+            <h3>Công nghệ</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1xLiLhGXYIcwk7_h_wB-QAZe6-zzLn9fL?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1xLiLhGXYIcwk7_h_wB-QAZe6-zzLn9fL?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🧭</div>
+          <div class="resource-main">
+            <h3>Đạo đức</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1ygj98Vmf__CVsS8nURYaF8J6Vq_HPajd?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1ygj98Vmf__CVsS8nURYaF8J6Vq_HPajd?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🌱</div>
+          <div class="resource-main">
+            <h3>Hoạt động trải nghiệm</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1X7Dtf-NNcRDm6Vn23fSabVyphyzvNuAE?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1X7Dtf-NNcRDm6Vn23fSabVyphyzvNuAE?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🔬</div>
+          <div class="resource-main">
+            <h3>Khoa học</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1kLXYXhr0P9dQjir_itqhrxqCJ5IRWevl?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1kLXYXhr0P9dQjir_itqhrxqCJ5IRWevl?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🇻🇳</div>
+          <div class="resource-main">
+            <h3>Tiếng Việt</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1U3jVyk5SvUB02RIxdR8veOU3UOSThm7z?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1U3jVyk5SvUB02RIxdR8veOU3UOSThm7z?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">➗</div>
+          <div class="resource-main">
+            <h3>Toán</h3>
+            <p>Bài giảng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1VShE9y-ekmZvTxjX-OEFKe797tUq3Y_R?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1VShE9y-ekmZvTxjX-OEFKe797tUq3Y_R?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Tài liệu" class="content-section" data-section="Tài liệu">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>📚 Tài liệu</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">📘</div>
+          <div class="resource-main">
+            <h3>GDPT 2018</h3>
+            <p>Tài liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1rWx1yK6wMQYmgcm-SwnmK9G45LaVvhE1?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1rWx1yK6wMQYmgcm-SwnmK9G45LaVvhE1?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📕</div>
+          <div class="resource-main">
+            <h3>SBT</h3>
+            <p>Tài liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1jzdemW6J8QRa4xaeYghWjffRR-Ru0C5r?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1jzdemW6J8QRa4xaeYghWjffRR-Ru0C5r?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📗</div>
+          <div class="resource-main">
+            <h3>SGK</h3>
+            <p>Tài liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1jI75Ir4Nu6Ink5C3HYyyVrKJO4RPxVL2?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1jI75Ir4Nu6Ink5C3HYyyVrKJO4RPxVL2?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">👨‍🏫</div>
+          <div class="resource-main">
+            <h3>Liệu GV</h3>
+            <p>Tài liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1JmjP4PbVwoUfeOiwZ97goBa7UooTJwsj?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1JmjP4PbVwoUfeOiwZ97goBa7UooTJwsj?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📚</div>
+          <div class="resource-main">
+            <h3>Tài liệu tham khảo</h3>
+            <p>Tài liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1JHD8Ywi56snOu-OwT8c9DFAtEt-WEh6H?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1JHD8Ywi56snOu-OwT8c9DFAtEt-WEh6H?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">💬</div>
+          <div class="resource-main">
+            <h3>Tư vấn</h3>
+            <p>Tài liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1t0P5b0_iHfQ0zdwangof2ekMgd7YKHDo?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1t0P5b0_iHfQ0zdwangof2ekMgd7YKHDo?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📑</div>
+          <div class="resource-main">
+            <h3>Biểu mẫu</h3>
+            <p>Biểu mẫu giáo viên</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1quLFnOSJ2QFrXwE7Q_Xz9dAJ3YNyoJFA?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1quLFnOSJ2QFrXwE7Q_Xz9dAJ3YNyoJFA?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🧰</div>
+          <div class="resource-main">
+            <h3>Công cụ GV</h3>
+            <p>Công cụ giáo viên</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1bP01QQ_6NT_aOVlK-MviqYdx-ukHlgcP?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1bP01QQ_6NT_aOVlK-MviqYdx-ukHlgcP?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📋</div>
+          <div class="resource-main">
+            <h3>HD chuyên môn</h3>
+            <p>Hướng dẫn chuyên môn</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1fZbBHfGv10OWmiQBD_g9656PznEsTXXr?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1fZbBHfGv10OWmiQBD_g9656PznEsTXXr?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🎓</div>
+          <div class="resource-main">
+            <h3>Tài liệu bồi dưỡng</h3>
+            <p>Tài liệu bồi dưỡng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1I3xMoOH-h36TPD1WEW_V02QrJuHITg18?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1I3xMoOH-h36TPD1WEW_V02QrJuHITg18?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📚</div>
+          <div class="resource-main">
+            <h3>Tài liệu khác</h3>
+            <p>Tài liệu tham khảo khác</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1OkuQQKQcyVm24A9t5Khp3XsVprC8c4wQ?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1OkuQQKQcyVm24A9t5Khp3XsVprC8c4wQ?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">⚖️</div>
+          <div class="resource-main">
+            <h3>Văn bản GD</h3>
+            <p>Văn bản giáo dục</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/16wRC6qSZLGfnoeHLdoZh_RRa6Vk3OEmM?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/16wRC6qSZLGfnoeHLdoZh_RRa6Vk3OEmM?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Tài nguyên" class="content-section" data-section="Tài nguyên">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>🧰 Tài nguyên</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        <article class="resource-card">
+          <div class="resource-icon">📑</div>
+          <div class="resource-main">
+            <h3>Biểu mẫu</h3>
+            <p>Biểu mẫu giáo viên</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1quLFnOSJ2QFrXwE7Q_Xz9dAJ3YNyoJFA?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1quLFnOSJ2QFrXwE7Q_Xz9dAJ3YNyoJFA?usp=sharing" target="_blank" rel="noopener noreferrer">⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🧰</div>
+          <div class="resource-main">
+            <h3>Công cụ GV</h3>
+            <p>Công cụ giáo viên</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1bP01QQ_6NT_aOVlK-MviqYdx-ukHlgcP?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1bP01QQ_6NT_aOVlK-MviqYdx-ukHlgcP?usp=sharing" target="_blank" rel="noopener noreferrer">⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📋</div>
+          <div class="resource-main">
+            <h3>HD chuyên môn</h3>
+            <p>Hướng dẫn chuyên môn</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1fZbBHfGv10OWmiQBD_g9656PznEsTXXr?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1fZbBHfGv10OWmiQBD_g9656PznEsTXXr?usp=sharing" target="_blank" rel="noopener noreferrer">⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🎓</div>
+          <div class="resource-main">
+            <h3>Tài liệu bồi dưỡng</h3>
+            <p>Tài liệu bồi dưỡng</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1I3xMoOH-h36TPD1WEW_V02QrJuHITg18?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1I3xMoOH-h36TPD1WEW_V02QrJuHITg18?usp=sharing" target="_blank" rel="noopener noreferrer">⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📚</div>
+          <div class="resource-main">
+            <h3>Tài liệu khác</h3>
+            <p>Tài liệu tham khảo khác</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1OkuQQKQcyVm24A9t5Khp3XsVprC8c4wQ?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1OkuQQKQcyVm24A9t5Khp3XsVprC8c4wQ?usp=sharing" target="_blank" rel="noopener noreferrer">⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">⚖️</div>
+          <div class="resource-main">
+            <h3>Văn bản GD</h3>
+            <p>Văn bản giáo dục</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/16wRC6qSZLGfnoeHLdoZh_RRa6Vk3OEmM?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/16wRC6qSZLGfnoeHLdoZh_RRa6Vk3OEmM?usp=sharing" target="_blank" rel="noopener noreferrer">⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Thư viện ảnh" class="content-section" data-section="Thư viện ảnh">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>🖼️ Thư viện ảnh</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        <article class="resource-card">
+          <div class="resource-icon">🖼️</div>
+          <div class="resource-main">
+            <h3>Ảnh HD</h3>
+            <p>Ảnh học liệu/HD</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1niKNF_pSzbXhunQw59GS6Rk49kri_4uu?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1niKNF_pSzbXhunQw59GS6Rk49kri_4uu?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🏫</div>
+          <div class="resource-main">
+            <h3>Ảnh lớp học</h3>
+            <p>Ảnh hoạt động lớp học</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1TqLVMmsbMjyi6p6b8YbQMJdy6hWJoA0f?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1TqLVMmsbMjyi6p6b8YbQMJdy6hWJoA0f?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🏫</div>
+          <div class="resource-main">
+            <h3>Ảnh HD của trường</h3>
+            <p>Ảnh hoạt động của trường</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1lHHtEPzjD3VuhznmNiLXwEfI6mdnvYNC?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1lHHtEPzjD3VuhznmNiLXwEfI6mdnvYNC?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Video" class="content-section" data-section="Video">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>🎬 Video</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        <article class="resource-card">
+          <div class="resource-icon">🎥</div>
+          <div class="resource-main">
+            <h3>Video bài dạy</h3>
+            <p>Video bài dạy</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1cSlAiJ18yM89hzkGpvp1CTsktl9Xt8U7?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1cSlAiJ18yM89hzkGpvp1CTsktl9Xt8U7?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">🎬</div>
+          <div class="resource-main">
+            <h3>Video hướng dẫn</h3>
+            <p>Video hướng dẫn</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1trfYG5amgXfy-D8p79NcQJQ6SF6G7Lfx?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1trfYG5amgXfy-D8p79NcQJQ6SF6G7Lfx?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+        <article class="resource-card">
+          <div class="resource-icon">📹</div>
+          <div class="resource-main">
+            <h3>Video khác</h3>
+            <p>Các video khác</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/13DwDthkvFvuf_AOScyS_bk1EROEwr7ae?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/13DwDthkvFvuf_AOScyS_bk1EROEwr7ae?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Bài viết" class="content-section" data-section="Bài viết">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>📰 Bài viết</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">📰</div>
+          <div class="resource-main">
+            <h3>Bài viết</h3>
+            <p>Kho bài viết</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/12ubYEtEVoYQoyuQRTKIfp3GTgD1Cuk_S?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/12ubYEtEVoYQoyuQRTKIfp3GTgD1Cuk_S?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Dữ liệu" class="content-section" data-section="Dữ liệu">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>🗃️ Dữ liệu</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">🗃️</div>
+          <div class="resource-main">
+            <h3>Dữ liệu</h3>
+            <p>Kho dữ liệu</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/1D8qfvrN7eAx1Hbvm2vzic_pf5JgDI8No?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/1D8qfvrN7eAx1Hbvm2vzic_pf5JgDI8No?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="section-Kho học liệu" class="content-section" data-section="Kho học liệu">
+      <div class="section-head">
+        <span class="section-title-icon"></span>
+        <div>
+          <h2>🏛️ Kho học liệu</h2>
+          <p>Chọn nội dung cần truy cập. Nút <b>Xem</b> và <b>Tải</b> mở trực tiếp liên kết Google Drive đã cung cấp.</p>
+        </div>
+      </div>
+      <div class="resource-grid">
+        
+        <article class="resource-card">
+          <div class="resource-icon">🏛️</div>
+          <div class="resource-main">
+            <h3>Kho học liệu tổng hợp</h3>
+            <p>Mở kho</p>
+            <div class="actions">
+              <a class="btn btn-view" href="https://drive.google.com/drive/folders/11FMh9uCmWHgMDkbNrYA5ujXNaaSWUdNR?usp=sharing" target="_blank" rel="noopener noreferrer">👁️ Xem</a>
+              <a class="btn btn-download" href="https://drive.google.com/drive/folders/11FMh9uCmWHgMDkbNrYA5ujXNaaSWUdNR?usp=sharing" target="_blank" rel="noopener noreferrer" download>⬇️ Tải</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+</main>
 
-        </section>
-
-    </main>
-
-
-    <!-- =========================
-         FOOTER
-    ========================== -->
-
-    <footer>
-
-        <strong>
-            GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG
-        </strong>
-
-        <p>
-            Hệ thống học liệu Tiểu học · GDPT 2018 · Năm học 2026–2027
-        </p>
-
-        <p>
-            © 2026 Lê Văn Hoàng
-        </p>
-
-    </footer>
-
+<footer>© 2026 GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG · Google Drive</footer>
+<script src="script.js"></script>
 </body>
 </html>

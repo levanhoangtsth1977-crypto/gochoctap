@@ -1,0 +1,24 @@
+BẢN KIỂM TRA GOCHOCTAP MASTER 2026
+=================================
+Cơ sở: file index.html mẫu được cung cấp.
+Nguyên tắc: giữ nguyên giao diện/cấu trúc; chỉ bổ sung 6 mục vào menu Tài liệu.
+
+6 MỤC BỔ SUNG:
+- Biểu mẫu: https://drive.google.com/drive/folders/1quLFnOSJ2QFrXwE7Q_Xz9dAJ3YNyoJFA?usp=sharing
+- Công cụ GV: https://drive.google.com/drive/folders/1bP01QQ_6NT_aOVlK-MviqYdx-ukHlgcP?usp=sharing
+- HD chuyên môn: https://drive.google.com/drive/folders/1fZbBHfGv10OWmiQBD_g9656PznEsTXXr?usp=sharing
+- Tài liệu bồi dưỡng: https://drive.google.com/drive/folders/1I3xMoOH-h36TPD1WEW_V02QrJuHITg18?usp=sharing
+- Tài liệu khác: https://drive.google.com/drive/folders/1OkuQQKQcyVm24A9t5Khp3XsVprC8c4wQ?usp=sharing
+- Văn bản GD: https://drive.google.com/drive/folders/16wRC6qSZLGfnoeHLdoZh_RRa6Vk3OEmM?usp=sharing
+
+THƯ VIỆN ẢNH:
+- Ảnh HD: https://drive.google.com/drive/folders/1niKNF_pSzbXhunQw59GS6Rk49kri_4uu?usp=sharing
+- Ảnh lớp học: https://drive.google.com/drive/folders/1TqLVMmsbMjyi6p6b8YbQMJdy6hWJoA0f?usp=sharing
+- Ảnh HD của trường: https://drive.google.com/drive/folders/1lHHtEPzjD3VuhznmNiLXwEfI6mdnvYNC?usp=sharing
+
+VIDEO:
+- Video bài dạy: https://drive.google.com/drive/folders/1cSlAiJ18yM89hzkGpvp1CTsktl9Xt8U7?usp=sharing
+- Video hướng dẫn: https://drive.google.com/drive/folders/1trfYG5amgXfy-D8p79NcQJQ6SF6G7Lfx?usp=sharing
+- Video khác: https://drive.google.com/drive/folders/13DwDthkvFvuf_AOScyS_bk1EROEwr7ae?usp=sharing
+
+Kết luận: Các link mới dùng trực tiếp URL Google Drive; không qua trang trung gian.
