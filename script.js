@@ -1,36 +1,82 @@
 const buttons = [...document.querySelectorAll('.nav-btn')];
 const sections = [...document.querySelectorAll('.content-section')];
 
-function showSection(target, updateHash=true){
-  buttons.forEach(b => b.classList.toggle('active', b.dataset.target === target));
-  sections.forEach(s => s.classList.toggle('active', s.dataset.section === target));
-  if(updateHash){
-    history.replaceState(null, '', target === 'home' ? location.pathname : '#' + encodeURIComponent(target));
+function sectionTargetFromHash(){
+  return decodeURIComponent(location.hash.replace(/^#/, ''));
+}
+
+function showSection(target, updateHistory=false){
+  const safeTarget = buttons.some(b => b.dataset.target === target) ? target : 'home';
+  buttons.forEach(b => b.classList.toggle('active', b.dataset.target === safeTarget));
+  sections.forEach(s => s.classList.toggle('active', s.dataset.section === safeTarget));
+
+  if(updateHistory){
+    const newUrl = safeTarget === 'home'
+      ? location.pathname + location.search
+      : location.pathname + location.search + '#' + encodeURIComponent(safeTarget);
+    history.pushState({section: safeTarget}, '', newUrl);
   }
+
   const topbar = document.querySelector('.topbar');
   window.scrollTo({top: topbar ? topbar.offsetHeight : 0, behavior:'smooth'});
+  closeMobileMenu();
+}
+
+function createNavigationControls(){
+  sections.forEach(section => {
+    if(section.dataset.section === 'home' || section.querySelector('.section-navigation')) return;
+
+    const nav = document.createElement('div');
+    nav.className = 'section-navigation';
+    nav.setAttribute('aria-label', 'Điều hướng trang');
+    nav.innerHTML = `
+      <button type="button" class="page-back-btn" aria-label="Quay lại trang trước">
+        <span aria-hidden="true">←</span> Quay lại
+      </button>
+      <button type="button" class="page-home-btn" aria-label="Về trang chủ">
+        <span aria-hidden="true">🏠</span> Trang chủ
+      </button>
+    `;
+
+    section.insertBefore(nav, section.firstElementChild);
+
+    nav.querySelector('.page-back-btn').addEventListener('click', () => {
+      if(location.hash){
+        history.back();
+      }else{
+        showSection('home', true);
+      }
+    });
+
+    nav.querySelector('.page-home-btn').addEventListener('click', () => {
+      if(section.dataset.section === 'home') return;
+      showSection('home', true);
+    });
+  });
 }
 
 buttons.forEach(btn => btn.addEventListener('click', () => {
-  showSection(btn.dataset.target);
-  closeMobileMenu();
+  showSection(btn.dataset.target, true);
 }));
 
-const hash = decodeURIComponent(location.hash.replace(/^#/, ''));
-const valid = buttons.some(b => b.dataset.target === hash);
-showSection(valid ? hash : 'home', false);
+window.addEventListener('popstate', () => {
+  const hash = sectionTargetFromHash();
+  showSection(hash || 'home', false);
+});
+
+const initialHash = sectionTargetFromHash();
+history.replaceState({section: initialHash || 'home'}, '', location.href);
+showSection(initialHash || 'home', false);
+createNavigationControls();
 
 /* ============================================================
    MOBILE MENU — RESPONSIVE HAMBURGER
-   Không thay đổi hệ thống điều hướng hiện tại; chỉ bổ sung
-   lớp giao diện mobile cho menu đang có trong index.html.
    ============================================================ */
 (function initMobileMenu(){
   const topbar = document.querySelector('.topbar');
   const menu = document.querySelector('.menu');
   if (!topbar || !menu) return;
 
-  // Tránh tạo trùng nếu script được tải lại.
   if (document.getElementById('mobileMenuToggle')) return;
 
   const toggle = document.createElement('button');
@@ -52,7 +98,6 @@ showSection(valid ? hash : 'home', false);
   close.setAttribute('aria-label', 'Đóng menu');
   close.innerHTML = '×';
 
-  // Đặt nút trong topbar và overlay trước menu để menu vẫn giữ nguyên DOM.
   topbar.appendChild(toggle);
   topbar.appendChild(overlay);
   menu.appendChild(close);
@@ -83,12 +128,10 @@ showSection(valid ? hash : 'home', false);
   close.addEventListener('click', window.closeMobileMenu);
   overlay.addEventListener('click', window.closeMobileMenu);
 
-  // ESC đóng menu trên thiết bị có bàn phím.
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape') window.closeMobileMenu();
   });
 
-  // Khi quay về màn hình desktop, đảm bảo trạng thái mobile được reset.
   window.addEventListener('resize', () => {
     if (window.innerWidth > 620) window.closeMobileMenu();
   });
