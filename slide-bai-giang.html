@@ -1,105 +1,30 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kho Giáo Án - Góc Học Tập Thầy Lê Văn Hoàng</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f3f4f6; color: #333; line-height: 1.6; font-size: 16px; }
-        
-        .top-bar { background-color: #1e293b; color: #cbd5e1; font-size: 14px; padding: 14px 24px; display: flex; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .top-bar-left { font-weight: 600; font-size: 15px; letter-spacing: 0.5px; }
-        .top-bar-right { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
-        .top-bar a { color: #cbd5e1; text-decoration: none; padding: 8px 10px; border-radius: 6px; transition: background 0.2s, color 0.2s; display: inline-flex; align-items: center; gap: 6px; font-weight: 500; }
-        .top-bar a:hover, .top-bar a.active { background-color: rgba(255, 255, 255, 0.15); color: #ffffff; }
-        
-        header { background-color: #0f172a; color: #ffffff; padding: 20px 24px; font-weight: bold; font-size: 24px; display: flex; align-items: center; gap: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-        header i { color: #34d399; font-size: 28px; }
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 16px; }
-        .card { background: #ffffff; padding: 28px; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .banner { background-color: #eff6ff; border-left: 4px solid #2563eb; padding: 14px 16px; color: #1e40af; font-size: 15px; border-radius: 4px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-        
-        .content-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 24px; }
-        .item-card { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
-        .item-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: #cbd5e1; }
-        .item-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
-        .item-icon { font-size: 24px; }
-        .item-header h4 { font-size: 16px; color: #1e293b; text-transform: uppercase; }
-        .item-card p { font-size: 13px; color: #64748b; margin-bottom: 16px; flex-grow: 1; }
-        
-        .btn-group { display: flex; gap: 8px; margin-top: auto; border-top: 1px solid #f1f5f9; padding-top: 14px; }
-        .btn { flex: 1; padding: 10px 4px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 6px; transition: background 0.2s; text-decoration: none; white-space: nowrap; }
-        .btn-orange { background: #f97316; } .btn-orange:hover { background: #ea580c; }
-        .btn-blue { background: #2563eb; } .btn-blue:hover { background: #1d4ed8; }
-        
-        .icon-toan { color: #d97706; } .icon-tv { color: #2563eb; } .icon-kh { color: #059669; } .icon-lsdi { color: #dc2626; } .icon-hdtn { color: #9333ea; } .icon-dd { color: #db2777; } .icon-cn { color: #15803d; }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kho Bài Giảng - Góc Học Tập Thầy Lê Văn Hoàng</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{box-sizing:border-box}body{font-family:'Segoe UI',Arial,sans-serif;background:#f3f4f6;color:#333;line-height:1.6;margin:0}.top-bar{background:#1e293b;color:#cbd5e1;font-size:14px;padding:12px 18px;display:flex;justify-content:flex-start;align-items:center;gap:8px;flex-wrap:wrap}.top-bar a{color:#cbd5e1;text-decoration:none;padding:7px 9px;border-radius:7px;display:inline-flex;align-items:center;gap:5px}.top-bar a:hover,.top-bar a.active{background:#2563eb;color:#fff}.backbar{max-width:1100px;margin:12px auto 0;padding:0 16px;display:flex;justify-content:space-between;gap:8px}.backbar a{background:#fff;color:#24446f;border:1px solid #d9e2f0;border-radius:10px;padding:9px 13px;text-decoration:none;font-weight:800;font-size:13px;box-shadow:0 3px 10px rgba(30,55,90,.07)}header{background:#0f172a;color:#fff;padding:20px 24px;font-weight:bold;font-size:24px;display:flex;align-items:center;gap:12px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1)}header i{color:#34d399;font-size:28px}.container{max-width:1100px;margin:24px auto;padding:0 16px}.card{background:#fff;padding:28px;border-radius:10px;border:1px solid #e5e7eb;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,.05)}.banner{background:#eff6ff;border-left:4px solid #2563eb;padding:14px 16px;color:#1e40af;border-radius:5px;font-weight:600;display:flex;align-items:center;gap:8px}.content-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}.item-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px;display:flex;flex-direction:column;transition:.2s}.item-card:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(0,0,0,.08)}.item-header{display:flex;align-items:center;gap:12px;margin-bottom:10px;border-bottom:1px solid #f1f5f9;padding-bottom:10px}.item-icon{font-size:24px}.item-header h4{font-size:16px;color:#1e293b;text-transform:uppercase}.item-card p{font-size:13px;color:#64748b;margin-bottom:16px;flex-grow:1}.btn-group{display:flex;gap:8px;margin-top:auto;border-top:1px solid #f1f5f9;padding-top:14px}.btn{flex:1;padding:10px 4px;border-radius:7px;font-size:13px;font-weight:700;color:#fff;display:flex;justify-content:center;align-items:center;gap:6px;text-decoration:none}.btn-blue{background:#2563eb}.btn-blue:hover{background:#1d4ed8}.icon-toan{color:#d97706}.icon-tv{color:#2563eb}.icon-kh{color:#059669}.icon-lsdi{color:#dc2626}.icon-hdtn{color:#9333ea}.icon-dd{color:#db2777}.icon-cn{color:#15803d}@media(max-width:620px){.top-bar{padding:8px 10px}.top-bar a{font-size:12px;padding:7px}.top-bar a:nth-child(n+6){display:none}header{font-size:18px;padding:16px}.backbar{margin-top:8px;padding:0 10px}.backbar a{font-size:12px}.container{margin:15px auto;padding:0 10px}.card{padding:18px}.content-grid{grid-template-columns:1fr}.item-card{padding:16px}}
+</style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="top-bar-left">
-            <i class="fa-solid fa-graduation-cap" style="color:#34d399; margin-right: 6px;"></i> HỆ THỐNG QUẢN LÝ HỌC LIỆU TIỂU HỌC
-        </div>
-        <div class="top-bar-right">
-            <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
-            <a href="giao-an.html" class="active"><i class="fa-solid fa-folder-open"></i> Giáo án</a>
-            <a href="slide-bai-giang.html"><i class="fa-solid fa-file-powerpoint"></i> Bài giảng</a>
-            <a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a>
-            <a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a>
-            <a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a>
-            <a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a>
-            <a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
-            <a href="hoi-ai.html" style="background-color: #2563eb; color: white;"><i class="fa-solid fa-wand-magic-sparkles"></i> Hỏi AI</a>
-        </div>
-    </div>
-
-    <header>
-        <i class="fa-solid fa-book-open"></i>
-        <span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span>
-    </header>
-
-    <div class="container">
-        <div class="card">
-            <h2 style="font-size: 24px; color: #0f172a; margin-bottom: 8px;">📚 Kho Học Liệu Lớp 5 - Kết Nối Tri Thức</h2>
-            <p style="font-size: 15px; color: #64748b; margin-bottom: 16px;">Hệ thống kế hoạch bài dạy và tài liệu chuẩn theo Công văn 2345/BGDĐT.</p>
-            <div class="banner">
-                <i class="fa-solid fa-bolt"></i> Bấm vào môn học bên dưới để mở trực tiếp kho tài liệu Google Drive tương ứng.
-            </div>
-        </div>
-        
-        <div class="content-grid" id="gridContainer"></div>
-    </div>
-
-    <script>
-        // Danh sách các môn học và đường link Google Drive tương ứng của từng môn
-        const folders = [
-            { name: 'Toán', icon: 'fa-calculator', class: 'icon-toan', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Tiếng Việt', icon: 'fa-book', class: 'icon-tv', link: 'https://drive.google.com/drive/folders/1r2xvXn4WJcilYQ0093mceThGemRQAnP' },
-            { name: 'Khoa học', icon: 'fa-flask', class: 'icon-kh', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }, // Ông chủ có thể thay link Drive môn Khoa học vào đây
-            { name: 'Lịch sử & Địa lí', icon: 'fa-earth-americas', class: 'icon-lsdi', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }, // Ông chủ thay link Lịch sử Địa lí vào đây
-            { name: 'HDTN', icon: 'fa-users', class: 'icon-hdtn', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Đạo đức', icon: 'fa-handshake', class: 'icon-dd', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' },
-            { name: 'Công nghệ', icon: 'fa-microchip', class: 'icon-cn', link: 'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NNXxjkuXAjOtgT9rtv' }
-        ];
-
-        const grid = document.getElementById('gridContainer');
-        folders.forEach(sub => {
-            grid.innerHTML += `
-                <div class="item-card">
-                    <div class="item-header">
-                        <i class="fa-solid ${sub.icon} item-icon ${sub.class}"></i>
-                        <h4>${sub.name} 5</h4>
-                    </div>
-                    <p>Trọn bộ học liệu môn ${sub.name} lớp 5 (Từ Tuần 1 đến Tuần 35).</p>
-                    <div class="btn-group">
-                        <a href="${sub.link}" target="_blank" class="btn btn-orange"><i class="fa-solid fa-download"></i> Tải Lên</a>
-                        <a href="${sub.link}" target="_blank" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Thư Mục</a>
-                    </div>
-                </div>
-            `;
-        });
-    </script>
-</body>
-</html>
+<div class="top-bar">
+<a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a><a href="giao-an.html"><i class="fa-solid fa-folder-open"></i> Giáo án</a><a href="slide-bai-giang.html" class="active"><i class="fa-solid fa-file-powerpoint"></i> Bài giảng</a><a href="de-kiem-tra.html"><i class="fa-solid fa-file-pen"></i> Đề kiểm tra</a><a href="phieu-hoc-tap.html"><i class="fa-solid fa-file-lines"></i> Phiếu học tập</a><a href="tai-lieu.html"><i class="fa-solid fa-book"></i> Tài liệu</a><a href="thu-vien-anh.html"><i class="fa-solid fa-images"></i> Thư viện ảnh</a><a href="lien-he.html"><i class="fa-solid fa-envelope"></i> Liên hệ</a>
+</div>
+<div class="backbar"><a href="javascript:history.back()">← Quay lại</a><a href="index.html">🏠 Trang chủ</a></div>
+<header><i class="fa-solid fa-book-open"></i><span>GÓC HỌC TẬP – THẦY LÊ VĂN HOÀNG</span></header>
+<div class="container"><div class="card"><h2 style="font-size:24px;color:#0f172a;margin:0 0 8px">📚 Kho Bài Giảng Lớp 5 - Kết Nối Tri Thức</h2><p style="font-size:15px;color:#64748b;margin-bottom:16px">Mở trực tiếp kho Google Drive của từng môn học.</p><div class="banner"><i class="fa-solid fa-bolt"></i> Chọn <b>Mở Kho</b> để truy cập đúng thư mục học liệu.</div></div><div class="content-grid" id="gridContainer"></div></div>
+<script>
+const folders=[
+{name:'Toán',icon:'fa-calculator',class:'icon-toan',link:'https://drive.google.com/drive/folders/12oMXGzn6wAMbPr5NXxjkuxAjOtgT9rtv?usp=sharing'},
+{name:'Tiếng Việt',icon:'fa-book',class:'icon-tv',link:'https://drive.google.com/drive/folders/1r2xvXn4WJciIYQ00g93mceThGemRQANp?usp=sharing'},
+{name:'Khoa học',icon:'fa-flask',class:'icon-kh',link:'https://drive.google.com/drive/folders/1ex_t0W3OzOOxYd981-F5Kk4rB7pOFGgU?usp=sharing'},
+{name:'Lịch sử & Địa lí',icon:'fa-earth-americas',class:'icon-lsdi',link:'https://drive.google.com/drive/folders/1SmjF8XWwPUIVgBBRmpqJ_197j01__aqJ?usp=sharing'},
+{name:'Hoạt động trải nghiệm',icon:'fa-users',class:'icon-hdtn',link:'https://drive.google.com/drive/folders/1FAzA8V1ZFir_BrwNjsl1gK9giJvrYM2x?usp=sharing'},
+{name:'Đạo đức',icon:'fa-handshake',class:'icon-dd',link:'https://drive.google.com/drive/folders/1csmwmGcAHCHOk8faGuSOIM4Mj0PVyhw3?usp=sharing'},
+{name:'Công nghệ',icon:'fa-microchip',class:'icon-cn',link:'https://drive.google.com/drive/folders/1iB3fgdSWjU5hZitashNDDAvNXEBakKQt?usp=sharing'}
+];
+const grid=document.getElementById('gridContainer');folders.forEach(sub=>{grid.insertAdjacentHTML('beforeend',`<div class="item-card"><div class="item-header"><i class="fa-solid ${sub.icon} item-icon ${sub.class}"></i><h4>${sub.name} 5</h4></div><p>Kho học liệu môn ${sub.name} lớp 5.</p><div class="btn-group"><a href="${sub.link}" target="_blank" rel="noopener noreferrer" class="btn btn-blue"><i class="fa-solid fa-folder-open"></i> Mở Kho</a></div></div>`)});
+</script>
+</body></html>
