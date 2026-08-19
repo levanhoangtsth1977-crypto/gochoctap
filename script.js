@@ -1,125 +1,136 @@
 document.addEventListener('DOMContentLoaded', () => {
   const buttons = [...document.querySelectorAll('.nav-btn')];
   const sections = [...document.querySelectorAll('.content-section')];
-  const NAV_KEY = 'gochoctap_navigation_stack_v1';
+  const NAV_KEY = 'gochoctap_navigation_stack_v2';
   let navigationStack = [];
 
   try {
     const saved = JSON.parse(sessionStorage.getItem(NAV_KEY) || '[]');
     if (Array.isArray(saved)) navigationStack = saved.filter(Boolean);
-  } catch (_) {
-    navigationStack = [];
-  }
+  } catch (_) {}
+
+  const isValidTarget = target => buttons.some(b => b.dataset.target === target);
+  const normalizeTarget = target => isValidTarget(target) ? target : 'home';
+  const currentTarget = () => navigationStack[navigationStack.length - 1] || 'home';
 
   function persistNavigation(){
     try { sessionStorage.setItem(NAV_KEY, JSON.stringify(navigationStack)); } catch (_) {}
   }
 
-  function sectionTargetFromHash(){
-    return decodeURIComponent(location.hash.replace(/^#/, ''));
+  function targetFromHash(){
+    try { return decodeURIComponent(location.hash.slice(1)); } catch (_) { return ''; }
   }
 
-  function setVisibleSection(target){
-    const safeTarget = buttons.some(b => b.dataset.target === target) ? target : 'home';
-    buttons.forEach(b => b.classList.toggle('active', b.dataset.target === safeTarget));
-    sections.forEach(s => s.classList.toggle('active', s.dataset.section === safeTarget));
-    const topbar = document.querySelector('.topbar');
-    window.scrollTo({top: topbar ? topbar.offsetHeight : 0, behavior:'smooth'});
-    if(typeof window.closeMobileMenu === 'function') window.closeMobileMenu();
-    return safeTarget;
-  }
-
-  function writeUrl(target, replace=false){
-    const newUrl = target === 'home'
+  function updateUrl(target, replace=false){
+    const url = target === 'home'
       ? location.pathname + location.search
       : location.pathname + location.search + '#' + encodeURIComponent(target);
-    if(replace) history.replaceState({section: target}, '', newUrl);
-    else history.pushState({section: target}, '', newUrl);
+    if (replace) history.replaceState({section: target}, '', url);
+    else history.pushState({section: target}, '', url);
+  }
+
+  function render(target){
+    const safe = normalizeTarget(target);
+    buttons.forEach(btn => btn.classList.toggle('active', btn.dataset.target === safe));
+    sections.forEach(section => section.classList.toggle('active', section.dataset.section === safe));
+    if (typeof window.closeMobileMenu === 'function') window.closeMobileMenu();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+    return safe;
   }
 
   function openMenu(target){
-    const safeTarget = setVisibleSection(target);
-    const current = navigationStack[navigationStack.length - 1];
-    if (current !== safeTarget) navigationStack.push(safeTarget);
+    const safe = render(target);
+    if (currentTarget() !== safe) navigationStack.push(safe);
     persistNavigation();
-    writeUrl(safeTarget, false);
+    updateUrl(safe);
+    updateGlobalControls();
   }
 
   function goBack(){
     if (navigationStack.length > 1) {
       navigationStack.pop();
-      const previous = navigationStack[navigationStack.length - 1] || 'home';
+      const previous = currentTarget();
+      render(previous);
       persistNavigation();
-      setVisibleSection(previous);
-      writeUrl(previous, false);
-      return;
+      updateUrl(previous);
+      updateGlobalControls();
+    } else {
+      goHome();
     }
-    setVisibleSection('home');
-    navigationStack = ['home'];
-    persistNavigation();
-    writeUrl('home', false);
   }
 
   function goHome(){
-    setVisibleSection('home');
     navigationStack = ['home'];
+    render('home');
     persistNavigation();
-    writeUrl('home', false);
+    updateUrl('home');
+    updateGlobalControls();
   }
 
-  buttons.forEach(btn => btn.addEventListener('click', () => {
-    openMenu(btn.dataset.target);
-  }));
-
-  window.addEventListener('popstate', () => {
-    const hash = sectionTargetFromHash() || 'home';
-    const safeTarget = setVisibleSection(hash);
-    if (navigationStack[navigationStack.length - 1] !== safeTarget) {
-      navigationStack.push(safeTarget);
-      persistNavigation();
-    }
-  });
-
-  const initialHash = sectionTargetFromHash();
-  const initialTarget = buttons.some(b => b.dataset.target === initialHash) ? initialHash : 'home';
-  if (!navigationStack.length || navigationStack[navigationStack.length - 1] !== initialTarget) {
-    navigationStack = [initialTarget];
-    persistNavigation();
+  function updateGlobalControls(){
+    const controls = document.getElementById('globalNavigationControls');
+    if (!controls) return;
+    const isHome = currentTarget() === 'home';
+    controls.classList.toggle('visible', !isHome);
+    controls.setAttribute('aria-hidden', isHome ? 'true' : 'false');
   }
-  setVisibleSection(initialTarget);
-  writeUrl(initialTarget, true);
 
-  function createNavigationControls(){
+  function createGlobalControls(){
+    if (document.getElementById('globalNavigationControls')) return;
+    const controls = document.createElement('div');
+    controls.id = 'globalNavigationControls';
+    controls.className = 'global-navigation-controls';
+    controls.innerHTML = `
+      <button type="button" class="page-back-btn" id="globalBackBtn" aria-label="Quay lại menu liền trước">
+        <span aria-hidden="true">←</span> Quay lại
+      </button>
+      <button type="button" class="page-home-btn" id="globalHomeBtn" aria-label="Về trang chủ">
+        <span aria-hidden="true">🏠</span> Trang chủ
+      </button>`;
+    const topbar = document.querySelector('.topbar');
+    if (topbar) topbar.insertAdjacentElement('afterend', controls);
+    else document.body.prepend(controls);
+    controls.querySelector('#globalBackBtn').addEventListener('click', goBack);
+    controls.querySelector('#globalHomeBtn').addEventListener('click', goHome);
+  }
+
+  function createSectionControls(){
     sections.forEach(section => {
-      if(section.dataset.section === 'home' || section.querySelector('.section-navigation')) return;
-
+      if (section.dataset.section === 'home' || section.querySelector('.section-navigation')) return;
       const nav = document.createElement('div');
       nav.className = 'section-navigation';
       nav.setAttribute('aria-label', 'Điều hướng trang');
       nav.innerHTML = `
-        <button type="button" class="page-back-btn" aria-label="Quay lại menu liền trước">
-          <span aria-hidden="true">←</span> Quay lại
-        </button>
-        <button type="button" class="page-home-btn" aria-label="Về trang chủ">
-          <span aria-hidden="true">🏠</span> Trang chủ
-        </button>
-      `;
+        <button type="button" class="page-back-btn" aria-label="Quay lại menu liền trước"><span aria-hidden="true">←</span> Quay lại</button>
+        <button type="button" class="page-home-btn" aria-label="Về trang chủ"><span aria-hidden="true">🏠</span> Trang chủ</button>`;
       section.insertBefore(nav, section.firstElementChild);
       nav.querySelector('.page-back-btn').addEventListener('click', goBack);
       nav.querySelector('.page-home-btn').addEventListener('click', goHome);
     });
   }
 
-  createNavigationControls();
+  buttons.forEach(btn => btn.addEventListener('click', () => openMenu(btn.dataset.target)));
 
-  /* ============================================================
-     MOBILE MENU — RESPONSIVE HAMBURGER
-     ============================================================ */
+  window.addEventListener('popstate', () => {
+    const safe = render(targetFromHash() || 'home');
+    if (currentTarget() !== safe) navigationStack.push(safe);
+    persistNavigation();
+    updateGlobalControls();
+  });
+
+  const initial = normalizeTarget(targetFromHash() || 'home');
+  navigationStack = [initial];
+  render(initial);
+  updateUrl(initial, true);
+  createGlobalControls();
+  createSectionControls();
+  updateGlobalControls();
+
+  /* MOBILE MENU */
   (function initMobileMenu(){
     const topbar = document.querySelector('.topbar');
     const menu = document.querySelector('.menu');
-    if (!topbar || !menu) return;
-    if (document.getElementById('mobileMenuToggle')) return;
+    if (!topbar || !menu || document.getElementById('mobileMenuToggle')) return;
 
     const toggle = document.createElement('button');
     toggle.id = 'mobileMenuToggle';
@@ -162,17 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.classList.remove('mobile-menu-lock');
     };
 
-    toggle.addEventListener('click', () => {
-      if (menu.classList.contains('mobile-open')) window.closeMobileMenu();
-      else openMobileMenu();
-    });
+    toggle.addEventListener('click', () => menu.classList.contains('mobile-open') ? window.closeMobileMenu() : openMobileMenu());
     close.addEventListener('click', window.closeMobileMenu);
     overlay.addEventListener('click', window.closeMobileMenu);
-    document.addEventListener('keydown', event => {
-      if (event.key === 'Escape') window.closeMobileMenu();
-    });
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 620) window.closeMobileMenu();
-    });
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') window.closeMobileMenu(); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 620) window.closeMobileMenu(); });
   })();
 });
