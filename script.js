@@ -19,7 +19,7 @@ function showSection(target, updateHistory=false){
 
   const topbar = document.querySelector('.topbar');
   window.scrollTo({top: topbar ? topbar.offsetHeight : 0, behavior:'smooth'});
-  closeMobileMenu();
+  if(typeof window.closeMobileMenu === 'function') window.closeMobileMenu();
 }
 
 function createNavigationControls(){
@@ -49,7 +49,6 @@ function createNavigationControls(){
     });
 
     nav.querySelector('.page-home-btn').addEventListener('click', () => {
-      if(section.dataset.section === 'home') return;
       showSection('home', true);
     });
   });
