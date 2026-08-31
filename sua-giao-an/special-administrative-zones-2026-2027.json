@@ -1,0 +1,50 @@
+{
+  "standardVersion": "2026-2027.1",
+  "effectiveFrom": "2026-07-01",
+  "description": "13 đơn vị hành chính cấp xã có tên gọi đặc khu được sử dụng làm dữ liệu chuẩn cho Trang Sửa Giáo Án.",
+  "count": 13,
+  "hardRule": "AI không được tự suy đoán đặc khu; phải tra cứu danh mục này và xác định đúng tỉnh/thành phố trực thuộc cấp tỉnh hiện hành.",
+  "zones": [
+    {"name":"Vân Đồn","type":"đặc khu","provinceOrMunicipality":"Quảng Ninh"},
+    {"name":"Cô Tô","type":"đặc khu","provinceOrMunicipality":"Quảng Ninh"},
+    {"name":"Cát Hải","type":"đặc khu","provinceOrMunicipality":"Hải Phòng"},
+    {"name":"Bạch Long Vỹ","type":"đặc khu","provinceOrMunicipality":"Hải Phòng"},
+    {"name":"Trường Sa","type":"đặc khu","provinceOrMunicipality":"Khánh Hòa"},
+    {"name":"Hoàng Sa","type":"đặc khu","provinceOrMunicipality":"Đà Nẵng"},
+    {"name":"Phú Quý","type":"đặc khu","provinceOrMunicipality":"Lâm Đồng"},
+    {"name":"Kiên Hải","type":"đặc khu","provinceOrMunicipality":"An Giang"},
+    {"name":"Phú Quốc","type":"đặc khu","provinceOrMunicipality":"An Giang"},
+    {"name":"Thổ Châu","type":"đặc khu","provinceOrMunicipality":"An Giang"},
+    {"name":"Cồn Cỏ","type":"đặc khu","provinceOrMunicipality":"Quảng Trị"},
+    {"name":"Lý Sơn","type":"đặc khu","provinceOrMunicipality":"Quảng Ngãi"},
+    {"name":"Côn Đảo","type":"đặc khu","provinceOrMunicipality":"Thành phố Hồ Chí Minh"}
+  ],
+  "legacyHandling": [
+    {"pattern":"huyện đảo","action":"context_check"},
+    {"pattern":"huyện Côn Đảo","action":"flag_outdated"},
+    {"pattern":"huyện Lý Sơn","action":"flag_outdated"},
+    {"pattern":"huyện Cồn Cỏ","action":"flag_outdated"},
+    {"pattern":"huyện Cát Hải","action":"flag_outdated"},
+    {"pattern":"huyện Bạch Long Vĩ","action":"flag_outdated"},
+    {"pattern":"huyện Cô Tô","action":"flag_outdated"},
+    {"pattern":"huyện Vân Đồn","action":"flag_outdated"},
+    {"pattern":"huyện Trường Sa","action":"flag_outdated"},
+    {"pattern":"huyện Hoàng Sa","action":"flag_outdated"},
+    {"pattern":"huyện Phú Quý","action":"flag_outdated"},
+    {"pattern":"huyện Kiên Hải","action":"flag_outdated"},
+    {"pattern":"thành phố Phú Quốc","action":"context_check"},
+    {"pattern":"xã Thổ Châu thuộc thành phố Phú Quốc","action":"flag_outdated"}
+  ],
+  "validation": {
+    "mustIdentifyZoneType": true,
+    "mustIdentifyCurrentParent": true,
+    "mustUseChangeSet": true,
+    "ambiguousContextNeedsVerification": true,
+    "neverAutoRewriteWithoutEvidence": true
+  },
+  "sources": [
+    "Quyết định 759/QĐ-TTg ngày 14/04/2025 về định hướng chuyển huyện đảo, thành phố đảo thành đặc khu.",
+    "Nghị quyết sắp xếp đơn vị hành chính cấp xã năm 2025 của các tỉnh/thành phố liên quan; danh mục 13 đặc khu được hình thành sau sắp xếp.",
+    "Cập nhật đối chiếu hiện hành năm 2026."
+  ]
+}
