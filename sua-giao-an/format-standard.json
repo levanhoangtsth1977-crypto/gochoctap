@@ -1,0 +1,46 @@
+{
+  "specVersion": "1.0",
+  "name": "TRANG SỬA GIÁO ÁN - WORD FORMAT STANDARD",
+  "requiredForDocxExport": true,
+  "page": {
+    "size": "A4",
+    "marginsCm": {"top": 2.0, "bottom": 2.0, "left": 2.5, "right": 1.5}
+  },
+  "font": {
+    "body": {"name": "Times New Roman", "sizePt": 13},
+    "mainHeading": {"name": "Times New Roman", "sizePt": 14, "bold": true},
+    "sectionHeading": {"name": "Times New Roman", "sizePt": 13, "bold": true}
+  },
+  "paragraph": {
+    "lineSpacing": 1.15,
+    "normalizeSpacing": true,
+    "removeExcessBlankParagraphs": true,
+    "consistentIndentation": true
+  },
+  "tables": {
+    "preventOverflow": true,
+    "verticalAlignment": "top",
+    "bodyHorizontalAlignment": "left",
+    "defaultTwoColumnRatio": [0.5, 0.5],
+    "allowConfiguredRatio": true,
+    "keepGridStructure": true,
+    "keepCellContent": true,
+    "avoidBrokenRowsWhenPossible": true
+  },
+  "insertedContent": {
+    "italic": true,
+    "highlightWholeAddedText": true,
+    "changeLogRequired": true
+  },
+  "validation": {
+    "fileMustOpen": true,
+    "mustNotLoseParagraphs": true,
+    "mustNotLoseTables": true,
+    "mustNotLoseSupportedImages": true,
+    "mustNotOverflowPrintArea": true,
+    "mustCheckBlankPages": true,
+    "mustCheckPageBreaks": true,
+    "mustCheckOriginalPreservation": true,
+    "blockExportOnFailure": true
+  }
+}
