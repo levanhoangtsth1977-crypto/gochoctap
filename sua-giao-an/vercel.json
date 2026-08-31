@@ -1,1 +1,9 @@
-{"version":2,"builds":[{"src":"backend/app.py","use":"@vercel/python","config":{"maxLambdaSize":"15mb"}}],"routes":[{"src":"/(.*)","dest":"backend/app.py"}]}
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/**/*.py": {
+      "maxDuration": 60,
+      "excludeFiles": "{tests/**,__tests__/**,**/*.test.py,fixtures/**,sample-data/**}"
+    }
+  }
+}
