@@ -3,46 +3,64 @@ from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import FileResponse
 
-from document_engine import DocumentEngine
+from curriculum_engine import analyze_docx_bytes
 
-app = FastAPI(title="Trang Sửa Giáo Án Backend", version="0.1.0")
-engine = DocumentEngine()
+app = FastAPI(title="Trang Sửa Giáo Án Backend", version="0.2.0")
 
 ALLOWED = {".docx"}
+KB_ROOT = Path(__file__).resolve().parent.parent
+
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok", "service": "document-engine", "export": "disabled-until-validation"}
+    return {
+        "status": "ok",
+        "service": "document-engine",
+        "curriculum_engine": True,
+        "administrative_engine": True,
+        "special_zone_engine": True,
+        "mutation": False,
+        "export": "disabled-until-approval-and-validation",
+    }
+
+
+def _metadata_from_filename(filename: str) -> dict[str, str]:
+    # Metadata is intentionally conservative. Filename hints never override document content.
+    stem = Path(filename).stem if filename else ""
+    return {"subject": "", "lesson": stem, "location": "Toàn văn"}
+
 
 @app.post("/inspect")
 async def inspect(file: UploadFile = File(...)) -> dict:
-    suffix = Path(file.filename or "").suffix.lower()
+    filename = file.filename or ""
+    suffix = Path(filename).suffix.lower()
     if suffix not in ALLOWED:
-        raise HTTPException(status_code=400, detail="Chỉ nhận DOCX ở prototype hiện tại.")
-    with TemporaryDirectory() as td:
-        src = Path(td) / "source.docx"
-        out = Path(td) / "normalized.docx"
-        src.write_bytes(await file.read())
-        try:
-            result = engine.format_document(src, out)
-        except Exception as exc:
-            raise HTTPException(status_code=422, detail=f"Không thể xử lý DOCX: {exc}") from exc
-        # Prototype returns validation metadata; production API will add Change Set/AI review.
-        return result
+        raise HTTPException(status_code=400, detail="Chỉ nhận DOCX ở prototype engine hiện tại.")
+
+    data = await file.read()
+    if not data:
+        raise HTTPException(status_code=400, detail="Tệp rỗng.")
+
+    metadata = _metadata_from_filename(filename)
+    result = analyze_docx_bytes(data, metadata, KB_ROOT)
+    if not result.get("ok"):
+        raise HTTPException(status_code=422, detail=result.get("error", "Không thể phân tích DOCX."))
+
+    return {
+        "filename": filename,
+        "engine_version": "0.2.0",
+        "analysis_only": True,
+        "document": result["document"],
+        "change_sets": result["change_sets"],
+        "mutation_performed": False,
+        "next_step": "review_change_sets",
+    }
+
 
 @app.post("/format")
-async def format_doc(file: UploadFile = File(...)) -> FileResponse:
-    suffix = Path(file.filename or "").suffix.lower()
-    if suffix not in ALLOWED:
-        raise HTTPException(status_code=400, detail="Chỉ nhận DOCX ở prototype hiện tại.")
-    with TemporaryDirectory() as td:
-        src = Path(td) / "source.docx"
-        out = Path(td) / "normalized.docx"
-        src.write_bytes(await file.read())
-        result = engine.format_document(src, out)
-        if not result["export_allowed"]:
-            raise HTTPException(status_code=422, detail=result["validation"])
-        # FileResponse needs a persistent path, so this endpoint is intentionally not used for deployment yet.
-        raise HTTPException(status_code=501, detail="Export persistence chưa bật trong prototype.")
+async def format_doc(file: UploadFile = File(...)) -> dict:
+    raise HTTPException(
+        status_code=409,
+        detail="Chưa cho phép sửa/xuất tự động. Phải qua Change Set → duyệt → Document Engine → Format Engine → Validator.",
+    )
