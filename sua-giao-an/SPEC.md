@@ -1,11 +1,10 @@
 # 🛠️ TRANG SỬA GIÁO ÁN — ĐẶC TẢ CHÍNH THỨC
 
-**Phiên bản đặc tả:** 1.1  
-**Phạm vi:** Document Engine + Format Engine + AI/Rules + Validator + Export + Administrative Data Engine  
+**Phiên bản đặc tả:** 1.2  
+**Phạm vi:** Document Engine + Format Engine + AI/Rules + Validator + Export + Administrative Data Engine + Special Administrative Zone Engine  
 **Nguyên tắc:** Nội dung gốc được bảo toàn; định dạng đầu ra phải được chuẩn hóa, cân đối và kiểm tra trước khi xuất.
 
 ## 1. NGUYÊN TẮC BẤT BIẾN
-
 1. Không tự ý xóa nội dung gốc.
 2. Không rút gọn giáo án.
 3. Không viết lại toàn bộ giáo án.
@@ -16,8 +15,7 @@
 8. File gốc luôn được giữ nguyên; file xuất là một bản mới.
 
 ## 2. TIÊU CHUẨN ĐỊNH DẠNG WORD — BẮT BUỘC
-
-Format Engine **phải** áp dụng hoặc kiểm tra các chuẩn sau khi xuất DOCX:
+Format Engine **phải** áp dụng hoặc kiểm tra:
 
 | Hạng mục | Chuẩn bắt buộc |
 |---|---|
@@ -26,214 +24,106 @@ Format Engine **phải** áp dụng hoặc kiểm tra các chuẩn sau khi xuấ
 | Cỡ chữ nội dung | 13 pt |
 | Tiêu đề chính | Times New Roman, 14 pt, đậm |
 | Tiêu đề mục | Times New Roman, 13 pt, đậm |
-| Căn lề trên | 2,0 cm |
-| Căn lề dưới | 2,0 cm |
-| Căn lề trái | 2,5 cm |
-| Căn lề phải | 1,5 cm |
+| Lề trên | 2,0 cm |
+| Lề dưới | 2,0 cm |
+| Lề trái | 2,5 cm |
+| Lề phải | 1,5 cm |
 | Giãn dòng | 1,15 |
 | Khoảng cách đoạn | Đồng nhất, tránh khoảng trắng thừa |
 | Đầu dòng/indent | Đồng nhất theo cấp mục |
-| Đánh số mục | Đồng nhất, không nhảy cấp |
-| Bullet | Đồng nhất kiểu và thụt lề |
+| Đánh số/Bullet | Đồng nhất, không nhảy cấp |
 | Bảng | Không tràn lề, không méo tỷ lệ |
 | Căn dọc ô | Top |
 | Căn ngang nội dung bảng | Trái, trừ tiêu đề/ô cần căn giữa |
-| Bảng GV–HS | Cân đối chiều rộng cột, mặc định 50%–50% |
-| Chiều rộng bảng | Vừa vùng soạn thảo A4 sau khi tính lề |
+| Bảng GV–HS | Mặc định 50%–50% |
+| Chiều rộng bảng | Vừa vùng soạn thảo A4 |
 | Ngắt trang | Không để tiêu đề cô độc hoặc bảng vỡ bất hợp lý |
 | Header/Footer | Đồng nhất nếu tài liệu có sử dụng |
-| Trang mới giữa các bài | Theo cấu trúc bài/tiết, không ngắt tùy tiện |
+| Trang mới giữa các bài | Theo cấu trúc bài/tiết |
 
 ## 3. CHẾ ĐỘ CHUẨN HÓA
-
-### A. GIỮ NGUYÊN
-Chỉ sửa nội dung được phép; không can thiệp định dạng ngoài mức cần thiết.
-
-### B. CHUẨN HÓA NHẸ — MẶC ĐỊNH
-Chuẩn hóa font, cỡ chữ, lề, giãn dòng, khoảng cách đoạn, bảng và các lỗi trình bày rõ ràng nhưng giữ tối đa bố cục gốc.
-
-### C. CHUẨN HÓA TOÀN BỘ
-Đưa tài liệu về chuẩn định dạng thống nhất của hệ thống khi người dùng chủ động chọn chế độ này.
+- **A. GIỮ NGUYÊN:** chỉ sửa nội dung được phép.
+- **B. CHUẨN HÓA NHẸ — MẶC ĐỊNH:** chuẩn hóa định dạng nhưng giữ tối đa bố cục gốc.
+- **C. CHUẨN HÓA TOÀN BỘ:** chỉ thực hiện khi người dùng chủ động chọn.
 
 ## 4. CÂN ĐỐI CỘT VÀ BẢNG — BẮT BUỘC
-
-Document/Format Engine phải:
-
-- phát hiện bảng có cột quá rộng hoặc quá hẹp;
-- tính vùng soạn thảo thực tế sau khi trừ lề;
-- tự cân đối chiều rộng cột GV–HS;
-- mặc định 50%–50% cho bảng hai cột khi không có lý do rõ ràng để dùng tỷ lệ khác;
-- cho phép cấu hình tỷ lệ khác như 55%–45% nhưng phải áp dụng nhất quán trong cùng tài liệu;
-- không để chữ tràn khỏi ô;
-- hạn chế việc một hàng bị tách gây mất nghĩa khi sang trang;
-- không làm bảng vượt khổ giấy;
-- giữ đường viền, tiêu đề bảng và cấu trúc ô;
-- giữ nội dung trong ô nguyên vẹn.
+Document/Format Engine phải phát hiện cột quá rộng/hẹp, tính vùng soạn thảo sau khi trừ lề, cân đối bảng GV–HS, mặc định 50/50, cho phép tỷ lệ cấu hình như 55/45 nếu được chọn, không để chữ tràn ô, hạn chế tách hàng gây mất nghĩa, không vượt khổ giấy, giữ đường viền/cấu trúc/nội dung ô nguyên vẹn.
 
 ## 5. PHẦN NỘI DUNG AI BỔ SUNG
-
-Tất cả nội dung mới do AI/hệ thống thêm vào phải:
-
-- **in nghiêng**;
-- **tô màu toàn bộ phần được thêm**;
-- được ghi vào Change Log;
-- không được trộn lẫn khiến người dùng không nhận biết đâu là nội dung gốc.
+Tất cả nội dung mới phải **in nghiêng + tô màu toàn bộ phần được thêm**, ghi vào Change Log và không được trộn lẫn khiến người dùng không nhận biết đâu là nội dung gốc.
 
 ## 6. CƠ SỞ DỮ LIỆU HÀNH CHÍNH — BẮT BUỘC
-
-Trang Sửa Giáo Án phải sử dụng **Administrative Data Engine** thay vì để AI tự suy đoán địa giới.
+Trang Sửa Giáo Án phải dùng **Administrative Data Engine**, không cho AI tự suy đoán địa giới.
 
 ### 6.1. Chuẩn hiện hành áp dụng từ 30/04/2026
+- **34 đơn vị hành chính cấp tỉnh**.
+- **27 tỉnh + 7 thành phố trực thuộc Trung ương**.
+- Thành phố Đồng Nai là thành phố trực thuộc Trung ương thứ 7 theo Nghị quyết 30/2026/QH16, hiệu lực từ 30/04/2026.
 
-- Cả nước có **34 đơn vị hành chính cấp tỉnh**.
-- Cơ cấu hiện hành gồm **27 tỉnh + 7 thành phố trực thuộc Trung ương**.
-- **Thành phố Đồng Nai** là thành phố trực thuộc Trung ương thứ 7, được thành lập theo **Nghị quyết số 30/2026/QH16 của Quốc hội**, có hiệu lực từ **30/04/2026**.
-
-### 6.2. 7 thành phố trực thuộc Trung ương
-
-1. Thành phố Hà Nội
-2. Thành phố Hải Phòng
-3. Thành phố Huế
-4. Thành phố Đà Nẵng
-5. Thành phố Cần Thơ
-6. Thành phố Hồ Chí Minh
-7. Thành phố Đồng Nai
+### 6.2. 7 thành phố
+Hà Nội; Hải Phòng; Huế; Đà Nẵng; Cần Thơ; Thành phố Hồ Chí Minh; Đồng Nai.
 
 ### 6.3. 27 tỉnh
-
-1. Tỉnh An Giang
-2. Tỉnh Bắc Ninh
-3. Tỉnh Cà Mau
-4. Tỉnh Cao Bằng
-5. Tỉnh Đắk Lắk
-6. Tỉnh Điện Biên
-7. Tỉnh Đồng Tháp
-8. Tỉnh Gia Lai
-9. Tỉnh Hà Tĩnh
-10. Tỉnh Hưng Yên
-11. Tỉnh Khánh Hòa
-12. Tỉnh Lai Châu
-13. Tỉnh Lạng Sơn
-14. Tỉnh Lào Cai
-15. Tỉnh Lâm Đồng
-16. Tỉnh Ninh Bình
-17. Tỉnh Nghệ An
-18. Tỉnh Phú Thọ
-19. Tỉnh Quảng Ngãi
-20. Tỉnh Quảng Ninh
-21. Tỉnh Quảng Trị
-22. Tỉnh Sơn La
-23. Tỉnh Tây Ninh
-24. Tỉnh Thái Nguyên
-25. Tỉnh Thanh Hóa
-26. Tỉnh Tuyên Quang
-27. Tỉnh Vĩnh Long
+An Giang; Bắc Ninh; Cà Mau; Cao Bằng; Đắk Lắk; Điện Biên; Đồng Tháp; Gia Lai; Hà Tĩnh; Hưng Yên; Khánh Hòa; Lai Châu; Lạng Sơn; Lào Cai; Lâm Đồng; Ninh Bình; Nghệ An; Phú Thọ; Quảng Ngãi; Quảng Ninh; Quảng Trị; Sơn La; Tây Ninh; Thái Nguyên; Thanh Hóa; Tuyên Quang; Vĩnh Long.
 
 ### 6.4. Luật xử lý địa danh
+- Không tự động sửa chỉ vì địa danh xuất hiện.
+- Luôn xét **ngữ cảnh + đơn vị hành chính + thời điểm**.
+- Dữ liệu cũ phải tạo Change Set.
+- Không chuyển đổi bằng suy đoán.
+- Thiếu căn cứ → **CẦN XÁC MINH**, không tự sửa.
 
-- Không tự động sửa chỉ vì địa danh xuất hiện trong giáo án.
-- Phải xác định **ngữ cảnh + đơn vị hành chính + thời điểm áp dụng**.
-- Khi phát hiện dữ liệu cũ, phải tạo Change Set.
-- Không được chuyển đổi tên địa danh bằng suy đoán ngôn ngữ.
-- Nếu không đủ căn cứ, đánh dấu **CẦN XÁC MINH** và không tự sửa.
-- Với giáo án năm học 2026–2027, ưu tiên bộ dữ liệu hành chính có hiệu lực tại thời điểm sử dụng.
+## 7. ĐẶC KHU — BẮT BUỘC ĐỐI CHIẾU
+Trang Sửa Giáo Án phải dùng **Special Administrative Zone Engine**. Bộ chuẩn gồm **13 đặc khu**:
 
-### 6.5. Ví dụ kiểm thử bắt buộc
+| Đặc khu | Đơn vị cấp tỉnh hiện hành |
+|---|---|
+| Vân Đồn | Quảng Ninh |
+| Cô Tô | Quảng Ninh |
+| Cát Hải | Hải Phòng |
+| Bạch Long Vĩ | Hải Phòng |
+| Trường Sa | Khánh Hòa |
+| Hoàng Sa | Đà Nẵng |
+| Phú Quý | Lâm Đồng |
+| Kiên Hải | An Giang |
+| Phú Quốc | An Giang |
+| Thổ Châu | An Giang |
+| Cồn Cỏ | Quảng Trị |
+| Lý Sơn | Quảng Ngãi |
+| Côn Đảo | Thành phố Hồ Chí Minh |
 
-- **63 tỉnh, thành phố** → phải phát hiện là dữ liệu cũ.
-- **5 thành phố trực thuộc Trung ương** → phải phát hiện là dữ liệu cũ.
-- **28 tỉnh + 6 thành phố** → phải phát hiện là cơ cấu trước khi Đồng Nai trở thành thành phố trực thuộc Trung ương.
-- **Tỉnh Đồng Nai** trong ngữ cảnh cấp tỉnh hiện hành → phải cảnh báo/sửa thành **Thành phố Đồng Nai** khi phù hợp ngữ cảnh và thời điểm.
+### 7.1. Luật xử lý đặc khu
+- Ghi đúng **đặc khu** thì không sửa máy móc.
+- Gặp cách gọi cũ như **huyện đảo** thay cho đặc khu hiện hành thì phải phát hiện và tạo Change Set khi ngữ cảnh nói về đơn vị hành chính hiện hành.
+- Phải xác định đúng **đặc khu + tỉnh/thành phố cấp tỉnh hiện hành**.
+- Không tự suy đoán địa danh đảo là đặc khu.
+- Địa danh có thể là vùng địa lý/đảo/đơn vị hành chính → phải xét ngữ cảnh.
+- Thiếu căn cứ → **CẦN XÁC MINH**.
 
-## 7. DOCUMENT ENGINE
+### 7.2. Mẫu cũ phải phát hiện
+“huyện Côn Đảo”, “huyện Lý Sơn”, “huyện Cồn Cỏ”, “huyện Cát Hải”, “huyện Bạch Long Vĩ”, “huyện Cô Tô”, “huyện Vân Đồn”, “huyện Trường Sa”, “huyện Hoàng Sa”, “huyện Phú Quý”, “huyện Kiên Hải” → kiểm tra để chuyển sang **đặc khu** khi phù hợp ngữ cảnh và thời điểm. “huyện Phú Quốc”, “thành phố Phú Quốc” và “xã Thổ Châu thuộc thành phố Phú Quốc” → **kiểm tra ngữ cảnh**, không thay thế máy móc.
 
-Document Engine phải đọc và bảo toàn tối đa:
+## 8. DOCUMENT ENGINE
+Phải bảo toàn tối đa paragraph, run/character formatting, heading/style, table/row/cell, ảnh, header/footer, page break, section, numbering/bullets, hyperlinks/chú thích khi công nghệ hỗ trợ. Không dùng plain-text rebuild làm phương án mặc định.
 
-- paragraph;
-- run và character formatting;
-- heading/style;
-- table/row/cell;
-- ảnh và vị trí ảnh khi có thể;
-- header/footer;
-- page break;
-- section;
-- numbering/bullets;
-- hyperlinks và chú thích khi công nghệ xử lý hỗ trợ.
+## 9. AI + RULE ENGINE
+AI chỉ phân tích và tạo đề xuất/Change Set. Rule Engine quyết định đề xuất được phép thực thi. AI không ghi trực tiếp vào DOCX khi chưa qua Rule Engine.
 
-Không dùng thao tác "chuyển toàn bộ văn bản thành plain text rồi tạo Word mới" làm phương án mặc định, vì có nguy cơ phá bố cục và định dạng gốc.
+## 10. VALIDATOR — BẮT BUỘC TRƯỚC KHI XUẤT
+Kiểm tra file mở được, không mất đoạn/bảng/nội dung ô/hình hỗ trợ, section hợp lệ, font/cỡ/lề/giãn dòng, bảng không tràn, cột không méo, trang trắng, page break, trạng thái Change Set, bản gốc độc lập, dữ liệu hành chính và đặc khu. Không đạt → **không cho xuất**.
 
-## 8. AI + RULE ENGINE
+## 11. ĐẦU RA
+DOCX sau sửa + chuẩn hóa; ZIP cả tuần; giáo án điện tử; CHANGE_LOG; tên file đầu ra có hậu tố rõ ràng và không ghi đè bản gốc.
 
-AI chỉ được **phân tích và tạo đề xuất/Change Set**. Rule Engine quyết định đề xuất nào được phép thực thi.
+## 12. LUỒNG CHUẨN
+FILE GỐC → DOCUMENT PARSER → CONTENT PROTECTION → AI ANALYZER → ADMINISTRATIVE DATA ENGINE → SPECIAL ADMINISTRATIVE ZONE ENGINE → RULE ENGINE → CHANGE SET → USER REVIEW/AUTO APPROVAL THEO LUẬT → DOCUMENT ENGINE → FORMAT ENGINE → LAYOUT VALIDATOR → EXPORT.
 
-AI không được phép tự ghi trực tiếp vào DOCX khi chưa qua Rule Engine.
+## 13. TIÊU CHÍ NGHIỆM THU
+**Đúng nội dung được duyệt + bảo toàn nội dung không liên quan + đúng định dạng chuẩn + bảng/cột cân đối + dữ liệu hành chính đúng thời điểm + đặc khu đúng loại đơn vị và đúng cấp tỉnh + Validator đạt + có Change Log.**
 
-## 9. VALIDATOR — ĐIỀU KIỆN BẮT BUỘC TRƯỚC KHI XUẤT
+**Format Engine, Administrative Data Engine và Special Administrative Zone Engine là tiêu chuẩn bắt buộc.**
 
-Validator phải kiểm tra tối thiểu:
-
-- file mở được;
-- không mất đoạn văn;
-- không mất bảng;
-- không mất nội dung trong bảng;
-- không mất hình/đối tượng được hỗ trợ;
-- số section hợp lệ;
-- font/cỡ chữ/lề/giãn dòng theo cấu hình;
-- bảng không tràn vùng in;
-- cột không méo;
-- không tạo trang trắng bất thường;
-- các Change Set đã được duyệt hoặc loại bỏ theo trạng thái;
-- bản gốc và bản xuất tồn tại độc lập;
-- dữ liệu hành chính được kiểm tra theo Administrative Data Engine.
-
-Nếu Validator không đạt, **không cho phép nút Xuất hoàn tất**.
-
-## 10. ĐẦU RA
-
-Hệ thống phải hỗ trợ:
-
-- `DOCX` giáo án sau sửa và chuẩn hóa;
-- `ZIP` chứa toàn bộ giáo án của một tuần;
-- giáo án điện tử theo định dạng được hỗ trợ;
-- `CHANGE_LOG` ghi toàn bộ thay đổi;
-- tên file đầu ra có hậu tố rõ ràng, không ghi đè file gốc.
-
-## 11. LUỒNG CHUẨN
-
-```text
-FILE GỐC
-  ↓
-DOCUMENT PARSER
-  ↓
-CONTENT PROTECTION
-  ↓
-AI ANALYZER
-  ↓
-ADMINISTRATIVE DATA ENGINE
-  ↓
-RULE ENGINE
-  ↓
-CHANGE SET
-  ↓
-USER REVIEW / AUTO APPROVAL THEO LUẬT
-  ↓
-DOCUMENT ENGINE
-  ↓
-FORMAT ENGINE ⭐ BẮT BUỘC
-  ↓
-LAYOUT VALIDATOR
-  ↓
-EXPORT DOCX / ZIP / HTML
-```
-
-## 12. TIÊU CHÍ NGHIỆM THU
-
-Một bản xuất chỉ được coi là **ĐẠT** khi đồng thời đạt:
-
-**Đúng nội dung được duyệt + bảo toàn nội dung không liên quan + đúng định dạng chuẩn + bảng/cột cân đối + dữ liệu hành chính đúng thời điểm + Validator đạt + có Change Log.**
-
-**Format Engine và Administrative Data Engine không phải chức năng tùy chọn khi xuất DOCX; đây là tiêu chuẩn bắt buộc của hệ thống.**
-
-### Nguồn pháp lý/đối chiếu hiện hành
-- Nghị quyết số **30/2026/QH16** của Quốc hội về việc thành lập thành phố Đồng Nai, có hiệu lực từ **30/04/2026**.
-- Cổng TTĐT Chính phủ, thông tin về cơ cấu **34 đơn vị cấp tỉnh gồm 27 tỉnh và 7 thành phố** khi thành lập thành phố Đồng Nai.
+### Nguồn đối chiếu
+- Quyết định 759/QĐ-TTg ngày 14/04/2025.
+- Nghị quyết sắp xếp đơn vị hành chính cấp xã năm 2025 và các văn bản hiện hành liên quan.
+- Nguồn Chính phủ và văn bản pháp luật hiện hành được đối chiếu tại thời điểm xử lý.
