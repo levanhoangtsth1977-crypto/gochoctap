@@ -1,0 +1,379 @@
+{
+  "version": "1.0.0",
+  "name": "THU_VIEN_TICH_HOP_LOP_5_2026_2027",
+  "purpose": "Kho đối chiếu nội dung tích hợp cho thiết kế kế hoạch bài dạy lớp 5. Hệ thống phải quét tất cả nhóm, đánh giá mức độ phù hợp theo ngữ cảnh và chỉ đề xuất khi có căn cứ.",
+  "principles": [
+    "Không chèn máy móc tất cả nội dung tích hợp vào mọi bài.",
+    "Mỗi đề xuất phải gắn với YCCD, nội dung bài, hoạt động học hoặc thực tiễn phù hợp.",
+    "Thiếu căn cứ phải gắn NEED_VERIFY, không tự suy diễn.",
+    "Giáo viên là người duyệt cuối cùng.",
+    "Nội dung bổ sung vào DOCX phải được đánh dấu theo quy định của Trang Sửa Giáo Án."
+  ],
+  "source_priority": [
+    "VanBanChinhPhu.vn",
+    "MOET.gov.vn",
+    "Tư liệu Văn kiện Đảng",
+    "Cổng thông tin chuyên ngành của cơ quan nhà nước"
+  ],
+  "categories": [
+    {
+      "id": "NLS",
+      "name": "Năng lực số",
+      "status": "MANDATORY_FRAMEWORK_CHECK",
+      "basis": "Thông tư 02/2025/TT-BGDĐT, hiệu lực 11/03/2025",
+      "source": "https://vanban.chinhphu.vn/?classid=1&docid=212648&orggroupid=4&pageid=27160",
+      "structure": "6 miền năng lực, 24 năng lực thành phần, 4 trình độ, 8 bậc",
+      "subdomains": [
+        "1.1 Duyệt, tìm kiếm và lọc dữ liệu, thông tin và nội dung số",
+        "1.2 Đánh giá dữ liệu, thông tin và nội dung số",
+        "1.3 Quản lý dữ liệu, thông tin và nội dung số",
+        "2.x Giao tiếp và hợp tác trong môi trường số",
+        "3.x Sáng tạo nội dung số",
+        "4.x An toàn trong môi trường số",
+        "5.x Giải quyết vấn đề",
+        "6.x Năng lực số liên quan đến việc sử dụng công nghệ phù hợp"
+      ],
+      "rule": "Không chỉ ghi mã NLS; phải có hành vi quan sát được, nhiệm vụ số và sản phẩm hoặc minh chứng phù hợp."
+    },
+    {
+      "id": "CONG_DAN_SO",
+      "name": "Công dân số",
+      "status": "CONTEXTUAL",
+      "basis": "Thông tư 02/2025/TT-BGDĐT; Quyết định 749/QĐ-TTg; Quyết định 411/QĐ-TTg; Bộ Quy tắc ứng xử trên mạng xã hội",
+      "sources": [
+        "https://vanban.chinhphu.vn/?docid=200163&pageid=27160&tagid=7&type=1",
+        "https://vanban.chinhphu.vn/?classid=2&docid=205555&pageid=27160",
+        "https://cspl.mic.gov.vn/Pages/TinTuc/138408/Ban-hanh-Bo-Quy-tac-ung-xu-tren-mang-xa-hoi.html"
+      ],
+      "items": [
+        "Tìm kiếm và kiểm chứng nguồn chính thống",
+        "Giao tiếp lịch sự, tôn trọng người khác trên môi trường số",
+        "Bảo vệ dữ liệu cá nhân và thông tin riêng tư",
+        "An toàn tài khoản, mật khẩu và thiết bị",
+        "Không chia sẻ tin giả, nội dung chưa kiểm chứng",
+        "Tôn trọng bản quyền và quyền lợi của người khác",
+        "Quản lý dấu vết và danh tính số",
+        "Sử dụng công cụ AI có mục đích, kiểm chứng và nhân văn",
+        "Ứng xử có trách nhiệm trong cộng đồng số"
+      ]
+    },
+    {
+      "id": "HCM",
+      "name": "Học tập và làm theo tư tưởng, đạo đức, phong cách Hồ Chí Minh",
+      "status": "CONTEXTUAL",
+      "basis": "Chỉ thị 05-CT/TW; Kết luận 01-KL/TW; tài liệu giáo dục đạo đức, lối sống của Bộ GD&ĐT",
+      "sources": [
+        "https://tulieuvankien.dangcongsan.vn/he-thong-van-ban/van-ban-cua-dang/ket-luan-so-01-kltw-ngay-1852021-cua-bo-chinh-tri-ve-tiep-tuc-thuc-hien-chi-thi-so-05-cttw-ngay-1552016-cua-bo-chinh-tri-7430",
+        "https://hochiminh.vn/hoc-va-lam-theo-bac/hoc-va-lam-theo-bac/dua-bo-tai-lieu-bac-ho-va-nhung-bai-hoc-dao-duc-loi-song-vao-giang-day-9679"
+      ],
+      "themes": [
+        "Yêu nước, yêu đồng bào",
+        "Đoàn kết, hợp tác, giúp đỡ nhau",
+        "Chăm chỉ, học tập tốt, lao động tốt",
+        "Trung thực, trách nhiệm, kỷ luật",
+        "Khiêm tốn, giản dị, tiết kiệm",
+        "Yêu thiên nhiên, bảo vệ môi trường",
+        "Biết quan tâm, sẻ chia, giúp đỡ người khác",
+        "Gắn học tập với hành động cụ thể"
+      ],
+      "rule": "Ưu tiên thông qua tình huống, việc làm, hành vi và trải nghiệm phù hợp lứa tuổi; không biến thành phần kể chuyện dài hoặc tuyên truyền tách rời mục tiêu bài học."
+    },
+    {
+      "id": "DAO_DUC_LOI_SONG",
+      "name": "Đạo đức, lối sống, văn hóa ứng xử",
+      "status": "CONTEXTUAL",
+      "basis": "Chỉ thị 31/CT-TTg về tăng cường giáo dục đạo đức, lối sống; tài liệu hướng dẫn của Bộ GD&ĐT",
+      "source": "https://vanban.chinhphu.vn/default.aspx?docid=198484&pageid=27160",
+      "themes": [
+        "Trung thực",
+        "Trách nhiệm",
+        "Tự giác",
+        "Tôn trọng",
+        "Nhân ái",
+        "Đoàn kết",
+        "Kỷ luật",
+        "Văn hóa học đường",
+        "Phòng chống bạo lực học đường",
+        "Hành vi đẹp trong cộng đồng"
+      ]
+    },
+    {
+      "id": "MOI_TRUONG_BDKH",
+      "name": "Bảo vệ môi trường và biến đổi khí hậu",
+      "status": "CONTEXTUAL",
+      "basis": "Nghị quyết 208/NQ-CP ngày 04/08/2026; hệ thống pháp luật môi trường hiện hành",
+      "sources": [
+        "https://vanban.chinhphu.vn/?docid=219098&pageid=27160",
+        "https://vanban.chinhphu.vn/?classid=0&docid=218358&pageid=27160"
+      ],
+      "themes": [
+        "Giảm rác thải, phân loại rác",
+        "Tái sử dụng, tái chế",
+        "Bảo vệ đất, nước, không khí",
+        "Đa dạng sinh học",
+        "Tiết kiệm năng lượng",
+        "Giảm phát thải và lối sống xanh",
+        "Thích ứng với biến đổi khí hậu",
+        "Phòng ngừa và giảm thiểu thiên tai",
+        "Tiêu dùng bền vững",
+        "Bảo vệ cảnh quan địa phương"
+      ],
+      "rule": "Chỉ tích hợp khi gắn với kiến thức hoặc hành vi thực tế của bài; ưu tiên nhiệm vụ nhỏ, khả thi với HS lớp 5."
+    },
+    {
+      "id": "NUOC",
+      "name": "Nước sạch, tiết kiệm và bảo vệ nguồn nước",
+      "status": "CONTEXTUAL",
+      "basis": "Tài liệu hướng dẫn giáo dục về tiết kiệm và bảo vệ nguồn nước cho cấp tiểu học của Bộ GD&ĐT; Luật Tài nguyên nước 2023",
+      "sources": [
+        "https://moet.gov.vn/content/vanban/Lists/VBDH/Attachments/3574/4670qdbgddttai-lieu-kem-theo.pdf",
+        "https://vanban.chinhphu.vn/?docid=209626&pageid=27160"
+      ],
+      "themes": [
+        "Vai trò của nước",
+        "Nước sạch và vệ sinh",
+        "Sử dụng nước tiết kiệm",
+        "Không gây ô nhiễm nguồn nước",
+        "Bảo vệ nước mặt và nước ngầm",
+        "Liên hệ đất - nước - sinh vật - con người"
+      ]
+    },
+    {
+      "id": "BIEN_DAO",
+      "name": "Biển, đảo và tài nguyên, môi trường biển",
+      "status": "CONTEXTUAL_HIGH_IMPORTANCE",
+      "basis": "Luật Tài nguyên, môi trường biển và hải đảo; Luật Biên giới quốc gia",
+      "sources": [
+        "https://vanban.chinhphu.vn/?classid=2629&docid=217739&pageid=27160",
+        "https://vanban.chinhphu.vn/default.aspx?docid=93588&pageid=27160"
+      ],
+      "themes": [
+        "Vị trí biển Việt Nam",
+        "Hoàng Sa, Trường Sa",
+        "Biển, đảo và chủ quyền quốc gia",
+        "Tài nguyên biển",
+        "Bảo vệ môi trường biển",
+        "Rác thải nhựa đại dương",
+        "Đa dạng sinh học biển",
+        "Kinh tế biển gắn với bảo vệ môi trường",
+        "Ứng xử có trách nhiệm với biển"
+      ],
+      "rule": "Không gắn biển đảo vào bài không có mối liên hệ; khi bài có nội dung địa lý, tự nhiên, môi trường, tài nguyên, giao thông biển, lịch sử/chủ quyền phù hợp thì phải kiểm tra mục này."
+    },
+    {
+      "id": "BIEN_GIOI_LANH_THO",
+      "name": "Biên giới quốc gia, lãnh thổ và chủ quyền",
+      "status": "CONTEXTUAL",
+      "basis": "Luật Biên giới quốc gia",
+      "source": "https://vanban.chinhphu.vn/default.aspx?docid=93588&pageid=27160",
+      "themes": [
+        "Lãnh thổ Việt Nam",
+        "Biên giới đất liền",
+        "Biên giới trên biển",
+        "Đảo và quần đảo",
+        "Mốc quốc giới",
+        "Ý thức bảo vệ Tổ quốc",
+        "Tôn trọng độc lập, chủ quyền và toàn vẹn lãnh thổ"
+      ]
+    },
+    {
+      "id": "GIAO_THONG",
+      "name": "An toàn giao thông và văn hóa giao thông",
+      "status": "CONTEXTUAL",
+      "basis": "Chỉ thị 31/CT-TTg ngày 21/12/2023 và hướng dẫn giáo dục tiểu học",
+      "source": "https://vanban.chinhphu.vn/?classid=0&docid=209268&pageid=27160",
+      "themes": [
+        "Đi bộ an toàn",
+        "Xe đạp/xe đạp điện phù hợp quy định",
+        "Đội mũ bảo hiểm",
+        "Qua đường an toàn",
+        "Nhận biết biển báo",
+        "Văn hóa giao thông",
+        "Ứng xử có trách nhiệm khi tham gia giao thông"
+      ]
+    },
+    {
+      "id": "DUOI_NUOC_ATNTT",
+      "name": "Phòng chống đuối nước và tai nạn thương tích",
+      "status": "CONTEXTUAL_HIGH_IMPORTANCE",
+      "basis": "Quyết định 1717/QĐ-TTg giai đoạn 2025-2035; tài liệu Bộ GD&ĐT/Bộ Y tế",
+      "sources": [
+        "https://vanban.chinhphu.vn/?docid=212267&pageid=27160",
+        "https://moet.gov.vn/content/vanban/Lists/VBDH/Attachments/2805/8.9%20H%C6%AF%E1%BB%9BNG%20d%E1%BA%ABN%20c%C3%B4ng%20t%C3%A1c%20GDTC_%20TT%20v%C3%A0%20y%20t%E1%BA%BF%20tr%C6%B0%E1%BB%9Dng%20h%E1%BB%8Dc%202020-2021.pdf"
+      ],
+      "themes": [
+        "Nhận biết nguy cơ",
+        "Quy tắc an toàn gần sông, hồ, ao, biển",
+        "Không tự ý xuống nước",
+        "Kêu gọi người lớn/cấp cứu khi có sự cố",
+        "Phòng ngừa tai nạn thương tích"
+      ]
+    },
+    {
+      "id": "QUYEN_TRE_EM",
+      "name": "Quyền trẻ em và bảo vệ trẻ em",
+      "status": "CONTEXTUAL",
+      "basis": "Luật Trẻ em, văn bản hợp nhất 108/VBHN-VPQH",
+      "source": "https://vanban.chinhphu.vn/?classid=2629&docid=215227&pageid=27160",
+      "themes": [
+        "Quyền được học tập",
+        "Quyền được bảo vệ",
+        "Quyền được bày tỏ ý kiến",
+        "Tôn trọng sự khác biệt",
+        "An toàn cá nhân",
+        "Bảo vệ khỏi xâm hại và bạo lực",
+        "Trách nhiệm phù hợp lứa tuổi"
+      ]
+    },
+    {
+      "id": "BINH_DANG_HOA_NHAP",
+      "name": "Bình đẳng giới, hòa nhập và tôn trọng sự khác biệt",
+      "status": "CONTEXTUAL",
+      "basis": "Tiêu chí nội dung SGK và tài liệu giáo dục của Bộ GD&ĐT",
+      "source": "https://moet.gov.vn/content/vanban/Lists/VBDH/Attachments/1550/202107%2030%20Phu%20l%E1%BB%A5c%20TT.pdf",
+      "themes": [
+        "Bình đẳng cơ hội học tập",
+        "Không định kiến giới",
+        "Tôn trọng sự khác biệt",
+        "Hợp tác với bạn",
+        "Hỗ trợ học sinh khuyết tật",
+        "Môi trường học tập hòa nhập"
+      ]
+    },
+    {
+      "id": "TAI_CHINH",
+      "name": "Giáo dục tài chính và quản lý tiền",
+      "status": "CONTEXTUAL",
+      "basis": "Tiêu chí nội dung SGK của Bộ GD&ĐT và các nhiệm vụ giáo dục kỹ năng sống",
+      "themes": [
+        "Nhu cầu và mong muốn",
+        "Tiết kiệm",
+        "Lập kế hoạch chi tiêu đơn giản",
+        "Không lãng phí",
+        "An toàn khi mua hàng trực tuyến",
+        "Nhận biết quảng cáo và rủi ro lừa đảo phù hợp lứa tuổi"
+      ]
+    },
+    {
+      "id": "STEM",
+      "name": "STEM và giải quyết vấn đề thực tiễn",
+      "status": "CONTEXTUAL",
+      "basis": "Chương trình GDPT 2018 và hướng dẫn triển khai STEM",
+      "themes": [
+        "Khám phá vấn đề",
+        "Thiết kế giải pháp",
+        "Thử nghiệm",
+        "Đo lường",
+        "Cải tiến",
+        "Sản phẩm ứng dụng thực tế",
+        "Hợp tác và trình bày"
+      ],
+      "rule": "Không gắn nhãn STEM nếu chỉ dùng video hoặc trình chiếu; phải có vấn đề, quá trình thiết kế/giải quyết và sản phẩm hoặc bằng chứng phù hợp."
+    },
+    {
+      "id": "PHAP_LUAT",
+      "name": "Giáo dục pháp luật và trách nhiệm công dân",
+      "status": "CONTEXTUAL",
+      "basis": "Luật Phổ biến, giáo dục pháp luật và các nhiệm vụ giáo dục chính trị, công dân",
+      "themes": [
+        "Quy tắc và nội quy",
+        "Quyền và nghĩa vụ",
+        "Tôn trọng pháp luật",
+        "Trách nhiệm với cộng đồng",
+        "Ứng xử đúng quy định"
+      ]
+    },
+    {
+      "id": "SUC_KHOE",
+      "name": "Sức khỏe, vệ sinh, dinh dưỡng và an toàn thực phẩm",
+      "status": "CONTEXTUAL",
+      "basis": "Tài liệu giáo dục sức khỏe và y tế trường học của Bộ GD&ĐT/Bộ Y tế",
+      "themes": [
+        "Vệ sinh cá nhân",
+        "Dinh dưỡng hợp lý",
+        "An toàn thực phẩm",
+        "Nước sạch",
+        "Sức khỏe tinh thần",
+        "Phòng bệnh",
+        "Thói quen vận động"
+      ]
+    },
+    {
+      "id": "THIEN_TAI",
+      "name": "Phòng chống thiên tai và thích ứng khí hậu",
+      "status": "CONTEXTUAL",
+      "basis": "Nhiệm vụ giáo dục phòng, chống thiên tai; định hướng ứng phó biến đổi khí hậu",
+      "themes": [
+        "Bão, lũ, sạt lở",
+        "Nắng nóng, hạn hán",
+        "An toàn trước thiên tai",
+        "Kế hoạch ứng phó đơn giản",
+        "Bảo vệ tài sản và môi trường",
+        "Theo dõi cảnh báo chính thống"
+      ]
+    },
+    {
+      "id": "VAN_HOA_DI_SAN",
+      "name": "Văn hóa, truyền thống, di sản và địa phương",
+      "status": "CONTEXTUAL",
+      "basis": "CTGDPT 2018; giáo dục truyền thống, lịch sử, văn hóa địa phương",
+      "themes": [
+        "Di sản văn hóa",
+        "Danh lam thắng cảnh",
+        "Truyền thống quê hương",
+        "Bảo tồn văn hóa",
+        "Tôn trọng đa dạng văn hóa",
+        "Niềm tự hào địa phương"
+      ]
+    },
+    {
+      "id": "AI_VA_THONG_TIN",
+      "name": "AI, thông tin số và tư duy phản biện",
+      "status": "CONTEXTUAL",
+      "basis": "Thông tư 02/2025/TT-BGDĐT; định hướng chuyển đổi số giáo dục",
+      "themes": [
+        "Phân biệt thông tin thật/giả",
+        "Kiểm chứng nguồn",
+        "Dùng AI để hỗ trợ, không làm thay tư duy HS",
+        "Bảo vệ dữ liệu cá nhân khi dùng AI",
+        "Trích dẫn và kiểm tra nội dung do AI tạo",
+        "Sử dụng AI sáng tạo, hiệu quả, an toàn và nhân văn"
+      ]
+    }
+  ],
+  "lesson_scan": {
+    "always_check": [
+      "YCCD/phẩm chất/năng lực chung và đặc thù",
+      "NLS",
+      "Công dân số",
+      "Đạo đức - lối sống",
+      "Môi trường/BĐKH",
+      "Nước sạch nếu bài có nước/đất/sinh vật/sức khỏe",
+      "Biển đảo/biên giới nếu bài liên quan địa lý, tài nguyên, lịch sử, lãnh thổ",
+      "An toàn giao thông nếu có phương tiện, đường phố, đi lại",
+      "Đuối nước/an toàn nếu có sông hồ biển hoặc hoạt động nguy cơ",
+      "Quyền trẻ em/hòa nhập/bình đẳng nếu có tình huống xã hội",
+      "Tài chính nếu có tiền, mua bán, tiêu dùng, tiết kiệm",
+      "STEM nếu có vấn đề thiết kế - thử nghiệm - cải tiến",
+      "Sức khỏe nếu có cơ thể, dinh dưỡng, vệ sinh, an toàn",
+      "Thiên tai/BĐKH nếu có thời tiết, địa hình, môi trường",
+      "Văn hóa/di sản/địa phương nếu có con người và không gian văn hóa"
+    ],
+    "decision_labels": [
+      "AUTO_SUGGEST",
+      "REVIEW_REQUIRED",
+      "NEED_VERIFY",
+      "NOT_RELEVANT"
+    ]
+  },
+  "quality_gate": [
+    "Có căn cứ chính thống",
+    "Phù hợp lớp 5",
+    "Phù hợp môn/bài/YCCD",
+    "Có hoạt động học thực tế",
+    "Không làm quá tải tiết học",
+    "Không nhồi ép tích hợp",
+    "Có thể đánh giá được nếu nội dung yêu cầu sản phẩm",
+    "Không tự nhận suy luận của AI là YCCD chính thức"
+  ]
+}
