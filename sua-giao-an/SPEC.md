@@ -1,7 +1,7 @@
 # 🛠️ TRANG SỬA GIÁO ÁN — ĐẶC TẢ CHÍNH THỨC
 
-**Phiên bản đặc tả:** 1.2  
-**Phạm vi:** Document Engine + Format Engine + AI/Rules + Validator + Export + Administrative Data Engine + Special Administrative Zone Engine  
+**Phiên bản đặc tả:** 1.3  
+**Phạm vi:** Document Engine + Format Engine + AI/Rules + Validator + Export + Administrative Data Engine + Special Administrative Zone Engine + Curriculum Adjustment Engine  
 **Nguyên tắc:** Nội dung gốc được bảo toàn; định dạng đầu ra phải được chuẩn hóa, cân đối và kiểm tra trước khi xuất.
 
 ## 1. NGUYÊN TẮC BẤT BIẾN
@@ -103,27 +103,48 @@ Trang Sửa Giáo Án phải dùng **Special Administrative Zone Engine**. Bộ 
 ### 7.2. Mẫu cũ phải phát hiện
 “huyện Côn Đảo”, “huyện Lý Sơn”, “huyện Cồn Cỏ”, “huyện Cát Hải”, “huyện Bạch Long Vĩ”, “huyện Cô Tô”, “huyện Vân Đồn”, “huyện Trường Sa”, “huyện Hoàng Sa”, “huyện Phú Quý”, “huyện Kiên Hải” → kiểm tra để chuyển sang **đặc khu** khi phù hợp ngữ cảnh và thời điểm. “huyện Phú Quốc”, “thành phố Phú Quốc” và “xã Thổ Châu thuộc thành phố Phú Quốc” → **kiểm tra ngữ cảnh**, không thay thế máy móc.
 
-## 8. DOCUMENT ENGINE
+## 8. ĐIỀU CHỈNH SGK KẾT NỐI TRI THỨC LỚP 5 — BẮT BUỘC
+Trang Sửa Giáo Án phải dùng **Curriculum Adjustment Engine** và tệp `curriculum-adjustments-2026-2027.json` làm bảng đối chiếu ưu tiên.
+
+### 8.1. Phạm vi
+- **HĐGD: Đạo đức lớp 5**
+- **HĐGD: Lịch sử + Địa lí lớp 5**
+- **HĐGD: Toán lớp 5**
+- **HĐGD: Tiếng Việt lớp 5**
+- Bộ sách: **Kết nối tri thức**.
+
+### 8.2. Luật xử lý
+- Chỉ áp dụng khi nhận diện được **môn + bài + trang/mục/hình** tương ứng.
+- Không được thay đổi chỉ vì một địa danh giống tên trong danh mục.
+- Mọi thay đổi phải tạo Change Set.
+- Nếu danh mục yêu cầu bỏ cấp huyện/cấp đơn vị cũ thì chỉ bỏ đúng phần được quy định, không xóa ngữ nghĩa khác của câu.
+- Với hình/lược đồ nhúng, nếu không có tài sản thay thế, phải **CẦN XÁC MINH/ĐỀ XUẤT**, không tự dựng hình mới.
+- Nếu nội dung có lịch sử gắn với địa danh cũ, phải phân biệt **địa danh lịch sử** và **địa chỉ hành chính hiện hành** trước khi sửa.
+- Danh mục này là dữ liệu quy tắc, không phải quyền cho AI tự mở rộng sang các bài khác.
+
+### 8.3. Danh mục chuẩn
+Chi tiết tất cả điều chỉnh do người dùng cung cấp được lưu trong `curriculum-adjustments-2026-2027.json`, bao gồm các trường hợp của Đạo đức Bài 1; Lịch sử + Địa lí Bài 1, 2, 3, 4, 6, 7, 10, 12, 13, 16, 26, 31 và các mục HKII; Toán Bài 74; Tiếng Việt Bài 11, 16, 25.
+
+## 9. DOCUMENT ENGINE
 Phải bảo toàn tối đa paragraph, run/character formatting, heading/style, table/row/cell, ảnh, header/footer, page break, section, numbering/bullets, hyperlinks/chú thích khi công nghệ hỗ trợ. Không dùng plain-text rebuild làm phương án mặc định.
 
-## 9. AI + RULE ENGINE
+## 10. AI + RULE ENGINE
 AI chỉ phân tích và tạo đề xuất/Change Set. Rule Engine quyết định đề xuất được phép thực thi. AI không ghi trực tiếp vào DOCX khi chưa qua Rule Engine.
 
-## 10. VALIDATOR — BẮT BUỘC TRƯỚC KHI XUẤT
-Kiểm tra file mở được, không mất đoạn/bảng/nội dung ô/hình hỗ trợ, section hợp lệ, font/cỡ/lề/giãn dòng, bảng không tràn, cột không méo, trang trắng, page break, trạng thái Change Set, bản gốc độc lập, dữ liệu hành chính và đặc khu. Không đạt → **không cho xuất**.
+## 11. VALIDATOR — BẮT BUỘC TRƯỚC KHI XUẤT
+Kiểm tra file mở được, không mất đoạn/bảng/nội dung ô/hình hỗ trợ, section hợp lệ, font/cỡ/lề/giãn dòng, bảng không tràn, cột không méo, trang trắng, page break, trạng thái Change Set, bản gốc độc lập, dữ liệu hành chính, đặc khu và danh mục điều chỉnh SGK khi có liên quan. Không đạt → **không cho xuất**.
 
-## 11. ĐẦU RA
+## 12. ĐẦU RA
 DOCX sau sửa + chuẩn hóa; ZIP cả tuần; giáo án điện tử; CHANGE_LOG; tên file đầu ra có hậu tố rõ ràng và không ghi đè bản gốc.
 
-## 12. LUỒNG CHUẨN
-FILE GỐC → DOCUMENT PARSER → CONTENT PROTECTION → AI ANALYZER → ADMINISTRATIVE DATA ENGINE → SPECIAL ADMINISTRATIVE ZONE ENGINE → RULE ENGINE → CHANGE SET → USER REVIEW/AUTO APPROVAL THEO LUẬT → DOCUMENT ENGINE → FORMAT ENGINE → LAYOUT VALIDATOR → EXPORT.
+## 13. LUỒNG CHUẨN
+FILE GỐC → DOCUMENT PARSER → CONTENT PROTECTION → AI ANALYZER → ADMINISTRATIVE DATA ENGINE → SPECIAL ADMINISTRATIVE ZONE ENGINE → CURRICULUM ADJUSTMENT ENGINE → RULE ENGINE → CHANGE SET → USER REVIEW/AUTO APPROVAL THEO LUẬT → DOCUMENT ENGINE → FORMAT ENGINE → LAYOUT VALIDATOR → EXPORT.
 
-## 13. TIÊU CHÍ NGHIỆM THU
-**Đúng nội dung được duyệt + bảo toàn nội dung không liên quan + đúng định dạng chuẩn + bảng/cột cân đối + dữ liệu hành chính đúng thời điểm + đặc khu đúng loại đơn vị và đúng cấp tỉnh + Validator đạt + có Change Log.**
+## 14. TIÊU CHÍ NGHIỆM THU
+**Đúng nội dung được duyệt + bảo toàn nội dung không liên quan + đúng định dạng chuẩn + bảng/cột cân đối + dữ liệu hành chính đúng thời điểm + đặc khu đúng loại đơn vị và đúng cấp tỉnh + điều chỉnh SGK đúng danh mục + Validator đạt + có Change Log.**
 
-**Format Engine, Administrative Data Engine và Special Administrative Zone Engine là tiêu chuẩn bắt buộc.**
+**Format Engine, Administrative Data Engine, Special Administrative Zone Engine và Curriculum Adjustment Engine là tiêu chuẩn bắt buộc.**
 
 ### Nguồn đối chiếu
-- Quyết định 759/QĐ-TTg ngày 14/04/2025.
-- Nghị quyết sắp xếp đơn vị hành chính cấp xã năm 2025 và các văn bản hiện hành liên quan.
-- Nguồn Chính phủ và văn bản pháp luật hiện hành được đối chiếu tại thời điểm xử lý.
+- Văn bản pháp luật và nguồn hành chính hiện hành được đối chiếu tại thời điểm xử lý.
+- Danh mục điều chỉnh SGK Kết nối tri thức 2026–2027 do người dùng cung cấp và được lưu thành dữ liệu quy tắc của hệ thống.
