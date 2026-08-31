@@ -1,0 +1,55 @@
+{
+  "standardVersion": "2026-2027.1",
+  "bookSeries": "Kết nối tri thức",
+  "grade": 5,
+  "hardRule": "Khi gặp đúng môn, bài, trang, mục và nội dung được nêu trong danh mục này, hệ thống phải ưu tiên đối chiếu danh mục; không để AI tự suy diễn. Mọi thay đổi phải tạo Change Set và chỉ thực thi khi đủ căn cứ.",
+  "subjects": {
+    "DAO_DUC": [
+      {
+        "id": "DD-B01-P05-001",
+        "lesson": "Bài 1 trang 5",
+        "old": "Xã Phước Thọ, huyện Đất Đỏ, tỉnh Bà Rịa – Vũng Tàu",
+        "new": "Xã Phước Thọ, Thành phố Hồ Chí Minh",
+        "action": "replace_contextual",
+        "note": "Chỉ áp dụng khi đúng bài/mục và ngữ cảnh địa danh trong SGK."
+      }
+    ],
+    "LICH_SU_DIA_LI": [
+      {"id":"LSDL-B01-H01-P05-001","lesson":"Bài 1","location":"Hình 1 trang 5","old":"Cột cờ Lũng Cú (Hà Giang)","new":"Cột cờ Lũng Cú (Tuyên Quang)","action":"replace"},
+      {"id":"LSDL-B01-H03-P06-002","lesson":"Bài 1","location":"Hình 3 trang 6","old":"Bản đồ hành chính Việt Nam năm 2021, lược đồ ghi tên tỉnh trước hợp nhất","new":"Bản đồ/lược đồ hành chính sử dụng tên đơn vị hành chính mới theo chuẩn hiện hành; nếu vẫn giữ hình SGK thì phải ghi chú rõ tính lịch sử của bản đồ năm 2021","action":"flag_and_propose","note":"Không tự sửa ảnh nhúng nếu chưa có tài sản bản đồ thay thế."},
+      {"id":"LSDL-B01-P07-003","lesson":"Bài 1","location":"Trang 7, phần Lãnh thổ và đơn vị hành chính","old":"Việt Nam có 63 tỉnh, thành phố; 5 thành phố trực thuộc Trung ương","new":"Việt Nam có 34 đơn vị hành chính cấp tỉnh, gồm 27 tỉnh và 7 thành phố trực thuộc Trung ương","action":"replace"},
+      {"id":"LSDL-B02-H02-P11-004","lesson":"Bài 2","location":"Hình 2 trang 11","old":"Giàn khoan dầu khí ở mỏ Bạch Hổ (Bà Rịa – Vũng Tàu)","new":"Giàn khoan dầu khí ở mỏ Bạch Hổ (Thành phố Hồ Chí Minh)","action":"replace"},
+      {"id":"LSDL-B02-H03-P12-005","lesson":"Bài 2","location":"Hình 3 trang 12","old":"Rau vụ đông ở tỉnh Thái Bình","new":"Rau vụ đông ở tỉnh Hưng Yên","action":"replace"},
+      {"id":"LSDL-B02-P12-H06-P13-006","lesson":"Bài 2","location":"Trang 12 và ghi chú Hình 6 trang 13","old":"Hồ Ba Bể (Bắc Kạn)","new":"Hồ Ba Bể (Thái Nguyên)","action":"replace"},
+      {"id":"LSDL-B02-H07-P13-007","lesson":"Bài 2","location":"Hình 7 trang 13","old":"Vườn vải thiều ở vùng đồi núi phía Bắc (Bắc Giang)","new":"Vườn vải thiều ở vùng đồi núi phía Bắc (Bắc Ninh)","action":"replace"},
+      {"id":"LSDL-B03-P17-008","lesson":"Bài 3","location":"Phần 1","old":"Côn Sơn (Bà Rịa – Vũng Tàu), Phú Quốc (Kiên Giang)","new":"Côn Sơn (Thành phố Hồ Chí Minh), Phú Quốc (An Giang)","action":"replace_contextual"},
+      {"id":"LSDL-B03-H04-P17-009","lesson":"Bài 3","location":"Hình 4 trang 17","old":"Một góc đảo Phú Quốc (Kiên Giang)","new":"Một góc đảo Phú Quốc (An Giang)","action":"replace"},
+      {"id":"LSDL-B04-H02-P22-010","lesson":"Bài 4","location":"Hình 2 trang 22","old":"Lược đồ phân bố dân cư (địa giới hành chính 63 tỉnh)","new":"Lược đồ phân bố dân cư (địa giới hành chính 34 đơn vị cấp tỉnh)","action":"replace_or_flag_image"},
+      {"id":"LSDL-B06-H03-P30-011","lesson":"Bài 6","location":"Hình 3 trang 30","old":"Dấu tích cọc gỗ nhà sàn của cư dân Phù Nam ở di tích Nền Chùa (Kiên Giang)","new":"Dấu tích cọc gỗ nhà sàn của cư dân Phù Nam ở di tích Nền Chùa (An Giang)","action":"replace"},
+      {"id":"LSDL-B06-H07-P31-012","lesson":"Bài 6","location":"Hình 7 trang 31","old":"Tượng phật Bình Hòa (Long An)","new":"Tượng phật Bình Hòa (Tây Ninh)","action":"replace"},
+      {"id":"LSDL-B07-H01-P32-013","lesson":"Bài 7","location":"Hình 1 trang 32","old":"Tháp Nhạn (Phú Yên)","new":"Tháp Nhạn (Đắk Lắk)","action":"replace"},
+      {"id":"LSDL-B07-H03-P33-014","lesson":"Bài 7","location":"Hình 3 trang 33","old":"Khu di tích Thánh địa Mỹ Sơn (Quảng Nam)","new":"Khu di tích Thánh địa Mỹ Sơn (Đà Nẵng)","action":"replace"},
+      {"id":"LSDL-B07-H04-P34-015","lesson":"Bài 7","location":"Hình 4 trang 34","old":"Tháp Bánh Ít (Bình Định)","new":"Tháp Bánh Ít (Gia Lai)","action":"replace"},
+      {"id":"LSDL-B07-H05-P34-016","lesson":"Bài 7","location":"Hình 5 trang 34","old":"Tháp Pô Klong Ga – rai (Ninh Thuận)","new":"Tháp Pô Klong Ga – rai (Khánh Hòa)","action":"replace"},
+      {"id":"LSDL-B07-P35-017","lesson":"Bài 7","location":"Phần Luyện tập bài 1 trang 35","old":"Địa điểm Quảng Nam","new":"Địa điểm Đà Nẵng","action":"replace"},
+      {"id":"LSDL-B10-P46-018","lesson":"Bài 10","location":"Nội dung 1, câu chuyện lịch sử","old":"Địa điểm Nam Định","new":"Địa điểm Ninh Bình","action":"replace_contextual"},
+      {"id":"LSDL-B10-P46-019","lesson":"Bài 10","location":"Trang 46, câu chuyện lịch sử","old":"Địa điểm Chí Linh (Hải Dương)","new":"Địa điểm Chí Linh (Hải Phòng)","action":"replace"},
+      {"id":"LSDL-B12-020","lesson":"Bài 12","location":"Mục 2, câu chuyện lịch sử Vụ Bản (Nam Định)","old":"Vụ Bản (Nam Định)","new":"Vụ Bản (Ninh Bình)","action":"replace"},
+      {"id":"LSDL-B13-P58-021","lesson":"Bài 13","location":"Mục 1a, trang 58","old":"Tiền Hải (Thái Bình)","new":"Tiền Hải (Hưng Yên)","action":"replace"},
+      {"id":"LSDL-B16-H03-P70-022","lesson":"Bài 16","location":"Hình 3 trang 70","old":"Phi đội Quyết thắng tại sân bay Thành Sơn (Ninh Thuận) chiều 28-4-1975","new":"Phi đội Quyết thắng tại sân bay Thành Sơn (Khánh Hòa) chiều 28-4-1975","action":"replace"},
+      {"id":"LSDL-B26-H03-P110-023","lesson":"Bài 26","location":"Hình 3 trang 110","old":"Lũ quét ở Mù Căng Chải, tỉnh Yên Bái tháng 8 năm 2023","new":"Lũ quét ở Mù Căng Chải, tỉnh Lào Cai tháng 8 năm 2023","action":"replace"},
+      {"id":"LSDL-B31-P149-024","lesson":"Bài 31 trang 149","location":"Phần đọc","old":"Nhà hát Cao Văn Lầu (Bạc Liêu)","new":"Nhà hát Cao Văn Lầu (Cà Mau)","action":"replace"},
+      {"id":"LSDL-HKII-B02-P16-025","lesson":"HKII Bài 2 trang 16","location":"Địa điểm cơ sở Lâm Sơn","old":"xã Nghĩa Lâm, huyện Nghĩa Đàn, tỉnh Nghệ An","new":"xã Nghĩa Lâm, tỉnh Nghệ An (bỏ cấp huyện)","action":"remove_legacy_district"},
+      {"id":"LSDL-HKII-B16-P74-026","lesson":"Bài 16 trang 74","location":"Phần từ ngữ, Đất Mũi","old":"Xã Đất Mũi, huyện Ngọc Hiển, tỉnh Cà Mau","new":"Xã Đất Mũi, tỉnh Cà Mau (bỏ cấp huyện)","action":"remove_legacy_district"},
+      {"id":"LSDL-HKII-B19-P98-027","lesson":"Bài 19 trang 98","location":"Phần từ ngữ","old":"Tỉnh Hải Dương","new":"Thành phố Hải Phòng","action":"replace"}
+    ],
+    "TOAN": [
+      {"id":"TOAN-B74-P124-001","lesson":"Bài 74","location":"Bài 3 trang 124","old":"Bốn tỉnh Tây Nguyên: Đắk Lắk, Lâm Đồng, Đắk Nông, Gia Lai","new":"Đắk Lắk, Lâm Đồng, Gia Lai (bỏ Đắk Nông)","action":"remove_legacy_province"}
+    ],
+    "TIENG_VIET": [
+      {"id":"TV-HKI-B11-P56-001","lesson":"Bài 11 trang 56","location":"Đoạn 1","old":"Hang Sơn Đoòng (Quảng Bình)","new":"Hang Sơn Đoòng (Quảng Trị)","action":"replace"},
+      {"id":"TV-HKI-B16-P79-002","lesson":"Bài 16 trang 79","location":"Nội dung địa danh","old":"Cao nguyên đá Đồng Văn (Hà Giang), động Phong Nha – Kẻ Bàng (Quảng Bình), đảo Ngọc – Phú Quốc (Kiên Giang)","new":"Cao nguyên đá Đồng Văn (Tuyên Quang), động Phong Nha – Kẻ Bàng (Quảng Trị), đảo Ngọc – Phú Quốc (An Giang)","action":"replace"},
+      {"id":"TV-HKI-B25-P123-003","lesson":"Bài 25 trang 123","location":"Phần từ ngữ","old":"Sông Đà, địa danh Hoà Bình","new":"Sông Đà, địa danh Phú Thọ","action":"replace_contextual"}
+    ]
+  }
+}
