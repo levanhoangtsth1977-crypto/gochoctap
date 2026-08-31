@@ -1,4 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
+  /* GIÁO ÁN MASTER EDITOR — tích hợp vào menu Giáo án mà không sửa index.html */
+  const menu = document.querySelector('.menu');
+  if (menu && !menu.querySelector('[data-target="Giáo án Master Editor"]')) {
+    const row = menu.querySelector('.menu-row');
+    const btn = document.createElement('a');
+    btn.className = 'nav-btn nav-master-editor';
+    btn.href = 'giao-an-master-editor.html';
+    btn.target = '_blank';
+    btn.rel = 'noopener noreferrer';
+    btn.style.textDecoration = 'none';
+    btn.innerHTML = '<span>🛠️</span>Master Editor';
+    if (row) row.appendChild(btn);
+  }
+
   const buttons = [...document.querySelectorAll('.nav-btn')];
   const sections = [...document.querySelectorAll('.content-section')];
   const NAV_KEY = 'gochoctap_navigation_stack_v2';
@@ -109,7 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  buttons.forEach(btn => btn.addEventListener('click', () => openMenu(btn.dataset.target)));
+  buttons.forEach(btn => {
+    if (btn.tagName === 'BUTTON') btn.addEventListener('click', () => openMenu(btn.dataset.target));
+  });
 
   window.addEventListener('popstate', () => {
     const safe = render(targetFromHash() || 'home');
