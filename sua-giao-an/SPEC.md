@@ -1,7 +1,7 @@
 # 🛠️ TRANG SỬA GIÁO ÁN — ĐẶC TẢ CHÍNH THỨC
 
-**Phiên bản đặc tả:** 1.0  
-**Phạm vi:** Document Engine + Format Engine + AI/Rules + Validator + Export  
+**Phiên bản đặc tả:** 1.1  
+**Phạm vi:** Document Engine + Format Engine + AI/Rules + Validator + Export + Administrative Data Engine  
 **Nguyên tắc:** Nội dung gốc được bảo toàn; định dạng đầu ra phải được chuẩn hóa, cân đối và kiểm tra trước khi xuất.
 
 ## 1. NGUYÊN TẮC BẤT BIẾN
@@ -79,7 +79,73 @@ Tất cả nội dung mới do AI/hệ thống thêm vào phải:
 - được ghi vào Change Log;
 - không được trộn lẫn khiến người dùng không nhận biết đâu là nội dung gốc.
 
-## 6. DOCUMENT ENGINE
+## 6. CƠ SỞ DỮ LIỆU HÀNH CHÍNH — BẮT BUỘC
+
+Trang Sửa Giáo Án phải sử dụng **Administrative Data Engine** thay vì để AI tự suy đoán địa giới.
+
+### 6.1. Chuẩn hiện hành áp dụng từ 30/04/2026
+
+- Cả nước có **34 đơn vị hành chính cấp tỉnh**.
+- Cơ cấu hiện hành gồm **27 tỉnh + 7 thành phố trực thuộc Trung ương**.
+- **Thành phố Đồng Nai** là thành phố trực thuộc Trung ương thứ 7, được thành lập theo **Nghị quyết số 30/2026/QH16 của Quốc hội**, có hiệu lực từ **30/04/2026**.
+
+### 6.2. 7 thành phố trực thuộc Trung ương
+
+1. Thành phố Hà Nội
+2. Thành phố Hải Phòng
+3. Thành phố Huế
+4. Thành phố Đà Nẵng
+5. Thành phố Cần Thơ
+6. Thành phố Hồ Chí Minh
+7. Thành phố Đồng Nai
+
+### 6.3. 27 tỉnh
+
+1. Tỉnh An Giang
+2. Tỉnh Bắc Ninh
+3. Tỉnh Cà Mau
+4. Tỉnh Cao Bằng
+5. Tỉnh Đắk Lắk
+6. Tỉnh Điện Biên
+7. Tỉnh Đồng Tháp
+8. Tỉnh Gia Lai
+9. Tỉnh Hà Tĩnh
+10. Tỉnh Hưng Yên
+11. Tỉnh Khánh Hòa
+12. Tỉnh Lai Châu
+13. Tỉnh Lạng Sơn
+14. Tỉnh Lào Cai
+15. Tỉnh Lâm Đồng
+16. Tỉnh Ninh Bình
+17. Tỉnh Nghệ An
+18. Tỉnh Phú Thọ
+19. Tỉnh Quảng Ngãi
+20. Tỉnh Quảng Ninh
+21. Tỉnh Quảng Trị
+22. Tỉnh Sơn La
+23. Tỉnh Tây Ninh
+24. Tỉnh Thái Nguyên
+25. Tỉnh Thanh Hóa
+26. Tỉnh Tuyên Quang
+27. Tỉnh Vĩnh Long
+
+### 6.4. Luật xử lý địa danh
+
+- Không tự động sửa chỉ vì địa danh xuất hiện trong giáo án.
+- Phải xác định **ngữ cảnh + đơn vị hành chính + thời điểm áp dụng**.
+- Khi phát hiện dữ liệu cũ, phải tạo Change Set.
+- Không được chuyển đổi tên địa danh bằng suy đoán ngôn ngữ.
+- Nếu không đủ căn cứ, đánh dấu **CẦN XÁC MINH** và không tự sửa.
+- Với giáo án năm học 2026–2027, ưu tiên bộ dữ liệu hành chính có hiệu lực tại thời điểm sử dụng.
+
+### 6.5. Ví dụ kiểm thử bắt buộc
+
+- **63 tỉnh, thành phố** → phải phát hiện là dữ liệu cũ.
+- **5 thành phố trực thuộc Trung ương** → phải phát hiện là dữ liệu cũ.
+- **28 tỉnh + 6 thành phố** → phải phát hiện là cơ cấu trước khi Đồng Nai trở thành thành phố trực thuộc Trung ương.
+- **Tỉnh Đồng Nai** trong ngữ cảnh cấp tỉnh hiện hành → phải cảnh báo/sửa thành **Thành phố Đồng Nai** khi phù hợp ngữ cảnh và thời điểm.
+
+## 7. DOCUMENT ENGINE
 
 Document Engine phải đọc và bảo toàn tối đa:
 
@@ -96,13 +162,13 @@ Document Engine phải đọc và bảo toàn tối đa:
 
 Không dùng thao tác "chuyển toàn bộ văn bản thành plain text rồi tạo Word mới" làm phương án mặc định, vì có nguy cơ phá bố cục và định dạng gốc.
 
-## 7. AI + RULE ENGINE
+## 8. AI + RULE ENGINE
 
 AI chỉ được **phân tích và tạo đề xuất/Change Set**. Rule Engine quyết định đề xuất nào được phép thực thi.
 
 AI không được phép tự ghi trực tiếp vào DOCX khi chưa qua Rule Engine.
 
-## 8. VALIDATOR — ĐIỀU KIỆN BẮT BUỘC TRƯỚC KHI XUẤT
+## 9. VALIDATOR — ĐIỀU KIỆN BẮT BUỘC TRƯỚC KHI XUẤT
 
 Validator phải kiểm tra tối thiểu:
 
@@ -117,11 +183,12 @@ Validator phải kiểm tra tối thiểu:
 - cột không méo;
 - không tạo trang trắng bất thường;
 - các Change Set đã được duyệt hoặc loại bỏ theo trạng thái;
-- bản gốc và bản xuất tồn tại độc lập.
+- bản gốc và bản xuất tồn tại độc lập;
+- dữ liệu hành chính được kiểm tra theo Administrative Data Engine.
 
 Nếu Validator không đạt, **không cho phép nút Xuất hoàn tất**.
 
-## 9. ĐẦU RA
+## 10. ĐẦU RA
 
 Hệ thống phải hỗ trợ:
 
@@ -131,7 +198,7 @@ Hệ thống phải hỗ trợ:
 - `CHANGE_LOG` ghi toàn bộ thay đổi;
 - tên file đầu ra có hậu tố rõ ràng, không ghi đè file gốc.
 
-## 10. LUỒNG CHUẨN
+## 11. LUỒNG CHUẨN
 
 ```text
 FILE GỐC
@@ -141,6 +208,8 @@ DOCUMENT PARSER
 CONTENT PROTECTION
   ↓
 AI ANALYZER
+  ↓
+ADMINISTRATIVE DATA ENGINE
   ↓
 RULE ENGINE
   ↓
@@ -157,10 +226,14 @@ LAYOUT VALIDATOR
 EXPORT DOCX / ZIP / HTML
 ```
 
-## 11. TIÊU CHÍ NGHIỆM THU
+## 12. TIÊU CHÍ NGHIỆM THU
 
 Một bản xuất chỉ được coi là **ĐẠT** khi đồng thời đạt:
 
-**Đúng nội dung được duyệt + bảo toàn nội dung không liên quan + đúng định dạng chuẩn + bảng/cột cân đối + Validator đạt + có Change Log.**
+**Đúng nội dung được duyệt + bảo toàn nội dung không liên quan + đúng định dạng chuẩn + bảng/cột cân đối + dữ liệu hành chính đúng thời điểm + Validator đạt + có Change Log.**
 
-**Format Engine không phải chức năng tùy chọn khi xuất DOCX; đây là tiêu chuẩn bắt buộc của hệ thống.**
+**Format Engine và Administrative Data Engine không phải chức năng tùy chọn khi xuất DOCX; đây là tiêu chuẩn bắt buộc của hệ thống.**
+
+### Nguồn pháp lý/đối chiếu hiện hành
+- Nghị quyết số **30/2026/QH16** của Quốc hội về việc thành lập thành phố Đồng Nai, có hiệu lực từ **30/04/2026**.
+- Cổng TTĐT Chính phủ, thông tin về cơ cấu **34 đơn vị cấp tỉnh gồm 27 tỉnh và 7 thành phố** khi thành lập thành phố Đồng Nai.
