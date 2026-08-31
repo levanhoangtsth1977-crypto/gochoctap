@@ -4,8 +4,8 @@
   "country": "Việt Nam",
   "unitType": "đơn vị hành chính cấp tỉnh",
   "total": 34,
-  "provinces": 27,
-  "municipalities": 7,
+  "provinceCount": 27,
+  "municipalityCount": 7,
   "municipalities": [
     "Hà Nội",
     "Hải Phòng",
@@ -60,6 +60,6 @@
   ],
   "sources": [
     "Nghị quyết 30/2026/QH16 về thành lập thành phố Đồng Nai, hiệu lực 2026-04-30",
-    "Danh sách 34 đơn vị cấp tỉnh từ 2026-04-30, đối chiếu cập nhật 2026"
+    "Danh sách 34 đơn vị cấp tỉnh cập nhật từ 2026-04-30"
   ]
 }
