@@ -1,15 +1,23 @@
 from __future__ import annotations
 
 from pathlib import Path
-from tempfile import TemporaryDirectory
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, File, UploadFile, HTTPException, Form
+from fastapi.middleware.cors import CORSMiddleware
 
-from curriculum_engine import analyze_docx_bytes
+from change_set_engine import ChangeSetEngine
 
-app = FastAPI(title="Trang Sửa Giáo Án Backend", version="0.2.0")
+app = FastAPI(title="Trang Sửa Giáo Án Backend", version="0.3.0")
+engine = ChangeSetEngine()
 
 ALLOWED = {".docx"}
-KB_ROOT = Path(__file__).resolve().parent.parent
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/health")
@@ -17,45 +25,54 @@ def health() -> dict:
     return {
         "status": "ok",
         "service": "document-engine",
+        "version": "0.3.0",
         "curriculum_engine": True,
         "administrative_engine": True,
         "special_zone_engine": True,
+        "change_set_engine": True,
         "mutation": False,
         "export": "disabled-until-approval-and-validation",
     }
 
 
-def _metadata_from_filename(filename: str) -> dict[str, str]:
-    # Metadata is intentionally conservative. Filename hints never override document content.
-    stem = Path(filename).stem if filename else ""
-    return {"subject": "", "lesson": stem, "location": "Toàn văn"}
-
-
 @app.post("/inspect")
-async def inspect(file: UploadFile = File(...)) -> dict:
+async def inspect(
+    file: UploadFile = File(...),
+    subject: str = Form(""),
+    lesson: str = Form(""),
+    location: str = Form("Toàn văn"),
+    school_year: str = Form("2026-2027"),
+) -> dict:
     filename = file.filename or ""
-    suffix = Path(filename).suffix.lower()
-    if suffix not in ALLOWED:
-        raise HTTPException(status_code=400, detail="Chỉ nhận DOCX ở prototype engine hiện tại.")
-
+    if Path(filename).suffix.lower() not in ALLOWED:
+        raise HTTPException(status_code=400, detail="Prototype hiện chỉ nhận tệp DOCX.")
     data = await file.read()
     if not data:
         raise HTTPException(status_code=400, detail="Tệp rỗng.")
 
-    metadata = _metadata_from_filename(filename)
-    result = analyze_docx_bytes(data, metadata, KB_ROOT)
-    if not result.get("ok"):
-        raise HTTPException(status_code=422, detail=result.get("error", "Không thể phân tích DOCX."))
+    tmp = Path("/tmp") / f"lesson-inspect-{Path(filename).name}"
+    tmp.write_bytes(data)
+    try:
+        result = engine.inspect(tmp)
+    except Exception as exc:
+        raise HTTPException(status_code=422, detail=f"Không thể phân tích DOCX: {exc}") from exc
+    finally:
+        try:
+            tmp.unlink(missing_ok=True)
+        except Exception:
+            pass
 
-    return {
-        "filename": filename,
-        "engine_version": "0.2.0",
-        "analysis_only": True,
-        "document": result["document"],
-        "change_sets": result["change_sets"],
-        "mutation_performed": False,
-        "next_step": "review_change_sets",
+    # Add explicit metadata to the review payload. Matching remains deterministic.
+    result["metadata"] = {
+        "subject": subject,
+        "lesson": lesson,
+        "location": location,
+        "school_year": school_year,
     }
+    result["analysis_only"] = True
+    result["mutation_performed"] = False
+    result["next_step"] = "review_change_sets"
+    return result
 
 
 @app.post("/format")
