@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from tempfile import NamedTemporaryFile
 from fastapi import FastAPI, File, UploadFile, HTTPException, Form
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -9,16 +10,15 @@ from change_set_engine import ChangeSetEngine
 app = FastAPI(title="Trang Sửa Giáo Án Backend", version="0.3.0")
 engine = ChangeSetEngine()
 
-ALLOWED = {".docx"}
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"] ,
+    allow_headers=["*"] ,
 )
 
+ALLOWED = {".docx"}
 
 @app.get("/health")
 def health() -> dict:
@@ -33,7 +33,6 @@ def health() -> dict:
         "mutation": False,
         "export": "disabled-until-approval-and-validation",
     }
-
 
 @app.post("/inspect")
 async def inspect(
@@ -50,30 +49,28 @@ async def inspect(
     if not data:
         raise HTTPException(status_code=400, detail="Tệp rỗng.")
 
-    tmp = Path("/tmp") / f"lesson-inspect-{Path(filename).name}"
-    tmp.write_bytes(data)
+    tmp_path: Path | None = None
     try:
-        result = engine.inspect(tmp)
+        with NamedTemporaryFile(prefix="lesson-inspect-", suffix=".docx", delete=False) as tmp:
+            tmp.write(data)
+            tmp_path = Path(tmp.name)
+        result = engine.inspect(tmp_path)
     except Exception as exc:
         raise HTTPException(status_code=422, detail=f"Không thể phân tích DOCX: {exc}") from exc
     finally:
-        try:
-            tmp.unlink(missing_ok=True)
-        except Exception:
-            pass
+        if tmp_path:
+            tmp_path.unlink(missing_ok=True)
 
-    # Add explicit metadata to the review payload. Matching remains deterministic.
     result["metadata"] = {
-        "subject": subject,
-        "lesson": lesson,
-        "location": location,
-        "school_year": school_year,
+        "subject": subject.strip(),
+        "lesson": lesson.strip(),
+        "location": location.strip() or "Toàn văn",
+        "school_year": school_year.strip() or "2026-2027",
     }
     result["analysis_only"] = True
     result["mutation_performed"] = False
     result["next_step"] = "review_change_sets"
     return result
-
 
 @app.post("/format")
 async def format_doc(file: UploadFile = File(...)) -> dict:
