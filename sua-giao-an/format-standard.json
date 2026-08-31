@@ -1,7 +1,57 @@
 {
-  "specVersion": "1.0",
+  "specVersion": "1.1",
   "name": "TRANG SỬA GIÁO ÁN - WORD FORMAT STANDARD",
   "requiredForDocxExport": true,
+  "administrativeData": {
+    "effectiveFrom": "2026-04-30",
+    "provincialUnitCount": 34,
+    "provinces": 27,
+    "municipalities": 7,
+    "municipalitiesList": [
+      "Hà Nội",
+      "Hải Phòng",
+      "Huế",
+      "Đà Nẵng",
+      "Cần Thơ",
+      "Thành phố Hồ Chí Minh",
+      "Đồng Nai"
+    ],
+    "provincesList": [
+      "An Giang",
+      "Bắc Ninh",
+      "Cà Mau",
+      "Cao Bằng",
+      "Đắk Lắk",
+      "Điện Biên",
+      "Đồng Tháp",
+      "Gia Lai",
+      "Hà Tĩnh",
+      "Hưng Yên",
+      "Khánh Hòa",
+      "Lai Châu",
+      "Lạng Sơn",
+      "Lào Cai",
+      "Lâm Đồng",
+      "Ninh Bình",
+      "Nghệ An",
+      "Phú Thọ",
+      "Quảng Ngãi",
+      "Quảng Ninh",
+      "Quảng Trị",
+      "Sơn La",
+      "Tây Ninh",
+      "Thái Nguyên",
+      "Thanh Hóa",
+      "Tuyên Quang",
+      "Vĩnh Long"
+    ],
+    "dongNai": {
+      "type": "municipality",
+      "name": "Đồng Nai",
+      "legalInstrument": "Nghị quyết 30/2026/QH16",
+      "effectiveFrom": "2026-04-30"
+    }
+  },
   "page": {
     "size": "A4",
     "marginsCm": {"top": 2.0, "bottom": 2.0, "left": 2.5, "right": 1.5}
@@ -41,6 +91,7 @@
     "mustCheckBlankPages": true,
     "mustCheckPageBreaks": true,
     "mustCheckOriginalPreservation": true,
+    "mustCheckAdministrativeData": true,
     "blockExportOnFailure": true
   }
 }
