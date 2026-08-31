@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>🛠️ Trang Sửa Giáo Án v1.2</title>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<style>
+:root{--bg:#f4f7fb;--ink:#18243b;--line:#dce4ef;--primary:#245fe8;--green:#107b48;--red:#c23f49;--amber:#9b6500;--muted:#65748a;--blue2:#eef4ff}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--ink)}
+.wrap{max-width:1280px;margin:auto;padding:16px}.top{background:#0b1734;color:#fff;border-radius:18px;padding:18px;margin-bottom:14px}.top h1{margin:5px 0;font-size:28px}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px;margin:0 0 14px}
+h2{margin:0 0 10px;font-size:18px}.muted{color:var(--muted);font-size:12px}.small{font-size:12px;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:0 0 14px}.step{padding:9px 5px;text-align:center;border:1px solid var(--line);border-radius:10px;background:#fff;font-size:11px}.step.active{background:var(--primary);color:#fff}.step.done{background:#e8f8ef;color:var(--green)}
+.drop{display:block;border:2px dashed #b9c9e2;padding:23px;text-align:center;border-radius:14px;background:#fafcff;cursor:pointer}.drop input{display:none}
+.btn{padding:9px 13px;border:0;border-radius:9px;font-weight:800;cursor:pointer;margin:3px}.btn:disabled{opacity:.45;cursor:not-allowed}.primary{background:var(--primary);color:#fff}.ok{background:#e8f8ef;color:var(--green)}.bad{background:#fff0f1;color:var(--red)}.secondary{background:#eef2f6;color:var(--ink)}.warn{background:#fff7e6;color:var(--amber)}
+.status{padding:9px;border:1px solid var(--line);border-radius:10px;margin-top:8px;white-space:pre-wrap}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.stat{padding:9px;border:1px solid var(--line);border-radius:10px;background:#fafbfc}.stat b{display:block;font-size:20px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.row>*{padding:9px;border:1px solid #d6dfeb;border-radius:8px;background:#fff}
+.change{border:1px solid var(--line);border-radius:12px;padding:11px;margin:7px 0}.change .cols{display:grid;grid-template-columns:1fr 1fr;gap:7px}.old{background:#fff2f2;padding:9px;border-radius:8px;white-space:pre-wrap}.new{background:#effaf3;padding:9px;border-radius:8px;white-space:pre-wrap}
+.badge{display:inline-block;padding:3px 7px;border-radius:999px;background:var(--blue2);font-size:11px;margin-right:4px}.badge.hi{background:#fff0f1;color:var(--red)}.badge.review{background:#fff7e6;color:var(--amber)}
+.introw{display:grid;grid-template-columns:210px 1fr 150px;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:8px 0}.introw:last-child{border-bottom:0}.intname{font-weight:800;font-size:12px}.inttext{font-size:12px}.intstatus{font-size:11px;font-weight:800}
+.preview{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fbfcfe;white-space:pre-wrap;line-height:1.45}
+.toggle{display:flex;gap:7px;align-items:center;padding:6px 0;font-size:13px}.toggle input{transform:scale(1.1)}
+footer{color:var(--muted);font-size:12px;padding:5px 2px 15px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.steps{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr 1fr}.row,.change .cols,.introw{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+<div>🛠️ CÔNG CỤ RIÊNG · GIÁO VIÊN</div>
+<h1>TRANG SỬA GIÁO ÁN</h1>
+<div>v1.2 · Nạp → Phân tích → Quét tích hợp → Duyệt → Sửa → Kiểm tra → Xuất</div>
+</header>
+<div class="steps" id="steps"><div class="step active">01<br>Nạp</div><div class="step">02<br>Phân tích</div><div class="step">03<br>Tích hợp</div><div class="step">04<br>Duyệt</div><div class="step">05<br>Sửa</div><div class="step">06<br>Kiểm tra</div><div class="step">07<br>Xuất</div></div>
+<div class="grid">
+<section class="card">
+<h2>01 · 📥 Nạp tài liệu</h2>
+<label class="drop"><input id="files" type="file" accept=".docx,.zip,.html,.htm" multiple><div style="font-size:36px">📂</div><b>Chọn Word, ZIP cả tuần hoặc giáo án điện tử</b><div class="small">Xử lý cục bộ trong trình duyệt; bản gốc không bị ghi đè.</div></label>
+<div id="picked" class="status">Chưa chọn tài liệu.</div>
+<div class="row"><select id="subject"><option value="">Tự nhận diện</option><option>Đạo đức</option><option>Lịch sử - Địa lí</option><option>Toán</option><option>Tiếng Việt</option><option>Khoa học</option></select><input id="lesson" placeholder="Bài / Tiết"></div>
+<div class="row"><input id="year" value="2026-2027"><input id="location" value="Toàn văn" placeholder="Trang / vị trí"></div>
+<button id="analyze" class="btn primary" disabled>02 · 🔍 PHÂN TÍCH</button><button id="reset" class="btn secondary">↺ Đặt lại</button>
+<div id="status" class="status">Sẵn sàng.</div>
+</section>
+<section class="card">
+<h2>🛡️ Bộ luật bảo toàn</h2>
+<div class="toggle"><input type="checkbox" checked disabled> 🔒 Không xóa nội dung đúng</div>
+<div class="toggle"><input type="checkbox" checked disabled> 🔒 Không rút gọn / viết lại toàn bài</div>
+<div class="toggle"><input type="checkbox" checked disabled> 🔒 Không đảo thứ tự hoạt động</div>
+<div class="toggle"><input type="checkbox" checked disabled> 🔒 Không ghi đè bản gốc</div>
+<div class="toggle"><input type="checkbox" checked id="markEdits"> 🎨 Phần sửa/thêm: <b style="color:var(--red)">đỏ + in nghiêng</b></div>
+<div class="row"><select id="mode"><option value="review">💡 Đề xuất + duyệt</option><option value="safe">🚀 Sửa an toàn theo luật</option><option value="inspect">🔍 Chỉ kiểm tra</option></select><select id="formatMode"><option value="gentle">Chuẩn hóa nhẹ</option><option value="verify">Chỉ kiểm tra định dạng</option></select></div>
+</section>
+</div>
+<section class="card"><h2>02 · 📋 Báo cáo phân tích</h2><div class="stats"><div class="stat"><b id="nFiles">0</b>Tài liệu</div><div class="stat"><b id="nChanges">0</b>Change Set</div><div class="stat"><b id="nReview">0</b>Cần xác minh</div><div class="stat"><b id="nAccept">0</b>Đã duyệt</div><div class="stat"><b id="nReject">0</b>Từ chối</div></div><div id="report" class="status">Chưa phân tích.</div></section>
+<section class="card"><h2>03 · 🔎 Quét tích hợp toàn diện</h2><div id="integrationReport" class="status">Chưa quét.</div><div id="integrationRows"></div></section>
+<section class="card"><h2>04 · ✅ Duyệt Change Set</h2><div class="small">Chỉ thay đổi đã ACCEPT mới được phép áp dụng. NEED_VERIFY luôn phải được giáo viên xác nhận.</div><div><button id="acceptHigh" class="btn ok" disabled>✅ Duyệt đề xuất chắc chắn</button><button id="rejectAll" class="btn bad" disabled>❌ Từ chối tất cả</button><button id="apply" class="btn primary" disabled>05 · ✏️ ÁP DỤNG</button></div><div id="changes">Chưa có Change Set.</div></section>
+<section class="card"><h2>06 · 🔎 Validator + 👁️ Xem trước</h2><div id="validator" class="status">Chưa sửa.</div><div id="preview" class="preview">Bản xem trước sẽ xuất hiện sau khi xử lý.</div></section>
+<section class="card"><h2>07 · 📥 Xuất tài liệu</h2><button id="exportWord" class="btn primary" disabled>📄 Xuất Word</button><button id="exportZip" class="btn primary" disabled>📦 Xuất ZIP</button><button id="exportHtml" class="btn primary" disabled>💻 Xuất giáo án điện tử</button><button id="exportLog" class="btn secondary" disabled>📋 Xuất Change Log</button><div id="exportStatus" class="status">Chưa có tệp đầu ra.</div></section>
+<footer>🛠️ TRANG SỬA GIÁO ÁN · Lê Hoàng · v1.2 · Thư viện tích hợp 2026–2027 · Xử lý DOCX cục bộ.</footer>
+</div>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const state={sources:[],docs:[],changes:[],integration:[],changedDocs:[],ran:false};
+const curriculumRules=[
+['LSDL-B01-P07-003','Việt Nam có 63 tỉnh, thành phố','Việt Nam có 34 đơn vị hành chính cấp tỉnh, gồm 27 tỉnh và 7 thành phố trực thuộc Trung ương','Điều chỉnh SGK','HIGH'],
+['LSDL-B01-P07-004','5 thành phố trực thuộc Trung ương','7 thành phố trực thuộc Trung ương','Hành chính','HIGH'],
+['LSDL-B01-H01-P05-001','Cột cờ Lũng Cú (Hà Giang)','Cột cờ Lũng Cú (Tuyên Quang)','Điều chỉnh SGK','HIGH'],
+['LSDL-B02-P11-001','Giàn khoan dầu khí ở mỏ Bạch Hổ (Bà Rịa – Vũng Tàu)','Giàn khoan dầu khí ở mỏ Bạch Hổ (Thành phố Hồ Chí Minh)','Điều chỉnh SGK','HIGH'],
+['LSDL-B02-P12-002','Rau vụ đông ở tỉnh Thái Bình','Rau vụ đông ở tỉnh Hưng Yên','Điều chỉnh SGK','HIGH'],
+['LSDL-B02-P12-003','Hồ Ba Bể (Bắc Kạn)','Hồ Ba Bể (Thái Nguyên)','Điều chỉnh SGK','HIGH'],
+['LSDL-B02-P13-004','Vườn vải thiều ở vùng đồi núi phía Bắc (Bắc Giang)','Vườn vải thiều ở vùng đồi núi phía Bắc (Bắc Ninh)','Điều chỉnh SGK','HIGH'],
+['LSDL-B03-P17-001','Côn Sơn (Bà Rịa – Vũng Tàu)','Côn Sơn (Thành phố Hồ Chí Minh)','Điều chỉnh SGK','HIGH'],
+['LSDL-B03-P17-002','Phú Quốc (Kiên Giang)','Phú Quốc (An Giang)','Điều chỉnh SGK','HIGH'],
+['LSDL-B04-P22-001','địa giới hành chính 63 tỉnh','địa giới hành chính 34 đơn vị cấp tỉnh','Điều chỉnh SGK','HIGH'],
+['LSDL-B06-P30-001','di tích Nền Chùa (Kiên Giang)','di tích Nền Chùa (An Giang)','Điều chỉnh SGK','HIGH'],
+['LSDL-B06-P31-002','Tượng phật Bình Hòa (Long An)','Tượng phật Bình Hòa (Tây Ninh)','Điều chỉnh SGK','HIGH'],
+['LSDL-B07-P32-001','Tháp Nhạn (Phú Yên)','Tháp Nhạn (Đắk Lắk)','Điều chỉnh SGK','HIGH'],
+['LSDL-B07-P33-002','Khu di tích Thánh địa Mỹ Sơn (Quảng Nam)','Khu di tích Thánh địa Mỹ Sơn (Đà Nẵng)','Điều chỉnh SGK','HIGH'],
+['LSDL-B07-P34-003','Tháp Bánh Ít (Bình Định)','Tháp Bánh Ít (Gia Lai)','Điều chỉnh SGK','HIGH'],
+['LSDL-B07-P34-004','Tháp Pô Klong Ga – rai (Ninh Thuận)','Tháp Pô Klong Ga – rai (Khánh Hòa)','Điều chỉnh SGK','HIGH'],
+['LSDL-B10-P46-001','địa điểm Nam Định','địa điểm Ninh Bình','Điều chỉnh SGK','HIGH'],
+['LSDL-B10-P46-002','Địa điểm Chí Linh (Hải Dương)','Địa điểm Chí Linh (Hải Phòng)','Điều chỉnh SGK','HIGH'],
+['LSDL-B12-001','Vụ Bản (Nam Định)','Vụ Bản (Ninh Bình)','Điều chỉnh SGK','HIGH'],
+['LSDL-B13-P58-001','Tiền Hải (Thái Bình)','Tiền Hải (Hưng Yên)','Điều chỉnh SGK','HIGH'],
+['LSDL-B16-P70-001','Phi đội Quyết thắng tại sân bay Thành Sơn (Ninh Thuận)','Phi đội Quyết thắng tại sân bay Thành Sơn (Khánh Hòa)','Điều chỉnh SGK','HIGH'],
+['LSDL-B26-P110-001','Lũ quét ở Mù Căng Chải, tỉnh Yên Bái','Lũ quét ở Mù Căng Chải, tỉnh Lào Cai','Điều chỉnh SGK','HIGH'],
+['LSDL-B31-P149-001','Nhà hát Cao Văn Lầu (Bạc Liêu)','Nhà hát Cao Văn Lầu (Cà Mau)','Điều chỉnh SGK','HIGH'],
+['LSDL-HKII-B02-P16-001','xã Nghĩa Lâm, huyện Nghĩa Đàn, tỉnh Nghệ An','xã Nghĩa Lâm, tỉnh Nghệ An','Điều chỉnh SGK','HIGH'],
+['LSDL-HKII-B16-P74-001','Xã Đất Mũi, huyện Ngọc Hiển, tỉnh Cà Mau','Xã Đất Mũi, tỉnh Cà Mau','Điều chỉnh SGK','HIGH'],
+['LSDL-HKII-B19-P98-001','Tỉnh Hải Dương','Thành phố Hải Phòng','Điều chỉnh SGK','HIGH'],
+['TOAN-B74-P124-001','Đắk Lắk, Lâm Đồng, Đắk Nông, Gia Lai','Đắk Lắk, Lâm Đồng, Gia Lai','Điều chỉnh SGK','HIGH'],
+['TV-HKI-B11-P56-001','Hang Sơn Đoòng (Quảng Bình)','Hang Sơn Đoòng (Quảng Trị)','Điều chỉnh SGK','HIGH'],
+['TV-HKI-B16-P79-001','Cao nguyên đá Đồng Văn (Hà Giang)','Cao nguyên đá Đồng Văn (Tuyên Quang)','Điều chỉnh SGK','HIGH'],
+['TV-HKI-B16-P79-002','động Phong Nha – Kẻ Bàng (Quảng Bình)','động Phong Nha – Kẻ Bàng (Quảng Trị)','Điều chỉnh SGK','HIGH'],
+['TV-HKI-B16-P79-003','đảo Ngọc – Phú Quốc (Kiên Giang)','đảo Ngọc – Phú Quốc (An Giang)','Điều chỉnh SGK','HIGH'],
+['TV-HKI-B25-P123-001','địa danh Hoà Bình','địa danh Phú Thọ','Điều chỉnh SGK','HIGH'],
+['DD-B01-P05-001','Xã Phước Thọ, huyện Đất Đỏ, tỉnh Bà Rịa – Vũng Tàu','Xã Phước Thọ, Thành phố Hồ Chí Minh','Điều chỉnh SGK','HIGH']
+];
+const specialRules=[['SZ-CONDAO','huyện Côn Đảo','đặc khu Côn Đảo'],['SZ-LYSON','huyện Lý Sơn','đặc khu Lý Sơn'],['SZ-CONCO','huyện Cồn Cỏ','đặc khu Cồn Cỏ'],['SZ-CATHAI','huyện Cát Hải','đặc khu Cát Hải'],['SZ-BLVI','huyện Bạch Long Vĩ','đặc khu Bạch Long Vĩ'],['SZ-COTO','huyện Cô Tô','đặc khu Cô Tô'],['SZ-VANDON','huyện Vân Đồn','đặc khu Vân Đồn'],['SZ-TRUONGSA','huyện Trường Sa','đặc khu Trường Sa'],['SZ-HOANGSA','huyện Hoàng Sa','đặc khu Hoàng Sa'],['SZ-PHUGUY','huyện Phú Quý','đặc khu Phú Quý'],['SZ-KIENHAI','huyện Kiên Hải','đặc khu Kiên Hải'],['SZ-PHUQUOC','huyện Phú Quốc','đặc khu Phú Quốc'],['SZ-THOCHAU','xã Thổ Châu thuộc thành phố Phú Quốc','đặc khu Thổ Châu']];
+const integrationCatalog=[
+{id:'NLS',name:'Năng lực số',mode:'KIỂM TRA KHUNG',keywords:['canva','powerpoint','internet','máy tính','tìm kiếm','nguồn số','poster số','công cụ số','mã qr','video'],suggest:'Kiểm tra hành vi số, nhiệm vụ số và sản phẩm/minh chứng; không chỉ ghi mã.'},
+{id:'CONG_DAN_SO',name:'Công dân số',mode:'THEO NGỮ CẢNH',keywords:['internet','mạng xã hội','thông tin','nguồn tin','bản quyền','dữ liệu cá nhân','ai','trí tuệ nhân tạo','an toàn tài khoản'],suggest:'Tích hợp khi HS tìm, kiểm chứng, chia sẻ, bảo vệ dữ liệu hoặc giao tiếp số.'},
+{id:'HCM',name:'Tư tưởng, đạo đức, phong cách Hồ Chí Minh',mode:'THEO NGỮ CẢNH',keywords:['bác hồ','hồ chí minh','yêu nước','đoàn kết','tiết kiệm','giản dị','trách nhiệm','chăm chỉ','thiên nhiên'],suggest:'Ưu tiên qua việc làm, tình huống, trải nghiệm; không chèn bài kể chuyện dài.'},
+{id:'MOI_TRUONG_BDKH',name:'Môi trường và biến đổi khí hậu',mode:'THEO NGỮ CẢNH',keywords:['môi trường','rác','tái chế','đất','nước','không khí','khí hậu','thiên nhiên','năng lượng','đa dạng sinh học'],suggest:'Gắn kiến thức với hành vi cụ thể, nhỏ và khả thi.'},
+{id:'NUOC',name:'Nước sạch, tiết kiệm và bảo vệ nguồn nước',mode:'THEO NGỮ CẢNH',keywords:['nước','nước ngầm','ao','hồ','sông','kênh','mưa','nước sạch','tiết kiệm nước'],suggest:'Kiểm tra vai trò, sử dụng tiết kiệm và bảo vệ nguồn nước.'},
+{id:'BIEN_DAO',name:'Biển, đảo và môi trường biển',mode:'THEO NGỮ CẢNH',keywords:['biển','đảo','hoàng sa','trường sa','ven biển','đại dương','hải đảo','tài nguyên biển'],suggest:'Kiểm tra khi bài có tự nhiên, tài nguyên, môi trường, giao thông biển hoặc chủ quyền.'},
+{id:'BIEN_GIOI_LANH_THO',name:'Biên giới, lãnh thổ, chủ quyền',mode:'THEO NGỮ CẢNH',keywords:['biên giới','lãnh thổ','chủ quyền','quốc giới','đảo','quần đảo'],suggest:'Chỉ tích hợp khi có căn cứ nội dung; phân biệt địa danh lịch sử và hiện hành.'},
+{id:'GIAO_THONG',name:'An toàn giao thông',mode:'THEO NGỮ CẢNH',keywords:['giao thông','xe đạp','xe máy','mũ bảo hiểm','đường','biển báo','qua đường','đi bộ'],suggest:'Ưu tiên hành vi thực tế, an toàn, phù hợp lứa tuổi.'},
+{id:'DUOI_NUOC_ATNTT',name:'Phòng chống đuối nước và tai nạn thương tích',mode:'ƯU TIÊN KHI PHÙ HỢP',keywords:['sông','hồ','ao','biển','bơi','đuối nước','lũ','an toàn'],suggest:'Cảnh báo nguy cơ và kỹ năng an toàn; không hướng dẫn hành vi nguy hiểm.'},
+{id:'QUYEN_TRE_EM',name:'Quyền trẻ em',mode:'THEO NGỮ CẢNH',keywords:['quyền trẻ em','bảo vệ trẻ em','an toàn','bày tỏ ý kiến','không bạo lực','tôn trọng trẻ'],suggest:'Gắn với tình huống và hành vi tôn trọng, bảo vệ trẻ.'},
+{id:'BINH_DANG_HOA_NHAP',name:'Bình đẳng giới và hòa nhập',mode:'THEO NGỮ CẢNH',keywords:['bình đẳng','giới','khác biệt','hòa nhập','khuyết tật','tôn trọng'],suggest:'Loại bỏ định kiến; phân công và ví dụ không phân biệt giới.'},
+{id:'TAI_CHINH',name:'Giáo dục tài chính',mode:'THEO NGỮ CẢNH',keywords:['tiền','mua','bán','giá','tiết kiệm','chi tiêu','tiêu dùng','ngân sách'],suggest:'Chỉ dùng khi có quan hệ tự nhiên với bài học.'},
+{id:'STEM',name:'STEM và giải quyết vấn đề',mode:'THEO NGỮ CẢNH',keywords:['thiết kế','thử nghiệm','mô hình','chế tạo','giải pháp','vật liệu','sản phẩm'],suggest:'Chỉ gọi là STEM khi có vấn đề, thiết kế/thử nghiệm/cải tiến và sản phẩm.'},
+{id:'PHAP_LUAT',name:'Giáo dục pháp luật',mode:'THEO NGỮ CẢNH',keywords:['pháp luật','quy định','quyền','nghĩa vụ','luật','quy tắc'],suggest:'Gắn với chuẩn mực, quyền/nghĩa vụ hoặc quy định liên quan trực tiếp.'},
+{id:'SUC_KHOE',name:'Sức khỏe, vệ sinh, dinh dưỡng',mode:'THEO NGỮ CẢNH',keywords:['sức khỏe','vệ sinh','dinh dưỡng','thực phẩm','bệnh','rửa tay','an toàn thực phẩm'],suggest:'Kiểm tra hành vi tự chăm sóc và an toàn phù hợp lứa tuổi.'},
+{id:'THIEN_TAI',name:'Thiên tai và thích ứng khí hậu',mode:'THEO NGỮ CẢNH',keywords:['bão','lũ','lũ quét','sạt lở','hạn hán','nắng nóng','thiên tai','cảnh báo'],suggest:'Gắn với nhận biết nguy cơ, phòng tránh và thích ứng.'},
+{id:'VAN_HOA_DI_SAN',name:'Văn hóa, truyền thống, di sản địa phương',mode:'THEO NGỮ CẢNH',keywords:['di sản','di tích','truyền thống','văn hóa','lễ hội','làng nghề','địa phương'],suggest:'Ưu tiên trải nghiệm và bảo tồn giá trị văn hóa.'},
+{id:'AI_THONG_TIN',name:'AI, thông tin số và tư duy phản biện',mode:'THEO NGỮ CẢNH',keywords:['ai','chatgpt','gemini','tạo sinh','kiểm chứng','nguồn','thông tin sai','đánh giá thông tin'],suggest:'AI hỗ trợ nhưng không làm thay HS; phải kiểm chứng và bảo vệ dữ liệu.'}
+];
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setStep(n){document.querySelectorAll('.step').forEach((e,i)=>{e.classList.toggle('active',i===n-1);e.classList.toggle('done',i<n-1)})}
+function stats(){$('nFiles').textContent=state.docs.length;$('nChanges').textContent=state.changes.length;$('nReview').textContent=state.changes.filter(x=>x.status==='NEED_VERIFY'&&x.ui!=='REJECTED').length;$('nAccept').textContent=state.changes.filter(x=>x.ui==='ACCEPTED').length;$('nReject').textContent=state.changes.filter(x=>x.ui==='REJECTED').length;$('apply').disabled=!state.changes.some(x=>x.ui==='ACCEPTED')||state.ran}
+function decodeXml(s){return String(s).replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&')}
+function encodeXml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+function plainText(xml){let out='';for(const m of xml.matchAll(/<w:t(?: [^>]*)?>([\s\S]*?)<\/w:t>/gi))out+=decodeXml(m[1]);return out}
+function allDocText(doc){return [doc.xml,...(doc.headerXml||[]),...(doc.footerXml||[])].join('\n')}
+function detectRuleChanges(doc){let t=allDocText(doc),out=[];for(const [id,a,b,engine,confidence] of curriculumRules){if(t.toLowerCase().includes(a.toLowerCase()))out.push({id,engine,status:confidence==='HIGH'?'PROPOSED':'NEED_VERIFY',old_text:a,new_text:b,location:doc.name,confidence,reason:'Khớp danh mục điều chỉnh SGK 2026–2027',ui:''})}for(const [id,a,b] of specialRules){if(t.toLowerCase().includes(a.toLowerCase()))out.push({id,engine:'Đặc khu',status:'NEED_VERIFY',old_text:a,new_text:b,location:doc.name,confidence:'HIGH',reason:'Kiểm tra chuyển đổi đơn vị hành chính đặc khu theo ngữ cảnh và thời điểm',ui:''})}const m=t.match(/\b(28|29|30|31|32|33)\s+tỉnh\s+và\s+(?:5|6|7)\s+thành phố\b/i);if(m)out.push({id:'ADM-GENERAL-001',engine:'Hành chính',status:'NEED_VERIFY',old_text:m[0],new_text:'34 đơn vị hành chính cấp tỉnh (27 tỉnh + 7 thành phố trực thuộc Trung ương)',location:doc.name,confidence:'MEDIUM',reason:'Đối chiếu chuẩn hành chính 2026–2027; tránh sửa máy móc số liệu lịch sử',ui:''});return out}
+function scanIntegration(doc){const t=allDocText(doc).toLowerCase(),rows=[];integrationCatalog.forEach(c=>{const hits=c.keywords.filter(k=>t.includes(k.toLowerCase()));let status=hits.length?'ĐÃ CÓ DẤU HIỆU':'CẦN XEM XÉT';if(c.id==='NLS'&&hits.length&&!/hành vi|sản phẩm|minh chứng|poster|canva|powerpoint/i.test(t))status='CẦN BỔ SUNG MINH CHỨNG';rows.push({id:c.id,name:c.name,mode:c.mode,status,hits,suggest:c.suggest})});return rows}
+function renderIntegration(){const g=state.integration,need=g.filter(x=>x.status!=='ĐÃ CÓ DẤU HIỆU').length;$('integrationReport').textContent=`Đã quét ${g.length} nhóm. Có dấu hiệu: ${g.length-need}; cần xem xét/bổ sung: ${need}. Không nhóm nào được tự chèn nếu chưa có căn cứ.`;$('integrationRows').innerHTML=g.map(x=>`<div class="introw"><div class="intname">${esc(x.name)}<br><span class="small">${esc(x.mode)}</span></div><div class="inttext">${x.hits.length?'Từ khóa: '+x.hits.slice(0,6).map(esc).join(', '):esc(x.suggest)}</div><div class="intstatus ${x.status==='ĐÃ CÓ DẤU HIỆU'?'ok':''}">${esc(x.status)}</div></div>`).join('')}
+function renderChanges(){if(!state.changes.length){$('changes').innerHTML='<div class="status">Không phát hiện Change Set theo luật hiện tại.</div>';stats();return}$('changes').innerHTML=state.changes.map((c,i)=>`<div class="change"><div><span class="badge hi">${esc(c.confidence)}</span><span class="badge">${esc(c.engine)}</span><span class="badge ${c.status==='NEED_VERIFY'?'review':''}">${esc(c.status)}</span> <b>${esc(c.location)}</b></div><div class="cols" style="margin-top:7px"><div class="old"><b>Cũ</b><br>${esc(c.old_text)}</div><div class="new"><b>Đề xuất</b><br>${esc(c.new_text)}</div></div><div class="small" style="margin-top:6px">${esc(c.reason)}</div><div style="margin-top:6px"><button class="btn ok" onclick="acceptChange(${i})">✅ Duyệt</button><button class="btn bad" onclick="rejectChange(${i})">❌ Từ chối</button></div></div>`).join('');$('acceptHigh').disabled=false;$('rejectAll').disabled=false;stats()}
+window.acceptChange=i=>{state.changes[i].ui='ACCEPTED';renderChanges()};window.rejectChange=i=>{state.changes[i].ui='REJECTED';renderChanges()}
+function splitRunForReplacement(runXml,needle,repl){const t=runXml.match(/<w:t(?: [^>]*)?>([\s\S]*?)<\/w:t>/i);if(!t)return null;const content=decodeXml(t[1]),pos=content.indexOf(needle);if(pos<0)return null;const before=content.slice(0,pos),after=content.slice(pos+needle.length);const rpr=(runXml.match(/<w:rPr>[\s\S]*?<\/w:rPr>/i)||[''])[0];const first=(before||after)?`<w:r>${rpr}${before?`<w:t xml:space="preserve">${encodeXml(before)}</w:t>`:''}${after?`<w:t xml:space="preserve">${encodeXml(after)}</w:t>`:''}</w:r>`:'';const redItalic=`<w:rPr>${rpr.replace(/^<w:rPr>|<\/w:rPr>$/g,'')}<w:i/><w:color w:val="C00000"/></w:rPr>`;const middle=`<w:r>${redItalic}<w:t xml:space="preserve">${encodeXml(repl)}</w:t></w:r>`;return first+middle}
+function safeReplaceXml(xml,needle,repl){const re=/<w:r>[\s\S]*?<\/w:r>/gi;let changed=false;const out=xml.replace(re,run=>{if(changed)return run;const r=splitRunForReplacement(run,needle,repl);if(r){changed=true;return r}return run});return {xml:out,changed}}
+async function loadDocx(file){const zip=await JSZip.loadAsync(await file.arrayBuffer());const main=zip.file('word/document.xml');if(!main)throw new Error('DOCX thiếu word/document.xml');const headers=[],footers=[];for(const k of Object.keys(zip.files)){if(/^word\/header\d+\.xml$/i.test(k))headers.push(await zip.file(k).async('text'));if(/^word\/footer\d+\.xml$/i.test(k))footers.push(await zip.file(k).async('text'))}return{name:file.name,zip,xml:await main.async('text'),originalXml:await main.async('text'),headerXml:headers,footerXml:footers,kind:'docx'}}
+async function expandSources(files){const arr=[];for(const f of files){if(/\.zip$/i.test(f.name)){const z=await JSZip.loadAsync(await f.arrayBuffer());for(const k of Object.keys(z.files))if(!z.files[k].dir&&/\.docx$/i.test(k)){const blob=await z.file(k).async('blob');arr.push(await loadDocx(new File([blob],k.split('/').pop(),{type:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'}))) }else if(/\.docx$/i.test(f.name))arr.push(await loadDocx(f));else if(/\.html?$/i.test(f.name)){const s=await f.text();arr.push({name:f.name,kind:'html',html:s,xml:s,originalXml:s})}else throw new Error('Định dạng chưa hỗ trợ: '+f.name)}return arr}
+function snapshot(xml){return{paragraphs:(xml.match(/<w:p\b/g)||[]).length,tables:(xml.match(/<w:tbl\b/g)||[]).length,inlineShapes:(xml.match(/<wp:inline\b/g)||[]).length,sections:(xml.match(/<w:sectPr\b/g)||[]).length}}
+function validator(before,after,zipOk){const issues=[];if(!zipOk)issues.push('ERROR: Không đóng gói DOCX được.');if(after.paragraphs<before.paragraphs)issues.push('ERROR: Số đoạn giảm.');if(after.tables<before.tables)issues.push('ERROR: Số bảng giảm.');if(after.inlineShapes<before.inlineShapes)issues.push('ERROR: Số hình inline giảm.');if(after.sections!==before.sections)issues.push('ERROR: Số section thay đổi.');if(!issues.length)issues.push('OK: Cấu trúc cơ bản đạt. Tài liệu có cấu trúc phức tạp nên mở thử bằng Word trước khi in/chia sẻ.');return issues}
+async function applyChanges(){setStep(5);state.changedDocs=[];const accepted=state.changes.filter(x=>x.ui==='ACCEPTED');for(const doc of state.docs){if(doc.kind!=='docx')continue;let xml=doc.originalXml;for(const c of accepted.filter(x=>x.location===doc.name)){const res=safeReplaceXml(xml,c.old_text,c.new_text);if(res.changed)xml=res.xml}state.changedDocs.push({...doc,xml,before:snapshot(doc.originalXml),after:snapshot(xml)})}state.ran=true;renderPreview();setStep(6);stats()}
+function renderPreview(){ $('preview').textContent=state.changedDocs.map(d=>`===== ${d.name} =====\n${plainText(d.xml).slice(0,9000)}`).join('\n\n')||'Không có bản xem trước.'; $('validator').innerHTML=state.changedDocs.map(d=>`<div>${esc(d.name)}: ${validator(d.before,d.after,true).map(esc).join(' · ')}</div>`).join('');const allOk=state.changedDocs.length>0&&state.changedDocs.every(d=>validator(d.before,d.after,true).every(x=>!x.startsWith('ERROR')));$('exportWord').disabled=!allOk;$('exportZip').disabled=!allOk||state.changedDocs.length<2;$('exportHtml').disabled=!state.changedDocs.length;$('exportLog').disabled=!state.ran}
+async function exportDoc(d){const z=await JSZip.loadAsync(await d.zip.generateAsync({type:'blob'}));z.file('word/document.xml',d.xml);downloadBlob(await z.generateAsync({type:'blob'}),d.name.replace(/\.docx$/i,'')+'_DA_SUA.docx')}
+function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1000)}
+async function exportZip(){const out=new JSZip();for(const d of state.changedDocs){const z=await JSZip.loadAsync(await d.zip.generateAsync({type:'blob'}));z.file('word/document.xml',d.xml);out.file(d.name.replace(/\.docx$/i,'')+'_DA_SUA.docx',await z.generateAsync({type:'blob'}))}downloadBlob(await out.generateAsync({type:'blob'}),'GIAO_AN_DA_SUA_2026_2027.zip');$('exportStatus').textContent='Đã tạo ZIP cả tuần.'}
+function exportHtml(){const body=state.changedDocs.map(d=>`<article><h2>${esc(d.name)}</h2><pre>${esc(plainText(d.xml))}</pre></article>`).join('');downloadBlob(new Blob([`<!doctype html><html lang="vi"><meta charset="utf-8"><title>Giáo án điện tử</title><style>body{font-family:Arial;max-width:1000px;margin:24px auto;line-height:1.6}pre{white-space:pre-wrap}</style><body>${body}</body></html>`],{type:'text/html;charset=utf-8'}),'GIAO_AN_DIEN_TU.html');$('exportStatus').textContent='Đã tạo HTML giáo án điện tử dạng nội dung.'}
+function exportLog(){downloadBlob(new Blob([JSON.stringify({version:'1.2',generatedAt:new Date().toISOString(),changes:state.changes,integration:state.integration},null,2)],{type:'application/json'}),'CHANGE_LOG.json')}
+$('files').onchange=e=>{$('picked').textContent=[...e.target.files].map(f=>f.name).join('\n')||'Chưa chọn';$('analyze').disabled=!e.target.files.length};$('reset').onclick=()=>location.reload();
+$('analyze').onclick=async()=>{try{$('status').textContent='Đang đọc tài liệu...';setStep(2);state.docs=await expandSources([...$('files').files]);state.sources=[...$('files').files];state.changes=state.docs.flatMap(d=>d.kind==='docx'?detectRuleChanges(d):[]);state.integration=state.docs.flatMap(scanIntegration).reduce((a,x)=>{let q=a.find(y=>y.id===x.id);if(!q)a.push(x);else{q.hits=[...new Set([...q.hits,...x.hits])];if(x.status!=='ĐÃ CÓ DẤU HIỆU')q.status=x.status}return a},[]);if($('mode').value==='safe')state.changes.forEach(x=>{if(x.status==='PROPOSED')x.ui='ACCEPTED'});renderChanges();renderIntegration();stats();setStep(3);$('status').textContent='Đã phân tích và quét tích hợp.'}catch(e){$('status').textContent='Lỗi: '+e.message;setStep(1)}};
+$('acceptHigh').onclick=()=>{state.changes.forEach(x=>{if(x.status==='PROPOSED'&&x.confidence==='HIGH')x.ui='ACCEPTED'});renderChanges()};$('rejectAll').onclick=()=>{state.changes.forEach(x=>x.ui='REJECTED');renderChanges()};$('apply').onclick=applyChanges;$('exportWord').onclick=async()=>{for(const d of state.changedDocs)await exportDoc(d);$('exportStatus').textContent='Đã tạo Word cho từng tài liệu.'};$('exportZip').onclick=exportZip;$('exportHtml').onclick=exportHtml;$('exportLog').onclick=exportLog;stats();
+</script>
+</body>
+</html>
