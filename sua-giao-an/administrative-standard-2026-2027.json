@@ -1,0 +1,65 @@
+{
+  "standardVersion": "2026-2027.1",
+  "effectiveFrom": "2026-04-30",
+  "country": "Việt Nam",
+  "unitType": "đơn vị hành chính cấp tỉnh",
+  "total": 34,
+  "provinces": 27,
+  "municipalities": 7,
+  "municipalities": [
+    "Hà Nội",
+    "Hải Phòng",
+    "Huế",
+    "Đà Nẵng",
+    "Cần Thơ",
+    "Thành phố Hồ Chí Minh",
+    "Đồng Nai"
+  ],
+  "provinceList": [
+    "An Giang",
+    "Bắc Ninh",
+    "Cà Mau",
+    "Cao Bằng",
+    "Đắk Lắk",
+    "Điện Biên",
+    "Đồng Tháp",
+    "Gia Lai",
+    "Hà Tĩnh",
+    "Hưng Yên",
+    "Khánh Hòa",
+    "Lai Châu",
+    "Lạng Sơn",
+    "Lào Cai",
+    "Lâm Đồng",
+    "Ninh Bình",
+    "Nghệ An",
+    "Phú Thọ",
+    "Quảng Ngãi",
+    "Quảng Ninh",
+    "Quảng Trị",
+    "Sơn La",
+    "Tây Ninh",
+    "Thái Nguyên",
+    "Thanh Hóa",
+    "Tuyên Quang",
+    "Vĩnh Long"
+  ],
+  "hardRules": [
+    "AI không được tự suy đoán tên tỉnh/thành.",
+    "Mọi phát hiện địa danh phải đối chiếu cơ sở dữ liệu hành chính.",
+    "Mọi thay đổi phải tạo Change Set.",
+    "Không tự sửa khi chưa xác định được loại đơn vị, tên hiện hành và thời điểm áp dụng.",
+    "Giáo án năm học 2026-2027 mặc định dùng chuẩn có hiệu lực từ 2026-04-30.",
+    "Tỉnh Đồng Nai trong ngữ cảnh đơn vị cấp tỉnh hiện hành phải được đánh dấu cần cập nhật thành Thành phố Đồng Nai nếu thời điểm văn bản là từ 2026-04-30 trở đi."
+  ],
+  "legacyPatterns": [
+    {"pattern":"63 tỉnh, thành phố","action":"flag_outdated"},
+    {"pattern":"28 tỉnh và 6 thành phố","action":"flag_outdated"},
+    {"pattern":"5 thành phố trực thuộc Trung ương","action":"flag_outdated"},
+    {"pattern":"tỉnh Đồng Nai","action":"context_check_after_2026-04-30"}
+  ],
+  "sources": [
+    "Nghị quyết 30/2026/QH16 về thành lập thành phố Đồng Nai, hiệu lực 2026-04-30",
+    "Danh sách 34 đơn vị cấp tỉnh từ 2026-04-30, đối chiếu cập nhật 2026"
+  ]
+}
