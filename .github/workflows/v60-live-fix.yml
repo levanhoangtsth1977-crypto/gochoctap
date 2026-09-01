@@ -18,40 +18,35 @@ jobs:
           p=Path('sua-giao-an/v60.html')
           s=p.read_text(encoding='utf-8')
           original=s
-          # Repair malformed confidence ternary if it ever reappears.
           s=s.replace("confidence:/review|flag/i.test(r.action||'')?.98:.99", "confidence:/review|flag/i.test(r.action||'')?0.98:0.99")
-          # Add Gemini busy state once.
           s=s.replace("S={docs:[],rules:[],changes:[],integration:[],audit:[],subjects:[],applied:false}", "S={docs:[],rules:[],changes:[],integration:[],audit:[],subjects:[],applied:false,gemBusy:false}", 1)
-          # Replace Gemini request function with cache + bounded 429 retry.
           start=s.index('async function runGemini(prompt){')
           end=s.index('async function runGeminiWith(prompt){', start)
-          new_run="""async function runGemini(prompt){\nconst k=$('gemKey').value.trim();if(!k)throw Error('Chưa nhập Gemini API Key.');\nconst model=$('gemModel').value;\nlet cacheKey;try{cacheKey='v60-gemini-cache-v3-'+btoa(unescape(encodeURIComponent(model+'|'+prompt))).replace(/[^a-zA-Z0-9]/g,'').slice(0,180)}catch{cacheKey='v60-gemini-cache-v3-'+model+'-'+prompt.length}\ntry{const cached=sessionStorage.getItem(cacheKey);if(cached)return JSON.parse(cached)}catch{}\nconst endpoint='https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent';\nlet last='';\nfor(let attempt=0;attempt<2;attempt++){\nconst r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',maxOutputTokens:5000}})}),raw=await r.text();\nif(r.ok){const j=JSON.parse(raw),txt=j?.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join('');if(!txt)throw Error('Gemini không trả nội dung.');const out=JSON.parse(txt);try{sessionStorage.setItem(cacheKey,JSON.stringify(out))}catch{}return out}\nlast='Gemini '+r.status+': '+raw.slice(0,900);\nif(r.status!==429)throw Error(last);\nlet sec=0,m=raw.match(/retry in\\s+([0-9.]+)s/i);if(m)sec=Math.ceil(Number(m[1]));if(!sec){const ra=r.headers.get('Retry-After');sec=ra?Math.ceil(Number(ra))||0:0}\nif(attempt===0&&sec>0&&sec<=90){$('gemStatus').textContent='⏳ Gemini đang giới hạn quota · chờ '+sec+' giây · chỉ thử lại 1 lần…';await new Promise(res=>setTimeout(res,sec*1000))}else break;\n}\nthrow Error(last+'\\n\\n💡 Không gọi lại liên tục. Hãy chờ quota hồi phục hoặc dùng model/API key có quota.');\n}\n"""
+          new_run="""async function runGemini(prompt){\nconst k=$('gemKey').value.trim();if(!k)throw Error('Chưa nhập Gemini API Key.');\nconst model=$('gemModel').value;let cacheKey;try{cacheKey='v60-gemini-cache-v3-'+btoa(unescape(encodeURIComponent(model+'|'+prompt))).replace(/[^a-zA-Z0-9]/g,'').slice(0,180)}catch{cacheKey='v60-gemini-cache-v3-'+model+'-'+prompt.length}\ntry{const cached=sessionStorage.getItem(cacheKey);if(cached)return JSON.parse(cached)}catch{}\nconst endpoint='https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent';let last='';\nfor(let attempt=0;attempt<2;attempt++){const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',maxOutputTokens:5000}})}),raw=await r.text();\nif(r.ok){const j=JSON.parse(raw),txt=j?.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join('');if(!txt)throw Error('Gemini không trả nội dung.');const out=JSON.parse(txt);try{sessionStorage.setItem(cacheKey,JSON.stringify(out))}catch{}return out}\nlast='Gemini '+r.status+': '+raw.slice(0,900);if(r.status!==429)throw Error(last);\nlet sec=0,m=raw.match(/retry in\\s+([0-9.]+)s/i);if(m)sec=Math.ceil(Number(m[1]));if(!sec){const ra=r.headers.get('Retry-After');sec=ra?Math.ceil(Number(ra))||0:0}\nif(attempt===0&&sec>0&&sec<=90){$('gemStatus').textContent='⏳ Gemini đang giới hạn quota · chờ '+sec+' giây · chỉ thử lại 1 lần…';await new Promise(res=>setTimeout(res,sec*1000))}else break}\nthrow Error(last+'\\n\\n💡 Không gọi lại liên tục. Hãy chờ quota hồi phục hoặc dùng model/API key có quota.');\n}\n"""
           s=s[:start]+new_run+s[end:]
-          # Test endpoint only: no generateContent quota consumed.
-          s=re.sub(r"\$\('gemTest'\)\.onclick=async\(\)=>\{.*?\};async function runGemini", """$('gemTest').onclick=async()=>{try{const k=$('gemKey').value.trim(),model=$('gemModel').value;if(!k)throw Error('Chưa nhập Gemini API Key.');$('gemStatus').textContent='⏳ Đang kiểm tra quyền truy cập Gemini…';const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model),{headers:{'x-goog-api-key':k}}),raw=await r.text();if(!r.ok)throw Error('Gemini '+r.status+': '+raw.slice(0,700));$('gemStatus').textContent='✅ API Key và model hợp lệ · kiểm tra không dùng generateContent quota.'}catch(e){$('gemStatus').textContent='❌ '+e.message}};async function runGemini""", s, count=1, flags=re.S)
-          # Replace Gemini review handler to prevent duplicate calls and advance to step 05.
-          gs=s.index("$('gemReview').onclick=async()=>{")
-          ge=s.index("$('reset').onclick=()=>{",gs)
+          s=re.sub(r"\$\('gemTest'\)\.onclick=async\(\)=>\{.*?\};async function runGemini", """$('gemTest').onclick=async()=>{try{const k=$('gemKey').value.trim(),model=$('gemModel').value;if(!k)throw Error('Chưa nhập Gemini API Key.');$('gemStatus').textContent='⏳ Đang kiểm tra quyền truy cập Gemini…';const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model),{headers:{'x-goog-api-key':k}}),raw=await r.text();if(!r.ok)throw Error('Gemini '+r.status+': '+raw.slice(0,700));$('gemStatus').textContent='✅ API Key và model hợp lệ · kiểm tra không dùng generateContent quota.'}catch(e){$('gemStatus').textContent='❌ '+e.message}};async function runGemini""",s,count=1,flags=re.S)
+          gs=s.index("$('gemReview').onclick=async()=>{");ge=s.index("$('reset').onclick=()=>{",gs)
           new_review="""$('gemReview').onclick=async()=>{if(S.gemBusy)return;try{S.gemBusy=true;$('gemReview').disabled=true;$('gemStatus').textContent='⏳ Gemini đang phân tích…';const prompt='Bạn là chuyên gia rà soát giáo án lớp 5 CTGDPT 2018 Kết nối tri thức. Địa giới chỉ 4 môn Đạo đức, Lịch sử - Địa lí, Toán, Tiếng Việt. Các môn khác chỉ tích hợp. Trả JSON {review:[{id,decision,reason}],recommendations:[{id,decision,reason,suggestion}]}. CHANGE_SET='+JSON.stringify(S.changes)+' INTEGRATION='+JSON.stringify(S.integration);const j=await runGemini(prompt);const rm=new Map((j.review||[]).map(x=>[x.id,x]));for(const c of S.changes){const r=rm.get(c.id);if(r){c.geminiVerdict=r.decision;c.reason=(c.reason||'')+' · Gemini: '+(r.reason||'');if(String(r.decision).toUpperCase()==='REJECT')c.rejected=true}}const ids=new Set(S.changes.map(x=>x.id));for(const r of j.recommendations||[]){const src=S.integration.find(x=>x.id===r.id);if(!src||!r.suggestion||String(r.decision).toUpperCase()==='REJECT'||ids.has(r.id))continue;S.changes.push({...src,type:'INTEGRATION',insertText:String(r.suggestion).trim(),reason:r.reason||'Gemini đề xuất tích hợp.',confidence:.9,approved:false,rejected:false,applied:false});ids.add(r.id)}$('cc').textContent=S.changes.length;$('rr').textContent=S.changes.filter(c=>c.status==='REVIEW_REQUIRED'||/NEED_VERIFY/i.test(c.status||'')).length;render();$('gemStatus').textContent='✅ Gemini đã phân tích · kết quả đã lưu trong phiên.';step(5);audit('Gemini hoàn tất; chuyển sang Bước 05 DUYỆT.')}catch(e){$('gemStatus').textContent='❌ '+e.message}finally{S.gemBusy=false;$('gemReview').disabled=false}};\n"""
           s=s[:gs]+new_review+s[ge:]
           if s==original: raise SystemExit('NO_CHANGE')
           p.write_text(s,encoding='utf-8')
           PY
-      - name: Verify v60 JavaScript
+      - name: Verify v60
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
-          assert 'v60-gemini-cache-v3-' in s
-          assert 'kiểm tra không dùng generateContent quota' in s.lower()
-          assert 'gemBusy' in s
-          assert "step(5);audit('Gemini hoàn tất; chuyển sang Bước 05 DUYỆT.')" in s
+          required=['v60-gemini-cache-v3-','Kiểm tra không dùng generateContent quota','gemBusy',"step(5);audit('Gemini hoàn tất; chuyển sang Bước 05 DUYỆT.')"]
+          missing=[x for x in required if x not in s]
+          if missing:
+              raise SystemExit('PATCH_MARKERS_MISSING: '+repr(missing))
           assert s.count("$('gemReview').onclick=async()=>") == 1
           assert s.count("$('gemTest').onclick=async()=>") == 1
           assert '?.98:.99' not in s
           js=re.search(r'<script>(.*?)</script>',s,re.S).group(1)
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
+          print('V60 PATCH MARKERS PASS')
           PY
           node --check /tmp/v60.js
       - name: Commit patched v60
