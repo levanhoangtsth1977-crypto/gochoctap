@@ -1,0 +1,32 @@
+name: Repair v60
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Repair syntax and workflow gates
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('sua-giao-an/v60.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace("confidence:/review|flag/i.test(c.action||'')?.98:.99", "confidence:/review|flag/i.test(c.action||'')?0.98:0.99")
+          s=s.replace("confidence:/review|flag/i.test(r.action||'')?.98:.99", "confidence:/review|flag/i.test(r.action||'')?0.98:0.99")
+          s=s.replace("$('bulkStatus').textContent='✅ Đã duyệt Change Set #'+(+b.dataset.a+1);render()", "$('bulkStatus').textContent='✅ Đã duyệt Change Set #'+(+b.dataset.a+1);step(5);render()")
+          s=s.replace("$('bulkStatus').textContent='❌ Đã từ chối Change Set #'+(+b.dataset.r+1);render()", "$('bulkStatus').textContent='❌ Đã từ chối Change Set #'+(+b.dataset.r+1);step(5);render()")
+          s=s.replace("$('bulkStatus').textContent='✅ Duyệt chắc chắn: '+n+' Change Set.';render()", "$('bulkStatus').textContent='✅ Duyệt chắc chắn: '+n+' Change Set.';step(5);render()")
+          s=s.replace("$('bulkStatus').textContent='☑️ Duyệt tất cả có bằng chứng: '+n+' Change Set.';render()", "$('bulkStatus').textContent='☑️ Duyệt tất cả có bằng chứng: '+n+' Change Set.';step(5);render()")
+          s=s.replace("$('bulkStatus').textContent='❌ Đã từ chối: '+n+' Change Set.';render()", "$('bulkStatus').textContent='❌ Đã từ chối: '+n+' Change Set.';step(5);render()")
+          p.write_text(s,encoding='utf-8')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v60.html
+          git commit -m 'fix: unblock v60 steps 05-07' || exit 0
+          git push
