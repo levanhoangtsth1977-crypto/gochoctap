@@ -1,0 +1,52 @@
+name: patch-v60-subject-scan
+on:
+  push:
+    paths:
+      - '.github/workflows/patch-v60-subject-scan.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch v60 subject-specific scanner
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('sua-giao-an/v60.html')
+          s=p.read_text(encoding='utf-8')
+          old="function scanAdmin(sub){const out=[];for(const d of S.docs)for(const[part,x]of Object.entries(d.parts))for(const p of pars(x))for(const r of S.rules){if(r.subject!==sub)continue;const q=norm($('lesson').value),rl=norm(r.lesson||'');"
+          new="function rulesForSubject(sub){const m=new Map();for(const r of (DATA.master?.rules||[])){if(r.subject===sub)m.set(r.id,{...r,subject:sub,source:'MASTER'})}for(const r of (DATA.curriculum?.subjects?.[sub]||[])){if(r&&r.id&&!m.has(r.id))m.set(r.id,{...r,subject:sub,source:'CURRICULUM'})}return [...m.values()]}function scanAdmin(sub){const out=[];const subjectRules=rulesForSubject(sub);for(const d of S.docs)for(const[part,x]of Object.entries(d.parts))for(const p of pars(x))for(const r of subjectRules){const q=norm($('lesson').value),rl=norm(r.lesson||'');"
+          if old not in s:
+              raise SystemExit('target scanAdmin signature not found')
+          s=s.replace(old,new,1)
+          old2="for(const sub of S.subjects){if(ADMIN.has(sub))S.changes.push(...scanAdmin(sub))}"
+          new2="for(const sub of S.subjects){if(ADMIN.has(sub)){const before=S.changes.length;const found=scanAdmin(sub);S.changes.push(...found);countsBySubject[sub]=(countsBySubject[sub]||0)+found.length}}"
+          if old2 not in s:
+              raise SystemExit('target scan loop not found')
+          s=s.replace("let xp=0,pc=0;", "let xp=0,pc=0,countsBySubject={};", 1)
+          s=s.replace(old2,new2,1)
+          s=s.replace("const counts=Object.fromEntries(S.subjects.map(x=>[x,{found:0,integrated:0}]));S.changes.forEach(c=>{if(counts[c.subject])counts[c.subject].found++});", "const counts=Object.fromEntries(S.subjects.map(x=>[x,{found:countsBySubject[x]||0,integrated:0}]));S.changes.forEach(c=>{if(counts[c.subject])counts[c.subject].found++});",1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Verify syntax and subject isolation
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
+          assert 'function rulesForSubject(sub)' in s
+          assert 'const subjectRules=rulesForSubject(sub)' in s
+          assert 'if(ADMIN.has(sub)){const before=S.changes.length;const found=scanAdmin(sub)' in s
+          print('v60 subject-scan patch OK')
+          PY
+      - name: Commit patch and remove workflow
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v60.html
+          git diff --cached --quiet || git commit -m 'fix: isolate v60 scan rules by subject'
+          git rm .github/workflows/patch-v60-subject-scan.yml
+          git commit -m 'chore: remove temporary v60 patch workflow'
+          git push
