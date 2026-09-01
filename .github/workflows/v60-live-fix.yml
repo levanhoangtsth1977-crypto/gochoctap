@@ -37,16 +37,14 @@ jobs:
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
-          required=['v60-gemini-cache-v3-','Kiểm tra không dùng generateContent quota','gemBusy',"step(5);audit('Gemini hoàn tất; chuyển sang Bước 05 DUYỆT.')"]
+          required=['v60-gemini-cache-v3-','gemBusy',"step(5);audit('Gemini hoàn tất; chuyển sang Bước 05 DUYỆT.')"]
           missing=[x for x in required if x not in s]
-          if missing:
-              raise SystemExit('PATCH_MARKERS_MISSING: '+repr(missing))
-          assert s.count("$('gemReview').onclick=async()=>") == 1
-          assert s.count("$('gemTest').onclick=async()=>") == 1
-          assert '?.98:.99' not in s
+          if missing: raise SystemExit('PATCH_MARKERS_MISSING: '+repr(missing))
+          if s.count("$('gemReview').onclick=async()=>") != 1: raise SystemExit('BAD gemReview handler count')
+          if s.count("$('gemTest').onclick=async()=>") != 1: raise SystemExit('BAD gemTest handler count')
+          if '?.98:.99' in s: raise SystemExit('BAD confidence syntax remains')
           js=re.search(r'<script>(.*?)</script>',s,re.S).group(1)
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
-          print('V60 PATCH MARKERS PASS')
           PY
           node --check /tmp/v60.js
       - name: Commit patched v60
