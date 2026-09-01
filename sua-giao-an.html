@@ -2,59 +2,21 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Cache-Control" content="no-store,no-cache,must-revalidate,max-age=0"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-store,no-cache,must-revalidate,max-age=0"><meta http-equiv="Pragma" content="no-cache">
 <meta name="robots" content="noindex,nofollow">
 <title>🛠️ Trang Sửa Giáo Án · v6.0 MASTER CLEAN</title>
-<style>
-body{font-family:Arial,sans-serif;padding:30px;background:#f4f7fb;color:#172033}
-#box{max-width:700px;margin:auto;background:#fff;border:1px solid #d8e1ee;border-radius:14px;padding:22px}
-.err{color:#b4232c;font-weight:700}
-</style>
-</head>
-<body>
+<style>body{font-family:Arial,sans-serif;padding:30px;background:#f4f7fb;color:#172033}#box{max-width:700px;margin:auto;background:#fff;border:1px solid #d8e1ee;border-radius:14px;padding:22px}.err{color:#b4232c;font-weight:700}</style>
+</head><body>
 <div id="box"><p>Đang mở <b>Trang Sửa Giáo Án v6.0 MASTER CLEAN</b>…</p></div>
 <script>
 (async()=>{
  const box=document.getElementById('box');
  try{
   const u='sua-giao-an/v60.html?v=6.0&cb='+Date.now();
-  const r=await fetch(u,{cache:'no-store'});
-  if(!r.ok) throw new Error('HTTP '+r.status);
+  const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
   let html=await r.text();
-  const inject=`
-<style id="subject-checkbox-style">
-#subject{display:none!important}
-.subject-checkboxes{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:7px 0 4px}
-.subject-checkboxes label{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #ccd6e5;border-radius:8px;background:#fff;cursor:pointer;font-weight:700}
-.subject-checkboxes label:hover{background:#f6f9ff}
-.subject-checkboxes input{width:17px;height:17px;accent-color:#1f5eea;cursor:pointer;flex:0 0 auto}
-.subject-picked{font-size:12px;color:#087f46;font-weight:700;margin-top:4px}
-@media(max-width:650px){.subject-checkboxes{grid-template-columns:1fr}}
-</style>
-<script>(function(){
- function mount(){
-  const sel=document.getElementById('subject');
-  if(!sel||document.getElementById('subjectCheckboxes')) return !!sel;
-  const wrap=document.createElement('div');
-  wrap.className='subject-checkboxes';wrap.id='subjectCheckboxes';
-  const picked=document.createElement('div');picked.className='subject-picked';picked.id='subjectPicked';
-  [...sel.options].forEach(o=>{
-   const label=document.createElement('label');
-   const cb=document.createElement('input');cb.type='checkbox';cb.value=o.value;cb.checked=o.selected;
-   cb.addEventListener('change',()=>{o.selected=cb.checked;sel.dispatchEvent(new Event('change',{bubbles:true}));update()});
-   label.append(cb,document.createTextNode(o.textContent));wrap.appendChild(label);
-  });
-  sel.parentNode.insertBefore(wrap,sel);
-  sel.parentNode.insertBefore(picked,sel.nextSibling);
-  function update(){const a=[...sel.selectedOptions].map(x=>x.textContent.trim());picked.textContent=a.length?'✅ Đã chọn: '+a.join(' · '):'⚠️ Chưa chọn môn'}
-  update();return true;
- }
- if(!mount()){const mo=new MutationObserver(()=>{if(mount())mo.disconnect()});mo.observe(document.documentElement,{childList:true,subtree:true})}
-})();<\/script>`;
-  html=html.replace('</body>',inject+'</body>');
-  document.open();document.write(html);document.close();
+  const inject='<style id="subject-checkbox-style">#subject{display:none!important}.subject-checkboxes{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:7px 0 4px}.subject-checkboxes label{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid #ccd6e5;border-radius:8px;background:#fff;cursor:pointer;font-weight:700}.subject-checkboxes input{width:17px;height:17px;accent-color:#1f5eea;cursor:pointer}.subject-picked{font-size:12px;color:#087f46;font-weight:700;margin-top:4px}@media(max-width:650px){.subject-checkboxes{grid-template-columns:1fr}}</style><script>(function(){function mount(){var sel=document.getElementById(\'subject\');if(!sel||document.getElementById(\'subjectCheckboxes\'))return!!sel;var wrap=document.createElement(\'div\');wrap.className=\'subject-checkboxes\';wrap.id=\'subjectCheckboxes\';var picked=document.createElement(\'div\');picked.className=\'subject-picked\';picked.id=\'subjectPicked\';Array.from(sel.options).forEach(function(o){var label=document.createElement(\'label\');var cb=document.createElement(\'input\');cb.type=\'checkbox\';cb.value=o.value;cb.checked=o.selected;cb.addEventListener(\'change\',function(){o.selected=cb.checked;sel.dispatchEvent(new Event(\'change\',{bubbles:true}));update();});label.append(cb,document.createTextNode(o.textContent));wrap.appendChild(label);});sel.parentNode.insertBefore(wrap,sel);sel.parentNode.insertBefore(picked,sel.nextSibling);function update(){var a=Array.from(sel.selectedOptions).map(function(x){return x.textContent.trim()});picked.textContent=a.length?\'✅ Đã chọn: \'+a.join(\' · \'):\'⚠️ Chưa chọn môn\';}update();return true;}if(!mount()){var mo=new MutationObserver(function(){if(mount())mo.disconnect();});mo.observe(document.documentElement,{childList:true,subtree:true});}})();<\\/script>';
+  html=html.replace('</body>',inject+'</body>'); document.open();document.write(html);document.close();
  }catch(e){box.innerHTML='<p class="err">Không tải được v6.0: '+String(e.message||e)+'</p>'}
 })();
-</script>
-</body>
-</html>
+</script></body></html>
