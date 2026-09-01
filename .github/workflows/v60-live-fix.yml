@@ -12,6 +12,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Apply master v60 patch
         run: python3 .github/scripts/patch-v60-master.py
+      - name: Apply validator and preview patch
+        run: python3 .github/scripts/patch-v60-validator.py
       - name: Verify v60 JavaScript and scope
         run: |
           python3 - <<'PY'
@@ -22,6 +24,10 @@ jobs:
               if bad in s: raise SystemExit('LEGACY TOKEN: '+bad)
           if s.count("$('gemReview').onclick=async()=>{") != 1: raise SystemExit('gemReview handler count != 1')
           if s.count('async function runGemini(prompt){') != 1: raise SystemExit('runGemini count != 1')
+          if 'id="validateNow"' not in s: raise SystemExit('validator button missing')
+          if 'id="previewNow"' not in s: raise SystemExit('preview button missing')
+          if 'function preflight()' not in s: raise SystemExit('preflight missing')
+          if 'function preview()' not in s: raise SystemExit('preview missing')
           js=re.findall(r'<script>(.*?)</script>',s,re.S)[0]
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
           PY
@@ -31,5 +37,5 @@ jobs:
           git config user.name 'v60-master-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html
-          git commit -m 'fix(v60): restore full multi-subject AI workflow' || exit 0
+          git commit -m 'fix(v60): activate validator preview and full pipeline' || exit 0
           git push
