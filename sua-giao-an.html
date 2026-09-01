@@ -15,7 +15,7 @@
   const u='sua-giao-an/v60.html?v=6.0&cb='+Date.now();
   const r=await fetch(u,{cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status);
   let html=await r.text();
-  const tag='<script src="subject-picker.js?v=6.0&cb='+Date.now()+'"><'+String.fromCharCode(47)+'script>';
+  const tag='<script src="/gochoctap/sua-giao-an/subject-picker.js?v=6.0&cb='+Date.now()+'"></script>';
   html=html.replace('</body>',tag+'</body>');
   document.open();document.write(html);document.close();
  }catch(e){box.innerHTML='<p class="err">Không tải được v6.0: '+String(e.message||e)+'</p>'}
