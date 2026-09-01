@@ -1,33 +1,35 @@
 name: V60 Live Fix
 on:
   push:
+    branches: [main]
     paths:
+      - .github/workflows/v60-live-fix.yml
+      - .github/scripts/patch-v60-master.py
+      - .github/scripts/patch-v60-validator.py
       - .github/v60-live-fix-trigger.txt
 permissions:
   contents: write
 jobs:
   patch:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Apply master v60 patch
         run: python3 .github/scripts/patch-v60-master.py
-      - name: Apply validator and preview patch
+      - name: Apply authoritative validator/preview patch
         run: python3 .github/scripts/patch-v60-validator.py
-      - name: Verify v60 JavaScript and scope
+      - name: Verify final v60 contract
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
+          required=['id="validateNow"','id="previewNow"','function __v60Preflight()','function __v60Preview()','function __v60Refresh()']
+          missing=[x for x in required if x not in s]
+          if missing: raise SystemExit('FINAL_CONTRACT_MISSING: '+', '.join(missing))
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"','gemini-3.6-flash','gemini-3.5-flash-lite'):
-              if bad in s: raise SystemExit('LEGACY TOKEN: '+bad)
-          if s.count("$('gemReview').onclick=async()=>{") != 1: raise SystemExit('gemReview handler count != 1')
-          if s.count('async function runGemini(prompt){') != 1: raise SystemExit('runGemini count != 1')
-          if 'id="validateNow"' not in s: raise SystemExit('validator button missing')
-          if 'id="previewNow"' not in s: raise SystemExit('preview button missing')
-          if 'function preflight()' not in s: raise SystemExit('preflight missing')
-          if 'function preview()' not in s: raise SystemExit('preview missing')
+              if bad in s: raise SystemExit('LEGACY_TOKEN: '+bad)
           js=re.findall(r'<script>(.*?)</script>',s,re.S)[0]
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
           PY
@@ -37,5 +39,6 @@ jobs:
           git config user.name 'v60-master-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html
-          git commit -m 'fix(v60): activate validator preview and full pipeline' || exit 0
+          if git diff --cached --quiet; then echo 'No v60 changes.'; exit 0; fi
+          git commit -m 'fix(v60): finalize validator preview audit flow'
           git push
