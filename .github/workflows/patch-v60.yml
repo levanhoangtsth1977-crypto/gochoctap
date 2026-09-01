@@ -1,0 +1,33 @@
+name: Patch v60 workflow
+on:
+  push:
+    branches: [fix-v60]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch v60 JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('sua-giao-an/v60.html')
+          s=p.read_text(encoding='utf-8')
+          old='confidence:/review|flag/i.test(c.action||\'\')?.98:.99'
+          new="confidence:/review|flag/i.test(c.action||'')?0.98:0.99"
+          if old in s:
+              s=s.replace(old,new)
+          else:
+              print('confidence syntax already fixed or pattern absent')
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Commit repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v60.html
+          git commit -m 'fix: repair v60 JavaScript syntax blocking steps 05-07' || exit 0
+          git push
