@@ -10,76 +10,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Patch v60 directly
-        run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          import re
-          p=Path('sua-giao-an/v60.html')
-          s=p.read_text(encoding='utf-8')
-          # Keep requested subject scope/model names.
-          for v in ('TIENG_ANH','TIN_HOC','MI_THUAT','AM_NHAC'):
-              s=re.sub(r'<label><input class="subjectCheck" type="checkbox" value="'+v+r'">.*?</label>','',s,flags=re.S)
-          for a,b in [('gemini-3.6-flash','gemini-3.7-flash'),('gemini-3.5-flash-lite','gemini-2.5-flash')]:
-              s=s.replace(a,b)
-          marker="$('apply').onclick=()=>{"
-          if marker not in s: raise SystemExit('APPLY_HANDLER_NOT_FOUND')
-          # One-time helper insertion: plain JS only; never nest a <script> inside the main script.
-          if 'data-v60-authoritative-apply-export="1"' not in s:
-              idx=s.find(marker)
-              helper=r'''/* data-v60-authoritative-apply-export="1" */
-function __v60Key(c){return [c.document,c.part,c.paragraphIndex,c.matchStart,c.matchLength,norm(c.anchor||''),norm(c.new||c.replacement||c.insertText||'')].join('|')}
-function __v60Preview(){if(!S.docs.length){$('preview').textContent='⚠️ Chưa có DOCX.';return}const out=[];for(const d of S.docs){out.push('📄 '+d.name);for(const[p,x]of Object.entries(d.parts)){out.push('['+p+']');try{out.push(pars(x).map(q=>q.text).join('\\n'))}catch{out.push('⚠️ XML không đọc được')}}}$('preview').textContent=out.join('\\n\\n')}
-'''
-              s=s[:idx]+helper+s[idx:]
-          pattern=r"\$\('apply'\)\.onclick=\(\)=>\{.*?\};\$\('gemTest'\)\.onclick=async\(\)=>\{"
-          replacement=r'''$('apply').onclick=()=>{const approved=S.changes.filter(c=>c.approved&&!c.rejected);if(!approved.length){$('bulkStatus').textContent='🔒 Chưa có Change Set được duyệt.';return}let ok=0,fail=[],verify=[],seen=new Set(),skipped=0;for(const c of approved){const k=__v60Key(c);if(seen.has(k)){c.approved=false;c.rejected=true;c.applyNote='Tự động loại vì trùng Change Set đã duyệt.';skipped++;continue}seen.add(k);const d=S.docs.find(x=>x.name===c.document);if(!d||!d.parts[c.part]){fail.push(c.id+': thiếu tài liệu/XML');continue}const r=(c.action==='INSERT_AFTER'||c.type==='INTEGRATION')?appendRun(d.parts[c.part],c):replaceRun(d.parts[c.part],c);if(!r.ok){fail.push(c.id+': '+r.reason);continue}d.parts[c.part]=r.xml;c.applied=true;ok++}for(const c of S.changes.filter(x=>x.applied&&!x.rejected)){const d=S.docs.find(x=>x.name===c.document);try{const pp=pars(d.parts[c.part])[c.paragraphIndex],nw=norm(c.new||c.replacement||c.insertText||'');if(c.action==='DELETE'){if(norm(pp.text).includes(norm(c.anchor)))verify.push(c.id+': OLD vẫn còn')}else if(nw&&!norm(pp.text).includes(nw)){verify.push(c.id+': NEW không tồn tại')}}catch(e){verify.push(c.id+': không đọc lại được XML')}}const success=ok>0&&fail.length===0&&verify.length===0;S.applied=success;$('aa').textContent=ok;__v60Preview();$('validator').textContent=success?'✅ Validator sau áp dụng đạt · '+ok+' thay đổi thực sự đã ghi vào DOCX.':('❌ Validator thất bại · '+fail.concat(verify).join(' | '));$('word').disabled=!success;$('zip').disabled=!success;$('log').disabled=!S.changes.length;$('out').textContent=success?'✅ Bản làm việc đã được sửa và kiểm tra. Có thể xuất Word/ZIP.':'🔒 Chưa thể xuất: áp dụng thất bại hoặc Validator chưa đạt.';$('bulkStatus').textContent='✏️ Đã áp dụng '+ok+' Change Set · tự loại trùng '+skipped+'.';audit('Áp dụng '+ok+' thay đổi; Validator sau sửa: '+(success?'ĐẠT':'CHƯA ĐẠT'));step(success?7:5);render()};$('gemTest').onclick=async()=>{'''
-          s,n=re.subn(pattern,replacement,s,count=1,flags=re.S)
-          if n!=1: raise SystemExit('APPLY_HANDLER_REPLACE_FAILED')
-          if 'id="validateNow"' not in s:
-              anchor='<h2>🔎 Validator + Preview + Audit</h2><div id="validator" class="st">Chưa sửa.</div>'
-              new='<h2>🔎 Validator + Preview + Audit</h2><button id="validateNow" class="btn y">🛡️ CHẠY VALIDATOR</button><button id="previewNow" class="btn i">👁️ CẬP NHẬT PREVIEW</button><div id="validator" class="st">Chưa kiểm tra.</div>'
-              if anchor not in s: raise SystemExit('VALIDATOR_UI_ANCHOR_NOT_FOUND')
-              s=s.replace(anchor,new,1)
-          if "$('validateNow').onclick" not in s:
-              anchor="$('gemTest').onclick=async()=>{"
-              wire="$('validateNow').onclick=()=>{const n=S.changes.filter(c=>c.approved&&!c.rejected).length;$('validator').textContent='🛡️ Validator preflight · '+n+' Change Set đã duyệt.'};$('previewNow').onclick=()=>{__v60Preview()}"
-              if anchor not in s: raise SystemExit('VALIDATOR_WIRE_ANCHOR_NOT_FOUND')
-              s=s.replace(anchor,wire+anchor,1)
-          # Show duplicate-parser errors only if more than one declaration remains.
-          if len(re.findall(r'function parseGeminiJSON\(',s))>1:
-              raise SystemExit('DUPLICATE_PARSE_GEMINI_JSON')
-          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
-          if not scripts: raise SystemExit('NO_SCRIPT')
-          Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
-          p.write_text(s,encoding='utf-8')
-          print('V60_DIRECT_PATCH_OK',len(s))
-          PY
-      - name: Syntax check
-        run: node --check /tmp/v60.js
-      - name: Final integrity check
+      - name: Apply stable master patch
+        run: python3 .github/scripts/patch-v60-master.py
+      - name: Deduplicate approved Change Sets
+        run: python3 .github/scripts/dedupe-v60.py
+      - name: Validate final v60 source
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
-          required=['data-v60-authoritative-apply-export="1"','S.applied=success',"$('word').disabled=!success","$('zip').disabled=!success",'Tự động loại vì trùng Change Set đã duyệt.','id="validateNow"','id="previewNow"']
-          missing=[x for x in required if x not in s]
-          if missing: raise SystemExit('VERIFY_FAIL: '+', '.join(missing))
-          if s.count("$('apply').onclick=()=>{")!=1: raise SystemExit('VERIFY_FAIL: APPLY_HANDLER_COUNT')
-          if len(re.findall(r'function parseGeminiJSON\(',s))>1: raise SystemExit('VERIFY_FAIL: DUPLICATE_PARSER')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
-              if bad in s: raise SystemExit('VERIFY_FAIL: '+bad)
-          print('V60_FINAL_INTEGRITY_PASS')
+              if bad in s: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
+          if 'data-v60-dedupe-approved="1"' not in s: raise SystemExit('DEDUPE_PATCH_MISSING')
+          if s.count('function parseGeminiJSON(')>1: raise SystemExit('DUPLICATE_PARSE_GEMINI_JSON')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
+          if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
+          Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
+          print('V60_SOURCE_CHECK_OK')
           PY
+          node --check /tmp/v60.js
       - name: Require real v60 change
         run: |
-          git diff --quiet -- sua-giao-an/v60.html && { echo 'ERROR: v60.html unchanged'; exit 1; } || true
-          git diff --stat -- sua-giao-an/v60.html
+          if git diff --quiet -- sua-giao-an/v60.html; then
+            echo 'ERROR: v60.html was not changed.'
+            exit 1
+          fi
       - name: Commit
         run: |
           git config user.name 'v60-authoritative-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html
-          git commit -m 'fix(v60): authoritative approve apply validate export'
+          git commit -m 'fix(v60): stable approve apply export flow'
           git push
