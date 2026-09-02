@@ -2,6 +2,7 @@ name: V60 CI
 on:
   push:
     paths:
+      - sua-giao-an/v60-clean.html
       - sua-giao-an/v60.html
       - sua-giao-an/index.html
       - sua-giao-an/SPEC.md
@@ -16,29 +17,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate clean V60
+      - name: Validate single clean runtime
         shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
-          v=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
+          v=Path('sua-giao-an/v60-clean.html').read_text(encoding='utf-8')
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
-          forbidden=('gemini-2.5-flash','value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"')
-          for bad in forbidden:
-              if bad in v: raise SystemExit('FORBIDDEN:'+bad)
-          for fn in ('parseGeminiJSON','gemCall','editParagraph','findAnchor','resolveDoc'):
+          old=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
+          for bad in ('gemini-2.5-flash','value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"','v60-hotfix','v60-ui-bridge','document-engine-bridge','subject-picker.js','backend/','sua-giao-an/api/'):
+              if bad in v or bad in i: raise SystemExit('FORBIDDEN:'+bad)
+          for fn in ('parseGeminiJSON','gemCall','editParagraph'):
               n=len(re.findall(r'(?:function|async function) '+re.escape(fn)+r'\(',v))
               if n!=1: raise SystemExit(f'FUNCTION_COUNT:{fn}:{n}')
           for expr in ("$('apply').onclick=","$('word').onclick=","$('zip').onclick="):
               if v.count(expr)!=1: raise SystemExit('HANDLER_COUNT:'+expr)
           if '<iframe' in i or 'contentDocument' in i: raise SystemExit('LEGACY_INDEX_BRIDGE')
-          if 'v60-hotfix' in i or 'v60-ui-bridge' in i or 'document-engine-bridge' in i: raise SystemExit('LEGACY_BRIDGE_REFERENCE')
-          if 'gemini-3.7-flash' not in v or 'gemini-3.6-flash' not in v: raise SystemExit('GEMINI_SELECTOR_INVALID')
+          if "v60-clean.html" not in i or "v60-clean.html" not in old: raise SystemExit('ENTRYPOINT_NOT_CLEAN')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
-          print('V60_CLEAN_SOURCE_OK')
+          print('V60_SINGLE_RUNTIME_OK')
           PY
           node --check /tmp/v60.js
       - name: Validate required data package
