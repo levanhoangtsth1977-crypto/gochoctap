@@ -5,6 +5,7 @@ on:
       - .github/scripts/rebuild-v60-clean.py
       - .github/scripts/rebuild-index-clean.py
       - .github/workflows/v60-clean.yml
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
