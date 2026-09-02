@@ -1,1 +1,1 @@
-2026-09-02 07:50 transactional-apply export-gate verification
+2026-09-02 07:55 FINAL TRANSACTIONAL APPLY + HARD EXPORT GATE
