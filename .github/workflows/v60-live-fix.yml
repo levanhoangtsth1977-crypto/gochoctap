@@ -22,6 +22,8 @@ jobs:
         run: python3 .github/scripts/repair-tx-xml-edit.py
       - name: Authoritative runtime APPLY editor
         run: python3 .github/scripts/hardfix-v60-runtime.py
+      - name: Force authoritative APPLY handler
+        run: python3 .github/scripts/force-apply-runtime.py
       - name: Direct working-document export engine
         run: python3 .github/scripts/fix-v60-export-direct.py
       - name: Hard-lock export bridge
@@ -35,17 +37,24 @@ jobs:
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
               if bad in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','/* DIRECT WORKING-DOC EXPORT FIX */'):
+          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','/* DIRECT WORKING-DOC EXPORT FIX */','function __v60SafeXmlEdit'):
               if marker not in v: raise SystemExit('V60_REQUIRED_MARKER_MISSING: '+marker)
           if 'word.disabled=false' in i or 'zip.disabled=false' in i:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
-          for marker in ("$('word').onclick=__exportWordDirect","$('zip').onclick=__exportZipDirect"):
-              if marker not in v: raise SystemExit('DIRECT_EXPORT_HANDLER_MISSING: '+marker)
-          if 'function __v60SafeXmlEdit' not in v:
-              raise SystemExit('AUTHORITATIVE_RUNTIME_PATCH_MISSING')
-          a=v.find('function __v60SafeXmlEdit')
+          if "$('word').onclick=__exportWordDirect" not in v or "$('zip').onclick=__exportZipDirect" not in v:
+              raise SystemExit('DIRECT_EXPORT_HANDLER_MISSING')
+          if "$('apply').onclick=async()=>{" not in v:
+              raise SystemExit('AUTHORITATIVE_APPLY_HANDLER_MISSING')
+          a=v.find("$('apply').onclick=async()=>{")
           z=v.find("$('gemTest')",a)
-          runtime=v[a:z] if a>=0 and z>a else ''
+          apply_block=v[a:z] if a>=0 and z>a else ''
+          if 'c.document===d.name' in apply_block or 'for(const d of S.docs)for(const c of S.changes.filter' in apply_block:
+              raise SystemExit('LEGACY_APPLY_DOCUMENT_FILTER_REMAINS')
+          if 'resolveDoc' not in apply_block or 'original' not in apply_block:
+              raise SystemExit('AUTHORITATIVE_APPLY_RESOLVER_OR_ROLLBACK_MISSING')
+          runtime_start=v.find('function __v60SafeXmlEdit')
+          runtime_end=v.find("$('gemTest')",runtime_start)
+          runtime=v[runtime_start:runtime_end] if runtime_start>=0 and runtime_end>runtime_start else ''
           if 'insertBefore(' in runtime:
               raise SystemExit('UNSAFE_INSERTBEFORE_REMAINS_IN_RUNTIME')
           if 'function replaceRun(xml,c){return __v60SafeXmlEdit(xml,c,\'REPLACE\')}' not in v:
@@ -69,5 +78,5 @@ jobs:
           git config user.name 'v60-authoritative-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html sua-giao-an/index.html
-          git commit -m 'fix(v60): direct working-doc export'
+          git commit -m 'fix(v60): authoritative apply and export mapping'
           git push
