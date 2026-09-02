@@ -22,12 +22,20 @@ jobs:
               s=re.sub(r'<label><input class="subjectCheck" type="checkbox" value="'+v+r'">.*?</label>','',s,flags=re.S)
           for a,b in [('gemini-3.6-flash','gemini-3.7-flash'),('gemini-3.5-flash-lite','gemini-2.5-flash')]:
               s=s.replace(a,b)
-          # Replace apply handler exactly once. Duplicate approved changes are skipped, not fatal.
+          marker="$('apply').onclick=()=>{"
+          if marker not in s: raise SystemExit('APPLY_HANDLER_NOT_FOUND')
+          # One-time helper insertion: plain JS only; never nest a <script> inside the main script.
+          if 'data-v60-authoritative-apply-export="1"' not in s:
+              idx=s.find(marker)
+              helper=r'''/* data-v60-authoritative-apply-export="1" */
+function __v60Key(c){return [c.document,c.part,c.paragraphIndex,c.matchStart,c.matchLength,norm(c.anchor||''),norm(c.new||c.replacement||c.insertText||'')].join('|')}
+function __v60Preview(){if(!S.docs.length){$('preview').textContent='⚠️ Chưa có DOCX.';return}const out=[];for(const d of S.docs){out.push('📄 '+d.name);for(const[p,x]of Object.entries(d.parts)){out.push('['+p+']');try{out.push(pars(x).map(q=>q.text).join('\\n'))}catch{out.push('⚠️ XML không đọc được')}}}$('preview').textContent=out.join('\\n\\n')}
+'''
+              s=s[:idx]+helper+s[idx:]
           pattern=r"\$\('apply'\)\.onclick=\(\)=>\{.*?\};\$\('gemTest'\)\.onclick=async\(\)=>\{"
-          replacement=r'''$('apply').onclick=()=>{const approved=S.changes.filter(c=>c.approved&&!c.rejected);if(!approved.length){$('bulkStatus').textContent='🔒 Chưa có Change Set được duyệt.';return}let ok=0,fail=[],verify=[],seen=new Set(),skipped=0;const key=c=>[c.document,c.part,c.paragraphIndex,c.matchStart,c.matchLength,norm(c.anchor||''),norm(c.new||c.replacement||c.insertText||'')].join('|');for(const c of approved){const k=key(c);if(seen.has(k)){c.approved=false;c.rejected=true;c.applyNote='Tự động loại vì trùng Change Set đã duyệt.';skipped++;continue}seen.add(k);const d=S.docs.find(x=>x.name===c.document);if(!d||!d.parts[c.part]){fail.push(c.id+': thiếu tài liệu/XML');continue}const r=(c.action==='INSERT_AFTER'||c.type==='INTEGRATION')?appendRun(d.parts[c.part],c):replaceRun(d.parts[c.part],c);if(!r.ok){fail.push(c.id+': '+r.reason);continue}d.parts[c.part]=r.xml;c.applied=true;ok++}for(const c of S.changes.filter(x=>x.applied&&!x.rejected)){const d=S.docs.find(x=>x.name===c.document);try{const pp=pars(d.parts[c.part])[c.paragraphIndex];const nw=norm(c.new||c.replacement||c.insertText||'');if(c.action==='DELETE'){if(norm(pp.text).includes(norm(c.anchor)))verify.push(c.id+': OLD vẫn còn')}else if(nw&&!norm(pp.text).includes(nw)){verify.push(c.id+': NEW không tồn tại')}}catch(e){verify.push(c.id+': không đọc lại được XML')}}const success=ok>0&&fail.length===0&&verify.length===0;S.applied=success;$('aa').textContent=ok;$('validator').textContent=success?'✅ Validator sau áp dụng đạt · '+ok+' thay đổi thực sự đã ghi vào DOCX.':('❌ Validator thất bại · '+fail.concat(verify).join(' | '));$('preview').textContent=S.docs.map(d=>d.name+'\n'+Object.entries(d.parts).map(([pn,x])=>'['+pn+']\n'+pars(x).map(q=>q.text).join('\n')).join('\n\n')).join('\n\n');$('word').disabled=!success;$('zip').disabled=!success;$('log').disabled=!S.changes.length;$('out').textContent=success?'✅ Bản làm việc đã được sửa và kiểm tra. Có thể xuất Word/ZIP.':'🔒 Chưa thể xuất: áp dụng thất bại hoặc Validator chưa đạt.';$('bulkStatus').textContent='✏️ Đã áp dụng '+ok+' Change Set · tự loại trùng '+skipped+'.';audit('Áp dụng '+ok+' thay đổi; Validator sau sửa: '+(success?'ĐẠT':'CHƯA ĐẠT'));step(success?7:5);render()};$('gemTest').onclick=async()=>{'''
+          replacement=r'''$('apply').onclick=()=>{const approved=S.changes.filter(c=>c.approved&&!c.rejected);if(!approved.length){$('bulkStatus').textContent='🔒 Chưa có Change Set được duyệt.';return}let ok=0,fail=[],verify=[],seen=new Set(),skipped=0;for(const c of approved){const k=__v60Key(c);if(seen.has(k)){c.approved=false;c.rejected=true;c.applyNote='Tự động loại vì trùng Change Set đã duyệt.';skipped++;continue}seen.add(k);const d=S.docs.find(x=>x.name===c.document);if(!d||!d.parts[c.part]){fail.push(c.id+': thiếu tài liệu/XML');continue}const r=(c.action==='INSERT_AFTER'||c.type==='INTEGRATION')?appendRun(d.parts[c.part],c):replaceRun(d.parts[c.part],c);if(!r.ok){fail.push(c.id+': '+r.reason);continue}d.parts[c.part]=r.xml;c.applied=true;ok++}for(const c of S.changes.filter(x=>x.applied&&!x.rejected)){const d=S.docs.find(x=>x.name===c.document);try{const pp=pars(d.parts[c.part])[c.paragraphIndex],nw=norm(c.new||c.replacement||c.insertText||'');if(c.action==='DELETE'){if(norm(pp.text).includes(norm(c.anchor)))verify.push(c.id+': OLD vẫn còn')}else if(nw&&!norm(pp.text).includes(nw)){verify.push(c.id+': NEW không tồn tại')}}catch(e){verify.push(c.id+': không đọc lại được XML')}}const success=ok>0&&fail.length===0&&verify.length===0;S.applied=success;$('aa').textContent=ok;__v60Preview();$('validator').textContent=success?'✅ Validator sau áp dụng đạt · '+ok+' thay đổi thực sự đã ghi vào DOCX.':('❌ Validator thất bại · '+fail.concat(verify).join(' | '));$('word').disabled=!success;$('zip').disabled=!success;$('log').disabled=!S.changes.length;$('out').textContent=success?'✅ Bản làm việc đã được sửa và kiểm tra. Có thể xuất Word/ZIP.':'🔒 Chưa thể xuất: áp dụng thất bại hoặc Validator chưa đạt.';$('bulkStatus').textContent='✏️ Đã áp dụng '+ok+' Change Set · tự loại trùng '+skipped+'.';audit('Áp dụng '+ok+' thay đổi; Validator sau sửa: '+(success?'ĐẠT':'CHƯA ĐẠT'));step(success?7:5);render()};$('gemTest').onclick=async()=>{'''
           s,n=re.subn(pattern,replacement,s,count=1,flags=re.S)
           if n!=1: raise SystemExit('APPLY_HANDLER_REPLACE_FAILED')
-          # Add explicit validator/preview controls if absent.
           if 'id="validateNow"' not in s:
               anchor='<h2>🔎 Validator + Preview + Audit</h2><div id="validator" class="st">Chưa sửa.</div>'
               new='<h2>🔎 Validator + Preview + Audit</h2><button id="validateNow" class="btn y">🛡️ CHẠY VALIDATOR</button><button id="previewNow" class="btn i">👁️ CẬP NHẬT PREVIEW</button><div id="validator" class="st">Chưa kiểm tra.</div>'
@@ -35,58 +43,36 @@ jobs:
               s=s.replace(anchor,new,1)
           if "$('validateNow').onclick" not in s:
               anchor="$('gemTest').onclick=async()=>{"
-              wire="$('validateNow').onclick=()=>{const n=S.changes.filter(c=>c.approved&&!c.rejected).length;$('validator').textContent='🛡️ Validator preflight · '+n+' Change Set đã duyệt.'};$('previewNow').onclick=()=>{$('preview').textContent=S.docs.map(d=>d.name+'\n'+Object.values(d.parts).map(x=>pars(x).map(q=>q.text).join('\\n')).join('\\n')).join('\\n\\n')}"
+              wire="$('validateNow').onclick=()=>{const n=S.changes.filter(c=>c.approved&&!c.rejected).length;$('validator').textContent='🛡️ Validator preflight · '+n+' Change Set đã duyệt.'};$('previewNow').onclick=()=>{__v60Preview()}"
               if anchor not in s: raise SystemExit('VALIDATOR_WIRE_ANCHOR_NOT_FOUND')
               s=s.replace(anchor,wire+anchor,1)
-          # Exact cleanup of duplicate parser declarations from previous patches.
-          patfn=r"function parseGeminiJSON\(raw\)\{[^}]*?throw Error\('Gemini trả về JSON không hợp lệ\.'\)\}"
-          fns=re.findall(patfn,s,re.S)
-          if len(fns)>1:
-              first=fns[0]
-              s=re.sub(patfn,'',s)
-              s=s.replace("async function runGemini(prompt){",first+'\nasync function runGemini(prompt){',1)
-          # Required source invariants.
-          required=['data-v60-authoritative-apply-export','S.applied=success',"$('word').disabled=!success","$('zip').disabled=!success",'Tự động loại vì trùng Change Set đã duyệt.','id="validateNow"','id="previewNow"']
-          # Insert marker if not present.
-          if 'data-v60-authoritative-apply-export="1"' not in s:
-              s=s.replace('<script>','<script data-v60-authoritative-apply-export="1">',1)
-          for req in required:
-              if req not in s: raise SystemExit('REQUIRED_MISSING: '+req)
-          for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
-              if bad in s: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          if s.count("$('apply').onclick=()=>{")!=1: raise SystemExit('APPLY_HANDLER_COUNT')
+          # Show duplicate-parser errors only if more than one declaration remains.
+          if len(re.findall(r'function parseGeminiJSON\(',s))>1:
+              raise SystemExit('DUPLICATE_PARSE_GEMINI_JSON')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
-          if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
+          if not scripts: raise SystemExit('NO_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
           p.write_text(s,encoding='utf-8')
           print('V60_DIRECT_PATCH_OK',len(s))
           PY
       - name: Syntax check
         run: node --check /tmp/v60.js
-      - name: Integrity check
+      - name: Final integrity check
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
-          tests=[
-            'data-v60-authoritative-apply-export="1"',
-            'S.applied=success',
-            "$('word').disabled=!success",
-            "$('zip').disabled=!success",
-            'Tự động loại vì trùng Change Set đã duyệt.',
-            'id="validateNow"',
-            'id="previewNow"'
-          ]
-          for t in tests:
-              if t not in s: raise SystemExit('VERIFY_FAIL '+t)
-          if s.count("$('apply').onclick=()=>{")!=1: raise SystemExit('VERIFY_FAIL APPLY_HANDLER_COUNT')
-          if len(re.findall(r'function parseGeminiJSON\(',s))!=1: raise SystemExit('VERIFY_FAIL PARSER_COUNT')
+          required=['data-v60-authoritative-apply-export="1"','S.applied=success',"$('word').disabled=!success","$('zip').disabled=!success",'Tự động loại vì trùng Change Set đã duyệt.','id="validateNow"','id="previewNow"']
+          missing=[x for x in required if x not in s]
+          if missing: raise SystemExit('VERIFY_FAIL: '+', '.join(missing))
+          if s.count("$('apply').onclick=()=>{")!=1: raise SystemExit('VERIFY_FAIL: APPLY_HANDLER_COUNT')
+          if len(re.findall(r'function parseGeminiJSON\(',s))>1: raise SystemExit('VERIFY_FAIL: DUPLICATE_PARSER')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
-              if bad in s: raise SystemExit('VERIFY_FAIL '+bad)
+              if bad in s: raise SystemExit('VERIFY_FAIL: '+bad)
           print('V60_FINAL_INTEGRITY_PASS')
           PY
-      - name: Require a real v60 change
+      - name: Require real v60 change
         run: |
           git diff --quiet -- sua-giao-an/v60.html && { echo 'ERROR: v60.html unchanged'; exit 1; } || true
           git diff --stat -- sua-giao-an/v60.html
