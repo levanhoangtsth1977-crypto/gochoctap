@@ -1,79 +1,54 @@
-name: V60 Live Fix
+name: V60 CI
 on:
   push:
     paths:
-      - .github/v60-live-fix-trigger.txt
+      - sua-giao-an/v60.html
+      - sua-giao-an/index.html
+      - sua-giao-an/SPEC.md
+      - sua-giao-an/*.json
+      - sua-giao-an/tests/**
       - .github/workflows/v60-live-fix.yml
-      - .github/scripts/**
+  workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 jobs:
-  patch:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Apply stable master patch
-        run: python3 .github/scripts/patch-v60-master.py
-      - name: Fix Gemini model availability
-        run: python3 .github/scripts/fix-gemini-models.py
-      - name: Deduplicate approved Change Sets
-        run: python3 .github/scripts/dedupe-v60.py
-      - name: Apply transactional APPLY + real export engine
-        run: python3 .github/scripts/patch-transactional-apply.py
-      - name: Repair XML edit engine
-        run: python3 .github/scripts/repair-tx-xml-edit.py
-      - name: Authoritative runtime APPLY editor
-        run: python3 .github/scripts/hardfix-v60-runtime.py
-      - name: Direct working-document export engine
-        run: python3 .github/scripts/fix-v60-export-direct.py
-      - name: Hard-lock export bridge
-        run: python3 .github/scripts/lock-export-bridge.py
-      - name: Validate final source and export gates
+      - name: Validate V60 source
+        shell: bash
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           v=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
-          for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
-              if bad in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','/* DIRECT WORKING-DOC EXPORT FIX */'):
-              if marker not in v: raise SystemExit('V60_REQUIRED_MARKER_MISSING: '+marker)
-          if 'word.disabled=false' in i or 'zip.disabled=false' in i:
-              raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
-          for marker in ("$('word').onclick=__exportWordDirect","$('zip').onclick=__exportZipDirect"):
-              if marker not in v: raise SystemExit('DIRECT_EXPORT_HANDLER_MISSING: '+marker)
-          if 'function __v60SafeXmlEdit' not in v:
-              raise SystemExit('AUTHORITATIVE_RUNTIME_PATCH_MISSING')
-          a=v.find('function __v60SafeXmlEdit')
-          z=v.find("$('gemTest')",a)
-          runtime=v[a:z] if a>=0 and z>a else ''
-          if 'insertBefore(' in runtime:
-              raise SystemExit('UNSAFE_INSERTBEFORE_REMAINS_IN_RUNTIME')
-          if 'function replaceRun(xml,c){return __v60SafeXmlEdit(xml,c,\'REPLACE\')}' not in v:
-              raise SystemExit('REPLACER_NOT_LOCKED')
-          if 'function appendRun(xml,c){return __v60SafeXmlEdit(xml,c,\'INSERT_AFTER\')}' not in v:
-              raise SystemExit('APPENDER_NOT_LOCKED')
-          if 'gemini-2.5-flash' in v:
-              raise SystemExit('GEMINI_2_5_MUST_NOT_BE_USED')
-          if 'gemini-3.7-flash' not in v or 'gemini-3.6-flash' not in v:
-              raise SystemExit('GEMINI_REQUIRED_MODELS_MISSING')
+          for bad in ('gemini-2.5-flash','value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
+              if bad in v: raise SystemExit('FORBIDDEN:'+bad)
+          for fn in ('parseGeminiJSON','runGemini','__v60SafeXmlEdit'):
+              n=len(re.findall(r'function '+re.escape(fn)+r'\(',v))
+              if n!=1: raise SystemExit(f'DUPLICATE_OR_MISSING:{fn}:{n}')
+          for expr in ("$('apply').onclick=","$('word').onclick=","$('zip').onclick="):
+              if v.count(expr)!=1: raise SystemExit('HANDLER_COUNT:'+expr)
+          if '<iframe' in i or 'contentDocument' in i: raise SystemExit('LEGACY_BRIDGE_IN_INDEX')
+          if 'v60-hotfix' in i or 'v60-ui-bridge' in i or 'document-engine-bridge' in i: raise SystemExit('LEGACY_BRIDGE_REFERENCE')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
-          print('V60_SOURCE_CHECK_OK')
+          print('V60_SOURCE_OK')
           PY
           node --check /tmp/v60.js
-      - name: Require real application-file change
+      - name: Validate required data files
+        shell: bash
         run: |
-          if git diff --quiet -- sua-giao-an/v60.html sua-giao-an/index.html; then
-            echo 'ERROR: no application files changed.'
-            exit 1
-          fi
-      - name: Commit
-        run: |
-          git config user.name 'v60-authoritative-fix'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add sua-giao-an/v60.html sua-giao-an/index.html
-          git commit -m 'fix(v60): use Gemini 3.6 Flash fallback'
-          git push
+          for f in \
+            sua-giao-an/SPEC.md \
+            sua-giao-an/format-standard.json \
+            sua-giao-an/administrative-standard-2026-2027.json \
+            sua-giao-an/special-administrative-zones-2026-2027.json \
+            sua-giao-an/curriculum-adjustments-2026-2027.json \
+            sua-giao-an/integration-library-2026-2027.json; do
+            test -f "$f" || { echo "MISSING:$f"; exit 1; }
+          done
+          echo DATA_FILES_OK
