@@ -10,51 +10,44 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Apply master v60 patch
         run: python3 .github/scripts/patch-v60-master.py
-
-      - name: Apply validator and apply-export patch
-        run: python3 .github/scripts/patch-v60-validator.py
-
-      - name: Verify v60 is actually patched
+      - name: Apply final approve-apply-validate-export patch
+        run: python3 .github/scripts/finalize-v60.py
+      - name: Verify v60 final integrity
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
           required=[
-              'id="validateNow"',
-              'id="previewNow"',
-              'function __v60Preflight()',
-              'function __v60Preview()',
-              'S.applied=SApplied',
-              'if(used.has(key))',
-              "$('word').disabled=!SApplied",
-              "$('zip').disabled=!SApplied",
+            'id="validateNow"',
+            'id="previewNow"',
+            'function __v60FinalRefresh()',
+            'function __v60FinalPreview()',
+            'function __v60FinalDedupeApproved()',
+            'S.applied=success',
+            "$('word').disabled=!success",
+            "$('zip').disabled=!success",
+            "Tự động loại vì trùng Change Set đã duyệt."
           ]
           missing=[x for x in required if x not in s]
-          if missing:
-              raise SystemExit('PATCH_INCOMPLETE: '+', '.join(missing))
+          if missing: raise SystemExit('FINAL_INTEGRITY_FAIL: '+', '.join(missing))
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"','gemini-3.6-flash','gemini-3.5-flash-lite'):
-              if bad in s:
-                  raise SystemExit('LEGACY_TOKEN: '+bad)
-          # Parser must not be duplicated accidentally.
-          if len(re.findall(r'function parseGeminiJSON\(',s)) != 1:
-              raise SystemExit('parseGeminiJSON must occur exactly once')
+            if bad in s: raise SystemExit('LEGACY_TOKEN: '+bad)
+          if s.count("$('apply').onclick=()=>{") != 1: raise SystemExit('APPLY_HANDLER_COUNT_FAIL')
+          if len(re.findall(r'function parseGeminiJSON\(',s)) != 1: raise SystemExit('PARSER_COUNT_FAIL')
           js=re.findall(r'<script>(.*?)</script>',s,re.S)[0]
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
           PY
           node --check /tmp/v60.js
-
-      - name: Require a real file change
+      - name: Require a real v60 file change
         run: |
           if git diff --quiet -- sua-giao-an/v60.html; then
-            echo 'ERROR: v60.html was not modified by the patch pipeline.'
+            echo 'ERROR: v60.html was not modified by final pipeline.'
             exit 1
           fi
           git diff --stat -- sua-giao-an/v60.html
-
       - name: Commit patched v60
         run: |
           git config user.name 'v60-master-fix'
