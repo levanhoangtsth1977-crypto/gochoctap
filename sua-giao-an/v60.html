@@ -3,6 +3,7 @@
 function parseGeminiJSON(raw){const t=String(raw||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return JSON.parse(t)}catch{}const a=t.indexOf('{'),b=t.lastIndexOf('}');if(a>=0&&b>a)return JSON.parse(t.slice(a,b+1));throw Error('Gemini trả về JSON không hợp lệ.')}
 function parseGeminiJSON(raw){const t=String(raw||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return JSON.parse(t)}catch{}const a=t.indexOf('{'),b=t.lastIndexOf('}');if(a>=0&&b>a)return JSON.parse(t.slice(a,b+1));throw Error('Gemini trả về JSON không hợp lệ.')}
 function parseGeminiJSON(raw){const t=String(raw||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return JSON.parse(t)}catch{}const a=t.indexOf('{'),b=t.lastIndexOf('}');if(a>=0&&b>a)return JSON.parse(t.slice(a,b+1));throw Error('Gemini trả về JSON không hợp lệ.')}
+function parseGeminiJSON(raw){const t=String(raw||'').trim().replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();try{return JSON.parse(t)}catch{}const a=t.indexOf('{'),b=t.lastIndexOf('}');if(a>=0&&b>a)return JSON.parse(t.slice(a,b+1));throw Error('Gemini trả về JSON không hợp lệ.')}
 async function runGemini(prompt){const k=$('gemKey').value.trim();if(!k)throw Error('Chưa nhập Gemini API Key.');const primary=$('gemModel').value,fallback=primary==='gemini-3.7-flash'?'gemini-2.5-flash':'gemini-3.7-flash';async function call(m){const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(m)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':k},body:JSON.stringify({contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',maxOutputTokens:7000}})}),raw=await r.text();if(!r.ok)throw Error('Gemini '+r.status+': '+raw.slice(0,900));const j=JSON.parse(raw),txt=j?.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join('');if(!txt)throw Error('Gemini không trả nội dung.');return parseGeminiJSON(txt)}try{return await call(primary)}catch(e){if(/Gemini (429|500|502|503|504)/.test(e.message)&&fallback!==primary){$('gemStatus').textContent='🔄 '+primary+' không sẵn sàng → '+fallback+'...';return await call(fallback)}throw e}}
 async function runGeminiWith(prompt){return runGemini(prompt)}$('gemReview').onclick=async()=>{if(S.gemBusy)return;const k=$('gemKey').value.trim();if(!k){$('gemStatus').textContent='⚠️ Chưa có Gemini API Key.';return}if(!S.docs.length){$('gemStatus').textContent='⚠️ Chưa có giáo án.';return}if(!S.subjects.length){$('gemStatus').textContent='⚠️ Chưa chọn môn.';return}try{S.gemBusy=true;$('gemReview').disabled=true;$('gemStatus').textContent='⏳ Gemini đang rà soát đầy đủ '+S.subjects.length+' môn đã chọn...';const documents=S.docs.map(d=>({name:d.name,text:Object.values(d.parts).map(x=>pars(x).map(p=>p.text).join('\\n')).join('\\n')}));const prompt='Bạn là chuyên gia rà soát giáo án lớp 5 CTGDPT 2018, bộ Kết nối tri thức với cuộc sống. PHẢI rà soát toàn bộ các môn được chọn: '+S.subjects.map(x=>LABEL[x]).join(', ')+'. Mỗi môn phải có coverage. Địa giới hành chính chỉ áp dụng cho Đạo đức, Lịch sử - Địa lí, Toán, Tiếng Việt; các môn khác chỉ kiểm tra ngữ nghĩa/tích hợp. Không viết lại toàn bài, không xóa nội dung gốc, không đảo thứ tự. Kiểm tra YCCD, năng lực, phẩm chất, NLS, công dân số, Hồ Chí Minh, môi trường/BĐKH, nguồn nước, biển đảo, biên giới/chủ quyền, ATGT, đuối nước, quyền trẻ em, bình đẳng/hòa nhập, tài chính, STEM, pháp luật, sức khỏe, thiên tai, văn hóa/di sản, AI; phát hiện lỗi sao chép, sai đáp án, sai ngữ cảnh, ngày tháng. RULE ENGINE không lặp lại. Mỗi môn đã chọn PHẢI xuất hiện trong coverage. Nếu nội dung đã có: status=DA_CO, change=null. Nếu thiếu/có thể bổ sung: status=CO_THE_BO_SUNG và cung cấp change. Nếu nghi ngờ: status=CẦN_XÁC_MINH và change=null. Change phải có action REPLACE/INSERT_AFTER/DELETE, document đúng tên file, anchor ngắn nguyên văn duy nhất, replacement ngắn. Trả JSON: {summary,strengths[],coverage:[{subject,status,note}],gaps:[{id,subject,category,status,priority,reason,location,suggestion,change}]}. SELECTED_SUBJECTS='+JSON.stringify(S.subjects)+' EXISTING_RULE_IDS='+JSON.stringify(S.changes.map(x=>x.id))+' DOCUMENTS='+JSON.stringify(documents);const j=await runGemini(prompt);let added=0,blocked=0;const ids=new Set(S.changes.map(x=>x.id));const locate=(d,a)=>{if(!a)return null;for(const[part,x]of Object.entries(d.parts))for(const pp of pars(x)){const at=pp.text.indexOf(a);if(at>=0)return{part,paragraphIndex:pp.i,matchStart:at,matchLength:a.length}}return null};for(let i=0;i<(j.gaps||[]).length;i++){const g=j.gaps[i];if(!g||g.status==='DA_CO'||!S.subjects.includes(g.subject)||!g.change)continue;const c=g.change,d=S.docs.find(x=>x.name===(c.document||g.location));if(!d){blocked++;continue}const loc=locate(d,c.anchor);if(!loc){blocked++;continue}const id=g.id||'AI-'+String(i+1).padStart(3,'0');if(ids.has(id))continue;const action=String(c.action||'REPLACE').toUpperCase();if(!['REPLACE','INSERT_AFTER','DELETE'].includes(action)){blocked++;continue}S.changes.push({type:'AI',id,engine:'Gemini Semantic Review',subject:g.subject,status:g.status==='CẦN_XÁC_MINH'?'NEED_VERIFY':'PROPOSED',old_text:c.anchor,new_text:c.replacement||'',location:d.name,part:loc.part,paragraphIndex:loc.paragraphIndex,matchStart:loc.matchStart,matchLength:loc.matchLength,anchor:c.anchor,new:c.replacement||'',action,confidence:g.priority==='HIGH'?0.97:0.9,reason:g.reason||'Gemini phát hiện cần xử lý.',approved:false,rejected:false,applied:false,ui:''});ids.add(id);added++}const coverage=(j.coverage||[]).filter(x=>S.subjects.includes(x.subject)).map(x=>(LABEL[x.subject]||x.subject)+': '+x.status+(x.note?' — '+x.note:'')).join('\\n');$('report').textContent='🤖 Gemini: '+(j.summary||'Đã rà soát.')+'\\n\\n📚 Phạm vi: '+S.subjects.map(x=>LABEL[x]).join(', ')+'\\n\\n📌 Coverage:\\n'+(coverage||'Không nhận được coverage.')+'\\n\\n🧩 AI tạo '+added+' Change Set hợp lệ; '+blocked+' đề xuất bị chặn do không định vị được Anchor.';$('cc').textContent=S.changes.length;$('rr').textContent=S.changes.filter(c=>c.status==='REVIEW_REQUIRED'||c.status==='NEED_VERIFY').length;render();$('gemStatus').textContent='✅ Gemini đã rà soát toàn bộ môn đã chọn · thêm '+added+' Change Set hợp lệ.';step(5);audit('Gemini hoàn tất: '+S.subjects.map(x=>LABEL[x]).join(', '))}catch(e){$('gemStatus').textContent='❌ '+e.message}finally{S.gemBusy=false;$('gemReview').disabled=false}};
 $('reset').onclick=()=>{S.docs=[];S.changes=[];S.integration=[];S.subjects=[];S.applied=false;$('files').value='';document.querySelectorAll('.subjectCheck').forEach(x=>x.checked=false);$('subjectPicked').textContent='⚠️ Chưa chọn môn';$('picked').textContent='Chưa nạp.';$('scan').disabled=true;$('gemReview').disabled=true;$('route').textContent='⚠️ Chưa chọn môn.';for(const id of ['nf','xp','pc','cc','rr','ic','aa'])$(id).textContent='0';$('report').textContent='Chưa quét.';$('parts').textContent='Chưa quét.';$('changes').textContent='Chưa có.';$('validator').textContent='Chưa sửa.';$('preview').textContent='Chưa có.';$('out').textContent='Chưa có đầu ra.';$('bulkStatus').textContent='Chưa thao tác Change Set.';$('high').disabled=$('all').disabled=$('none').disabled=$('apply').disabled=true;step(1);audit('Đặt lại phiên làm việc.')};$('word').onclick=async()=>{if(S.docs.length!==1)return $('out').textContent='⚠️ Nhiều tài liệu: dùng Xuất ZIP.';const d=S.docs[0];for(const[p,x]of Object.entries(d.parts))d.zip.file(p,x);download(await d.zip.generateAsync({type:'blob',compression:'DEFLATE'}),d.name.replace(/\.docx$/i,'')+' - DA_DA_SUA.docx');$('out').textContent='✅ Đã xuất Word.';step(7)};$('zip').onclick=async()=>{const z=new JSZip();for(const d of S.docs){for(const[p,x]of Object.entries(d.parts))d.zip.file(p,x);z.file(d.name,await d.zip.generateAsync({type:'blob',compression:'DEFLATE'}))}download(await z.generateAsync({type:'blob',compression:'DEFLATE'}),'GIAO_AN_DA_SUA_2026-2027.zip');$('out').textContent='✅ Đã xuất ZIP.';step(7)};$('log').onclick=()=>download(new Blob([JSON.stringify({subjects:S.subjects,changes:S.changes,integration:S.integration,audit:S.audit},null,2)],{type:'application/json'}),'CHANGE_LOG_2026-2027.json');function download(b,n){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1500)}loadAll().catch(e=>{$('dataStatus').textContent='❌ '+e.message;$('msg').textContent='❌ '+e.message;audit('Lỗi dữ liệu: '+e.message)});sync();
@@ -10,28 +11,64 @@ $('reset').onclick=()=>{S.docs=[];S.changes=[];S.integration=[];S.subjects=[];S.
 /* FINAL TRANSACTIONAL APPLY + REAL EXPORT */
 function __txCount(hay,needle){const h=norm(hay||''),n=norm(needle||'');if(!n)return 0;let c=0,p=0;while((p=h.indexOf(n,p))>=0){c++;p+=n.length}return c}
 function __txCloneParts(d){const o={};for(const[k,v]of Object.entries(d.parts))o[k]=v;return o}
+/* FINAL XML TEXT EDIT FIX */
+function __txXmlEsc(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&apos;')}
+function __txXmlDec(s){return String(s??'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&')}
+function __txSafeEdit(xml,paragraphIndex,anchor,replacement,action){
+  const ps=[...xml.matchAll(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g)];
+  const pm=ps[paragraphIndex];
+  if(!pm)return{ok:false,reason:'Không tìm thấy paragraph '+(paragraphIndex+1)+'.'};
+  let pxml=pm[0];
+  const ts=[...pxml.matchAll(/(<w:t(?:\s[^>]*)?>)([\s\S]*?)(<\/w:t>)/g)];
+  if(!ts.length)return{ok:false,reason:'Paragraph không có vùng văn bản w:t.'};
+  if(action==='INSERT_AFTER'){
+    const insert=''+__txXmlEsc(replacement);
+    pxml=pxml.replace(/<\/w:p>\s*$/,'<w:r><w:t>'+insert+'</w:t></w:r></w:p>');
+  }else{
+    const decoded=ts.map(m=>__txXmlDec(m[2]));
+    const flat=decoded.join('');
+    const idx=flat.indexOf(String(anchor??''));
+    if(idx<0)return{ok:false,reason:'Không tìm thấy Anchor trong paragraph.'};
+    const endIdx=idx+String(anchor??'').length;
+    let cur=0,si=-1,ei=-1,so=0,eo=0;
+    for(let i=0;i<decoded.length;i++){
+      const next=cur+decoded[i].length;
+      if(si<0 && idx>=cur && idx<next){si=i;so=idx-cur;}
+      if(endIdx>cur && endIdx<=next){ei=i;eo=endIdx-cur;break}
+      cur=next;
+    }
+    if(si<0||ei<0)return{ok:false,reason:'Không xác định được vị trí Anchor.'};
+    const vals=decoded.slice();
+    if(action==='DELETE')replacement='';
+    vals[si]=decoded[si].slice(0,so)+String(replacement??'')+decoded[si].slice(eo);
+    for(let i=si+1;i<=ei;i++)vals[i]=i===ei?decoded[i].slice(eo):'';
+    for(let i=ts.length-1;i>=0;i--){
+      const m=ts[i];
+      const from=m.index, to=m.index+m[0].length;
+      pxml=pxml.slice(0,from)+m[1]+__txXmlEsc(vals[i])+m[3]+pxml.slice(to);
+    }
+  }
+  const from=pm.index,to=pm.index+pm[0].length;
+  return{ok:true,xml:xml.slice(0,from)+pxml+xml.slice(to)};
+}
 function __txApplyOne(parts,c){
   const oldXml=parts[c.part];
   if(typeof oldXml!=='string')return{ok:false,reason:'Thiếu XML '+c.part+'.'};
   const beforePars=pars(oldXml),bp=beforePars[c.paragraphIndex];
   if(!bp)return{ok:false,reason:'Không có paragraph '+(c.paragraphIndex+1)+'.'};
-  const beforeText=bp.text,anchor=String(c.anchor||c.old_text||'');
-  const beforeCount=anchor?__txCount(beforeText,anchor):0;
-  if(c.action==='DELETE' && beforeCount<1)return{ok:false,reason:'Anchor DELETE không còn tồn tại.'};
-  if(c.action==='REPLACE' && beforeCount<1)return{ok:false,reason:'Anchor REPLACE không còn tồn tại.'};
-  let r;
-  if(c.type==='INTEGRATION'||c.action==='INSERT_AFTER')r=appendRun(oldXml,{paragraphIndex:c.paragraphIndex,insertText:c.insertText||c.new||c.new_text||''});
-  else if(c.action==='DELETE')r=replaceRun(oldXml,{...c,new:''});
-  else r=replaceRun(oldXml,c);
-  if(!r.ok)return{ok:false,reason:r.reason||'Không áp dụng được.'};
+  const anchor=String(c.anchor||c.old_text||''),beforeText=bp.text;
+  if(c.action!=='INSERT_AFTER' && !anchor)return{ok:false,reason:'Thiếu Anchor.'};
+  if(c.action!=='INSERT_AFTER' && __txCount(beforeText,anchor)<1)return{ok:false,reason:'Anchor không còn tồn tại.'};
+  const replacement=String(c.new||c.new_text||c.insertText||'');
+  const r=__txSafeEdit(oldXml,c.paragraphIndex,anchor,replacement,c.action||'REPLACE');
+  if(!r.ok)return r;
   const afterPars=pars(r.xml),ap=afterPars[c.paragraphIndex];
   if(!ap)return{ok:false,reason:'Không đọc lại được paragraph sau áp dụng.'};
-  const afterText=ap.text,afterCount=anchor?__txCount(afterText,anchor):0;
-  if(anchor && afterCount!==Math.max(0,beforeCount-1))return{ok:false,reason:'Xác minh OLD/Anchor sau áp dụng không đạt.'};
-  const newText=String(c.new||c.new_text||c.insertText||'');
-  if(newText && __txCount(afterText,newText)<1)return{ok:false,reason:'Xác minh NEW sau áp dụng không đạt.'};
+  if(c.action!=='INSERT_AFTER' && c.action!=='DELETE' && __txCount(ap.text,replacement)<1)return{ok:false,reason:'Không xác minh được NEW sau áp dụng.'};
+  if(c.action==='DELETE' && __txCount(ap.text,anchor)>0)return{ok:false,reason:'OLD vẫn còn sau DELETE.'};
+  if(c.action==='REPLACE' && __txCount(ap.text,anchor)!==Math.max(0,__txCount(beforeText,anchor)-1))return{ok:false,reason:'OLD/Anchor sau REPLACE không đúng.'};
   parts[c.part]=r.xml;
-  return{ok:true}
+  return{ok:true};
 }
 function __txSetExportState(ok,message){
   S.applied=!!ok;
