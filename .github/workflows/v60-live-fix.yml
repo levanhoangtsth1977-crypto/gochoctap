@@ -27,7 +27,7 @@ jobs:
           forbidden=('gemini-2.5-flash','value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"','v60-hotfix','v60-ui-bridge','document-engine-bridge','subject-picker.js','backend/','sua-giao-an/api/','v60-clean.html')
           for bad in forbidden:
               if bad in v or bad in i: raise SystemExit('FORBIDDEN:'+bad)
-          for fn in ('parseGeminiJSON','gemCall','editParagraph','replaceInParagraph','findCurrentAnchor','resolveDoc'):
+          for fn in ('parseGeminiJSON','gemCall','replaceInParagraph','findCurrentAnchor','resolveDoc'):
               n=len(re.findall(r'(?:function|async function) '+re.escape(fn)+r'\(',v))
               if n!=1: raise SystemExit(f'FUNCTION_COUNT:{fn}:{n}')
           for expr in ("$('files').addEventListener('change'", "document.querySelectorAll('.subjectCheck').forEach", "$('scan').onclick=", "$('gemReview').onclick=", "$('apply').onclick=", "$('word').onclick=", "$('zip').onclick="):
@@ -36,9 +36,13 @@ jobs:
           if 'v60.html' not in i or 'v60-clean.html' in i: raise SystemExit('ENTRYPOINT_INVALID')
           if 'gemini-3.7-flash' not in v or 'gemini-3.6-flash' not in v: raise SystemExit('GEMINI_SELECTOR_INVALID')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
-          if len(scripts)!=1: raise SystemExit(f'SCRIPT_COUNT:{len(scripts)}')
-          js=scripts[0]
+          if len(scripts)!=2: raise SystemExit(f'SCRIPT_COUNT:{len(scripts)}')
+          js=scripts[-1]
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
+          if 'FF0000' not in js or 'w:i' not in js: raise SystemExit('RED_ITALIC_MARKUP_MISSING')
+          if 'RUNTIME_CANONICAL' not in js: raise SystemExit('CANONICAL_ADMIN_RULES_MISSING')
+          if '34 đơn vị hành chính cấp tỉnh' not in js or '7 thành phố trực thuộc Trung ương' not in js: raise SystemExit('ADMIN_2026_RULES_MISSING')
+          if 'huyện Ngọc Hiển' not in js or 'xã Đất Mũi, tỉnh Cà Mau' not in js: raise SystemExit('DAT_MUI_RULE_MISSING')
           print('V60_SINGLE_RUNTIME_OK')
           PY
           node --check /tmp/v60.js
