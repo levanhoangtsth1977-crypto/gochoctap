@@ -28,20 +28,19 @@ jobs:
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
               if bad in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          required_v=('data-v60-dedupe-approved="1"','exportReady','TRANSACTION')
-          for marker in required_v:
+          for marker in ('data-v60-dedupe-approved="1"','exportReady','Transaction APPLY'):
               if marker not in v: raise SystemExit('V60_REQUIRED_MARKER_MISSING: '+marker)
           if 'word.disabled=false' in i or 'zip.disabled=false' in i:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
-          if 'word.disabled=false' in v or 'zip.disabled=false' not in v:
-              raise SystemExit('V60_EXPORT_HANDLER_CHECK')
+          if "$('word').disabled=!S.applied" not in v or "$('zip').disabled=!S.applied" not in v:
+              raise SystemExit('V60_EXPORT_GATE_MISSING')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
           print('V60_SOURCE_CHECK_OK')
           PY
           node --check /tmp/v60.js
-      - name: Require real v60/index change
+      - name: Require real application-file change
         run: |
           if git diff --quiet -- sua-giao-an/v60.html sua-giao-an/index.html; then
             echo 'ERROR: no application files changed.'
