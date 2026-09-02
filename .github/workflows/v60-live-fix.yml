@@ -4,6 +4,7 @@ on:
     paths:
       - .github/v60-live-fix-trigger.txt
       - .github/workflows/v60-live-fix.yml
+      - .github/scripts/**
 permissions:
   contents: write
 jobs:
@@ -17,6 +18,8 @@ jobs:
         run: python3 .github/scripts/dedupe-v60.py
       - name: Apply transactional APPLY + real export engine
         run: python3 .github/scripts/patch-transactional-apply.py
+      - name: Repair XML edit engine (no insertBefore)
+        run: python3 .github/scripts/repair-tx-xml-edit.py
       - name: Hard-lock export bridge
         run: python3 .github/scripts/lock-export-bridge.py
       - name: Validate final source and export gates
@@ -28,12 +31,14 @@ jobs:
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
               if bad in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','__V60_TRANSACTIONAL_APPLY_READY=true'):
+          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','/* FINAL XML TEXT EDIT FIX */'):
               if marker not in v: raise SystemExit('V60_REQUIRED_MARKER_MISSING: '+marker)
           if 'word.disabled=false' in i or 'zip.disabled=false' in i:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
           if "$('word').onclick=__txExportWord" not in v or "$('zip').onclick=__txExportZip" not in v:
               raise SystemExit('REAL_EXPORT_HANDLER_MISSING')
+          if 'insertBefore(' in v and 'FINAL XML TEXT EDIT FIX' in v:
+              raise SystemExit('UNSAFE_INSERTBEFORE_REMAINS_IN_FINAL_TX')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
@@ -51,5 +56,5 @@ jobs:
           git config user.name 'v60-authoritative-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html sua-giao-an/index.html
-          git commit -m 'fix(v60): transactional apply and real export engine'
+          git commit -m 'fix(v60): safe XML edit engine without insertBefore'
           git push
