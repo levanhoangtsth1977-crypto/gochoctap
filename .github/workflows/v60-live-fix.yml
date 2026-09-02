@@ -15,8 +15,8 @@ jobs:
         run: python3 .github/scripts/patch-v60-master.py
       - name: Deduplicate approved Change Sets
         run: python3 .github/scripts/dedupe-v60.py
-      - name: Apply transactional APPLY
-        run: python3 .github/scripts/transactional-apply.py
+      - name: Apply transactional APPLY + real export engine
+        run: python3 .github/scripts/patch-transactional-apply.py
       - name: Hard-lock export bridge
         run: python3 .github/scripts/lock-export-bridge.py
       - name: Validate final source and export gates
@@ -28,12 +28,12 @@ jobs:
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
               if bad in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          for marker in ('data-v60-dedupe-approved="1"','exportReady','Transaction APPLY'):
+          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','__V60_TRANSACTIONAL_APPLY_READY=true'):
               if marker not in v: raise SystemExit('V60_REQUIRED_MARKER_MISSING: '+marker)
           if 'word.disabled=false' in i or 'zip.disabled=false' in i:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
-          if "$('word').disabled=!S.applied" not in v or "$('zip').disabled=!S.applied" not in v:
-              raise SystemExit('V60_EXPORT_GATE_MISSING')
+          if "$('word').onclick=__txExportWord" not in v or "$('zip').onclick=__txExportZip" not in v:
+              raise SystemExit('REAL_EXPORT_HANDLER_MISSING')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
@@ -51,5 +51,5 @@ jobs:
           git config user.name 'v60-authoritative-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html sua-giao-an/index.html
-          git commit -m 'fix(v60): transactional apply and hard export gate'
+          git commit -m 'fix(v60): transactional apply and real export engine'
           git push
