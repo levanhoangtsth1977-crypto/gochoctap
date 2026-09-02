@@ -22,6 +22,8 @@ jobs:
         run: python3 .github/scripts/repair-tx-xml-edit.py
       - name: Authoritative runtime APPLY editor
         run: python3 .github/scripts/hardfix-v60-runtime.py
+      - name: Direct working-document export engine
+        run: python3 .github/scripts/fix-v60-export-direct.py
       - name: Hard-lock export bridge
         run: python3 .github/scripts/lock-export-bridge.py
       - name: Validate final source and export gates
@@ -33,12 +35,12 @@ jobs:
           i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
               if bad in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
-          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','/* FINAL XML TEXT EDIT FIX */'):
+          for marker in ('data-v60-dedupe-approved="1"','data-v60-transactional-apply="1"','/* DIRECT WORKING-DOC EXPORT FIX */'):
               if marker not in v: raise SystemExit('V60_REQUIRED_MARKER_MISSING: '+marker)
           if 'word.disabled=false' in i or 'zip.disabled=false' in i:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
-          if "$('word').onclick=__txExportWord" not in v or "$('zip').onclick=__txExportZip" not in v:
-              raise SystemExit('REAL_EXPORT_HANDLER_MISSING')
+          for marker in ("$('word').onclick=__exportWordDirect","$('zip').onclick=__exportZipDirect"):
+              if marker not in v: raise SystemExit('DIRECT_EXPORT_HANDLER_MISSING: '+marker)
           if 'function __v60SafeXmlEdit' not in v:
               raise SystemExit('AUTHORITATIVE_RUNTIME_PATCH_MISSING')
           a=v.find('function __v60SafeXmlEdit')
@@ -67,5 +69,5 @@ jobs:
           git config user.name 'v60-authoritative-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html sua-giao-an/index.html
-          git commit -m 'fix(v60): authoritative safe APPLY runtime'
+          git commit -m 'fix(v60): direct working-doc export'
           git push
