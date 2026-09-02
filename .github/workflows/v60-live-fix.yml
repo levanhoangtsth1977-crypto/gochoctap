@@ -37,7 +37,10 @@ jobs:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
           if "$('word').onclick=__txExportWord" not in v or "$('zip').onclick=__txExportZip" not in v:
               raise SystemExit('REAL_EXPORT_HANDLER_MISSING')
-          if 'insertBefore(' in v and 'FINAL XML TEXT EDIT FIX' in v:
+          start=v.find('/* FINAL XML TEXT EDIT FIX */')
+          end=v.find('function __txSetExportState',start)
+          tx=v[start:end] if start>=0 and end>start else ''
+          if 'insertBefore(' in tx:
               raise SystemExit('UNSAFE_INSERTBEFORE_REMAINS_IN_FINAL_TX')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
