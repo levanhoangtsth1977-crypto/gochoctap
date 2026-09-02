@@ -1,0 +1,51 @@
+name: One-shot Scan Loader Fix
+on:
+  push:
+    paths:
+      - "sua-giao-an/.scan-loader-fix-trigger"
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch robust loader and scan readiness
+        run: python3 - <<'PY'
+import re
+from pathlib import Path
+p=Path('sua-giao-an/v60.html')
+s=p.read_text(encoding='utf-8')
+old="function syncSubjects(){S.subjects=[...document.querySelectorAll('.subjectCheck:checked')].map(x=>x.value);const admins=S.subjects.filter(x=>ADMIN.has(x));$('subjectPicked').textContent=S.subjects.length?'✅ Đã chọn: '+S.subjects.map(x=>LABEL[x]).join(' · '):'⚠️ Chưa chọn môn';$('route').innerHTML=S.subjects.length?'🗺️ Địa giới: '+(admins.length?admins.map(x=>LABEL[x]).join(' · '):'không chạy')+'<br>🧩 Rà soát ngữ nghĩa: '+S.subjects.map(x=>LABEL[x]).join(' · '):'⚠️ Chưa chọn môn';const ready=Boolean(S.docs.length&&S.subjects.length&&DATA.master&&!S.gemBusy);$('scan').disabled=!ready;$('gemReview').disabled=!Boolean(S.docs.length&&S.subjects.length&&!S.gemBusy);step(S.subjects.length?2:1)}"
+new="function syncSubjects(){S.subjects=[...document.querySelectorAll('.subjectCheck:checked')].map(x=>x.value);const admins=S.subjects.filter(x=>ADMIN.has(x));$('subjectPicked').textContent=S.subjects.length?'✅ Đã chọn: '+S.subjects.map(x=>LABEL[x]).join(' · '):'⚠️ Chưa chọn môn';$('route').innerHTML=S.subjects.length?'🗺️ Địa giới: '+(admins.length?admins.map(x=>LABEL[x]).join(' · '):'không chạy')+'<br>🧩 Rà soát ngữ nghĩa: '+S.subjects.map(x=>LABEL[x]).join(' · '):'⚠️ Chưa chọn môn';const ready=Boolean(S.subjects.length&&!S.gemBusy&&!S.gemBusy);$('scan').disabled=!ready;$('gemReview').disabled=!Boolean(S.docs.length&&S.subjects.length&&!S.gemBusy);step(S.subjects.length?2:1)}"
+if old not in s: raise SystemExit('syncSubjects anchor not found')
+s=s.replace(old,new,1)
+marker="$('files').addEventListener('change',async e=>{"
+if marker not in s: raise SystemExit('files handler anchor not found')
+start=s.index(marker)
+end=s.index("\nasync function scanAll()",start)
+handler=s[start:end]
+newhandler="$('files').addEventListener('change',async e=>{const files=[...e.target.files||[]].filter(f=>/\\.docx$/i.test(f.name));if(!files.length){$('picked').textContent='⚠️ Chưa chọn DOCX.';$('msg').textContent='⚠️ Hãy chọn ít nhất một file DOCX.';syncSubjects();return}S.docs=[];S.changes=[];S.integration=[];S.applied=false;S.exportReady=false;$('out').textContent='Chưa có đầu ra.';$('picked').textContent='⏳ Đang nạp '+files.length+' DOCX…';$('report').textContent='Đang nạp…';try{for(const f of files)await addDoc(await f.arrayBuffer(),f.name);$('picked').textContent='✅ Đã nạp '+S.docs.length+' tài liệu.';$('nf').textContent=S.docs.length;$('parts').textContent=S.docs.flatMap(d=>Object.keys(d.parts).map(p=>d.name+' → '+p)).join('\\n');audit('Nạp '+S.docs.length+' DOCX.');syncSubjects();$('msg').textContent='✅ DOCX đã vào Document Engine. Chọn môn rồi bấm Quét.';}catch(err){$('picked').textContent='❌ Nạp DOCX lỗi: '+err.message;$('msg').textContent='❌ Nạp DOCX lỗi: '+err.message;$('scan').disabled=false;}});"
+s=s[:start]+newhandler+s[end:]
+old_scan="async function scanAll(){if(!S.docs.length||!S.subjects.length){$('msg').textContent='⚠️ Cần nạp DOCX và chọn ít nhất một môn.';syncSubjects();return}$('scan').disabled=true;"
+new_scan="async function scanAll(){if(!S.subjects.length){$('msg').textContent='⚠️ Cần chọn ít nhất một môn.';return}if(!S.docs.length){const files=[...$('files').files||[]].filter(f=>/\\.docx$/i.test(f.name));if(files.length){$('picked').textContent='⏳ Đang nạp DOCX…';for(const f of files)await addDoc(await f.arrayBuffer(),f.name);$('nf').textContent=S.docs.length;$('parts').textContent=S.docs.flatMap(d=>Object.keys(d.parts).map(p=>d.name+' → '+p)).join('\\n');audit('Nạp '+S.docs.length+' DOCX khi bấm Quét.')}else{$('msg').textContent='⚠️ Chưa có file DOCX. Hãy chọn file trước.';return}}$('scan').disabled=true;"
+if old_scan not in s: raise SystemExit('scan anchor not found')
+s=s.replace(old_scan,new_scan,1)
+p.write_text(s,encoding='utf-8')
+print('patched',p)
+PY
+      - name: Validate
+        run: |
+          node --check <(sed -n '/<script>/,/<\/script>/p' sua-giao-an/v60.html | sed '1d;$d')
+          grep -q "Đã nạp.*tài liệu" sua-giao-an/v60.html
+          grep -q "khi bấm Quét" sua-giao-an/v60.html
+          ! grep -q "insertBefore" sua-giao-an/v60.html
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sua-giao-an/v60.html .github/workflows/one-shot-scan-loader-fix.yml sua-giao-an/.scan-loader-fix-trigger
+          git commit -m "fix(v60): make DOCX loading and scan readiness deterministic"
+          git rm .github/workflows/one-shot-scan-loader-fix.yml sua-giao-an/.scan-loader-fix-trigger
+          git commit -m "chore: remove one-shot scan fix machinery"
+          git push
