@@ -18,8 +18,10 @@ jobs:
         run: python3 .github/scripts/dedupe-v60.py
       - name: Apply transactional APPLY + real export engine
         run: python3 .github/scripts/patch-transactional-apply.py
-      - name: Repair XML edit engine (no insertBefore)
+      - name: Repair XML edit engine
         run: python3 .github/scripts/repair-tx-xml-edit.py
+      - name: Authoritative runtime APPLY editor
+        run: python3 .github/scripts/hardfix-v60-runtime.py
       - name: Hard-lock export bridge
         run: python3 .github/scripts/lock-export-bridge.py
       - name: Validate final source and export gates
@@ -37,11 +39,17 @@ jobs:
               raise SystemExit('BRIDGE_MUST_NOT_UNLOCK_EXPORT')
           if "$('word').onclick=__txExportWord" not in v or "$('zip').onclick=__txExportZip" not in v:
               raise SystemExit('REAL_EXPORT_HANDLER_MISSING')
-          start=v.find('/* FINAL XML TEXT EDIT FIX */')
-          end=v.find('function __txSetExportState',start)
-          tx=v[start:end] if start>=0 and end>start else ''
-          if 'insertBefore(' in tx:
-              raise SystemExit('UNSAFE_INSERTBEFORE_REMAINS_IN_FINAL_TX')
+          if 'function __v60SafeXmlEdit' not in v:
+              raise SystemExit('AUTHORITATIVE_RUNTIME_PATCH_MISSING')
+          a=v.find('function __v60SafeXmlEdit')
+          z=v.find("$('gemTest')",a)
+          runtime=v[a:z] if a>=0 and z>a else ''
+          if 'insertBefore(' in runtime:
+              raise SystemExit('UNSAFE_INSERTBEFORE_REMAINS_IN_RUNTIME')
+          if 'function replaceRun(xml,c){return __v60SafeXmlEdit(xml,c,\'REPLACE\')}' not in v:
+              raise SystemExit('REPLACER_NOT_LOCKED')
+          if 'function appendRun(xml,c){return __v60SafeXmlEdit(xml,c,\'INSERT_AFTER\')}' not in v:
+              raise SystemExit('APPENDER_NOT_LOCKED')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
@@ -59,5 +67,5 @@ jobs:
           git config user.name 'v60-authoritative-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html sua-giao-an/index.html
-          git commit -m 'fix(v60): safe XML edit engine without insertBefore'
+          git commit -m 'fix(v60): authoritative safe APPLY runtime'
           git push
