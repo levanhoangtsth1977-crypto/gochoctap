@@ -1,0 +1,54 @@
+name: V60 Clean Rebuild
+on:
+  push:
+    paths:
+      - .github/scripts/rebuild-v60-clean.py
+      - .github/scripts/rebuild-index-clean.py
+      - .github/workflows/v60-clean.yml
+permissions:
+  contents: write
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild clean v6.0
+        run: python3 .github/scripts/rebuild-v60-clean.py
+      - name: Rebuild single entry index
+        run: python3 .github/scripts/rebuild-index-clean.py
+      - name: Validate clean source
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          v=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
+          i=Path('sua-giao-an/index.html').read_text(encoding='utf-8')
+          bad=('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"')
+          for x in bad:
+              if x in v: raise SystemExit('EXCLUDED_SUBJECT_PRESENT:'+x)
+          if 'v60-ui-bridge' in v or 'v13.js' in v: raise SystemExit('LEGACY_BRIDGE_PRESENT')
+          if 'insertBefore(' in v: raise SystemExit('INSERTBEFORE_PRESENT_IN_CLEAN_V60')
+          if v.count("function parseGeminiJSON")>1: raise SystemExit('DUPLICATE_GEMINI_PARSER')
+          if "$('apply').onclick" not in v: raise SystemExit('APPLY_HANDLER_MISSING')
+          if "$('word').onclick" not in v or "$('zip').onclick" not in v: raise SystemExit('EXPORT_HANDLER_MISSING')
+          if "$('validateBtn').onclick" not in v or "$('previewBtn').onclick" not in v: raise SystemExit('VALIDATOR_PREVIEW_HANDLER_MISSING')
+          if 'iframe' not in i or 'v60.html' not in i: raise SystemExit('INDEX_NOT_SINGLE_ENTRY')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
+          if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
+          Path('/tmp/v60.js').write_text('\n'.join(scripts),encoding='utf-8')
+          print('CLEAN_SOURCE_OK')
+          PY
+          node --check /tmp/v60.js
+      - name: Require real application files changed
+        run: |
+          if git diff --quiet -- sua-giao-an/v60.html sua-giao-an/index.html; then
+            echo 'ERROR: clean rebuild produced no application-file change'
+            exit 1
+          fi
+      - name: Commit clean runtime
+        run: |
+          git config user.name 'v60-clean-runtime'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v60.html sua-giao-an/index.html
+          git commit -m 'refactor(v60): clean single runtime without patch layers'
+          git push
