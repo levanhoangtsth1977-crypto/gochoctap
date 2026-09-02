@@ -1,0 +1,40 @@
+name: V60 One-Time Scan Clean Fix
+on:
+  push:
+    paths:
+      - .github/scripts/fix-scan-clean.py
+      - .github/workflows/one-time-scan-clean.yml
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply focused scan fix
+        run: python3 .github/scripts/fix-scan-clean.py
+      - name: Validate JavaScript syntax
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          v=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
+          scripts=re.findall(r'<script[^>]*>(.*?)</script>',v,re.S)
+          if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
+          Path('/tmp/v60.js').write_text('\n'.join(scripts),encoding='utf-8')
+          required=["$('scan').disabled=!scanReady",'installStableDocxInput','S.docs=[];S.changes=[];S.integration=[]']
+          for x in required:
+              if x not in v: raise SystemExit('MISSING:'+x)
+          print('SCAN_RUNTIME_SOURCE_OK')
+          PY
+          node --check /tmp/v60.js
+      - name: Remove one-time patch machinery
+        run: |
+          rm -f .github/scripts/fix-scan-clean.py .github/workflows/one-time-scan-clean.yml
+          git add sua-giao-an/v60.html .github/scripts/fix-scan-clean.py .github/workflows/one-time-scan-clean.yml
+          git diff --cached --quiet && { echo 'NO_CHANGES_TO_COMMIT'; exit 1; } || true
+          git config user.name 'v60-clean-fix'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'fix(v60): enable scan after real DOCX load and subject selection'
+          git push
