@@ -1,44 +1,64 @@
 name: V60 Live Fix
 on:
   push:
-    branches: [main]
     paths:
-      - .github/workflows/v60-live-fix.yml
-      - .github/scripts/patch-v60-master.py
-      - .github/scripts/patch-v60-validator.py
       - .github/v60-live-fix-trigger.txt
 permissions:
   contents: write
 jobs:
   patch:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Apply master v60 patch
         run: python3 .github/scripts/patch-v60-master.py
-      - name: Apply authoritative validator/preview patch
+
+      - name: Apply validator and apply-export patch
         run: python3 .github/scripts/patch-v60-validator.py
-      - name: Verify final v60 contract
+
+      - name: Verify v60 is actually patched
         run: |
           python3 - <<'PY'
           from pathlib import Path
           import re
           s=Path('sua-giao-an/v60.html').read_text(encoding='utf-8')
-          required=['id="validateNow"','id="previewNow"','function __v60Preflight()','function __v60Preview()','function __v60Refresh()']
+          required=[
+              'id="validateNow"',
+              'id="previewNow"',
+              'function __v60Preflight()',
+              'function __v60Preview()',
+              'S.applied=SApplied',
+              'if(used.has(key))',
+              "$('word').disabled=!SApplied",
+              "$('zip').disabled=!SApplied",
+          ]
           missing=[x for x in required if x not in s]
-          if missing: raise SystemExit('FINAL_CONTRACT_MISSING: '+', '.join(missing))
+          if missing:
+              raise SystemExit('PATCH_INCOMPLETE: '+', '.join(missing))
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"','gemini-3.6-flash','gemini-3.5-flash-lite'):
-              if bad in s: raise SystemExit('LEGACY_TOKEN: '+bad)
+              if bad in s:
+                  raise SystemExit('LEGACY_TOKEN: '+bad)
+          # Parser must not be duplicated accidentally.
+          if len(re.findall(r'function parseGeminiJSON\(',s)) != 1:
+              raise SystemExit('parseGeminiJSON must occur exactly once')
           js=re.findall(r'<script>(.*?)</script>',s,re.S)[0]
           Path('/tmp/v60.js').write_text(js,encoding='utf-8')
           PY
           node --check /tmp/v60.js
+
+      - name: Require a real file change
+        run: |
+          if git diff --quiet -- sua-giao-an/v60.html; then
+            echo 'ERROR: v60.html was not modified by the patch pipeline.'
+            exit 1
+          fi
+          git diff --stat -- sua-giao-an/v60.html
+
       - name: Commit patched v60
         run: |
           git config user.name 'v60-master-fix'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v60.html
-          if git diff --cached --quiet; then echo 'No v60 changes.'; exit 0; fi
-          git commit -m 'fix(v60): finalize validator preview audit flow'
+          git commit -m 'fix(v60): finalize approve-apply-validate-export pipeline'
           git push
