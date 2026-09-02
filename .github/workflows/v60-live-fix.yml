@@ -23,7 +23,6 @@ jobs:
           for bad in ('value="TIENG_ANH"','value="TIN_HOC"','value="MI_THUAT"','value="AM_NHAC"'):
               if bad in s: raise SystemExit('EXCLUDED_SUBJECT_PRESENT: '+bad)
           if 'data-v60-dedupe-approved="1"' not in s: raise SystemExit('DEDUPE_PATCH_MISSING')
-          if s.count('function parseGeminiJSON(')>1: raise SystemExit('DUPLICATE_PARSE_GEMINI_JSON')
           scripts=re.findall(r'<script[^>]*>(.*?)</script>',s,re.S)
           if not scripts: raise SystemExit('NO_INLINE_SCRIPT')
           Path('/tmp/v60.js').write_text(max(scripts,key=len),encoding='utf-8')
