@@ -1,7 +1,8 @@
-name: Final Apply Export Repair
+name: One-shot Gemini and Apply Export repair
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - '.github/workflows/fix-gemini-400.yml'
   workflow_dispatch:
@@ -9,46 +10,71 @@ permissions:
   contents: write
 jobs:
   patch:
-    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'fix(sua-giao-an): final apply export repair')
+    if: "!contains(github.event.head_commit.message, 'FINAL-ONE-SHOT-REPAIR')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Patch v64 apply and export
+      - name: Patch v64 core
         shell: python
         run: |
           from pathlib import Path
           p=Path('sua-giao-an/v64.html')
           s=p.read_text(encoding='utf-8')
-          old="function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');if(c.type==='INTEGRATION')d.parts[c.path]=appendIntegration(d.parts[c.path],c.new);else{const dom=parse(c.path?d.parts[c.path]:d.parts['word/document.xml']),p=[...dom.getElementsByTagNameNS(NS,'p')][(c.paragraph||1)-1];if(!p||!replaceExact(p,c.old,c.new))throw Error(c.id+': không tìm thấy OLD đúng paragraph');d.parts[c.path]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"
-          new="function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');if(c.type==='INTEGRATION'){d.parts[c.path||'word/document.xml']=appendIntegration(d.parts[c.path||'word/document.xml'],c.new)}else{const path=c.path||'word/document.xml';const dom=parse(d.parts[path]);const ps=[...dom.getElementsByTagNameNS(NS,'p')];let p=c.paragraph>0?ps[c.paragraph-1]:null;if(c.old&&(!p||!norm(p.textContent).includes(norm(c.old))))p=ps.find(q=>norm(q.textContent).includes(norm(c.old)));if(!p||!c.old||!replaceExact(p,c.old,c.new))throw Error(c.id+': không tìm thấy OLD để thay thế');d.parts[path]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"
-          if old not in s: raise SystemExit('applyOne marker not found')
+
+          # Gemini test: minimal request + fallback + detailed API error.
+          start=s.find("$('gemTest').addEventListener('click'")
+          end=s.find("$('gemRun').addEventListener",start)
+          if start<0 or end<0: raise SystemExit('Gemini test markers not found')
+          gem="""$('gemTest').addEventListener('click',async()=>{try{const key=$('gemKey').value.trim();if(!key)throw Error('Chưa có Gemini API Key');const selected=$('model').value||'gemini-3.8-flash';const models=[...new Set([selected,'gemini-3.8-flash','gemini-3.7-flash','gemini-3.6-flash','gemini-2.5-flash'])];$('gemStatus').textContent='⏳ Đang kiểm tra Gemini…';let last='';for(const model of models){try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{role:'user',parts:[{text:'Reply with exactly OK.'}]}]})});const raw=await r.text();if(r.ok){$('model').value=model;$('gemStatus').textContent='✅ Gemini hoạt động · '+model;return}let detail='';try{const j=JSON.parse(raw);detail=j?.error?.message||j?.error?.status||''}catch{}last='HTTP '+r.status+' · '+model+(detail?' · '+detail:'');if(r.status===401||r.status===403)break}catch(e){last=String(e.message||e)+' · '+model}}throw Error(last||'Không kết nối được Gemini')}catch(e){$('gemStatus').textContent='❌ '+e.message;audit('Gemini TEST '+e.message)}});"""
+          s=s[:start]+gem+s[end:]
+
+          # Apply: paragraph=0 uses exact OLD search over all paragraphs instead of ps[-1].
+          a=s.find('function applyOne(c){')
+          b=s.find('function validate(){',a)
+          if a<0 or b<0: raise SystemExit('applyOne boundary not found')
+          fn="""function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');const part=c.path||'word/document.xml';if(!d.parts[part])throw Error(c.id+': thiếu XML part');if(c.type==='INTEGRATION'){d.parts[part]=appendIntegration(d.parts[part],c.new)}else{const dom=parse(d.parts[part]),ps=[...dom.getElementsByTagNameNS(NS,'p')];let target=c.paragraph>0?ps[c.paragraph-1]:null;if(c.old&&(!target||!norm(target.textContent||'').includes(norm(c.old))))target=ps.find(q=>norm(q.textContent||'').includes(norm(c.old)));if(!target||!c.old||!replaceExact(target,c.old,c.new))throw Error(c.id+': không tìm thấy OLD trong DOCX');d.parts[part]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"""
+          s=s[:a]+fn+s[b:]
+
+          # Post-check every applied change, including INTEGRATION.
+          old="for(const c of S.changes.filter(x=>x.status==='applied'&&x.type==='REPLACE'))if(!xmlText(S.docs.find(d=>d.name===c.file).parts[c.path]).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');"
+          new="for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file);const text=xmlText(d.parts[c.path||'word/document.xml']);if(!text.includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW trong DOCX')}"
+          if old not in s: raise SystemExit('post-check marker not found')
           s=s.replace(old,new,1)
-          old2="for(const c of S.changes.filter(x=>x.status==='applied'&&x.type==='REPLACE'))if(!xmlText(S.docs.find(d=>d.name===c.file).parts[c.path]).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');"
-          new2="for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file);const text=xmlText(d.parts[c.path||'word/document.xml']);if(!text.includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW trong DOCX')}"
-          if old2 not in s: raise SystemExit('post validator marker not found')
-          s=s.replace(old2,new2,1)
-          old3="function dl(blob,name){function dl(blob,name){"
-          if old3 not in s: raise SystemExit('duplicate dl marker not found')
-          s=s.replace(old3,"function dl(blob,name){",1)
+
+          # Export helper must be defined only once.
+          s=s.replace('function dl(blob,name){function dl(blob,name){','function dl(blob,name){',1)
+
+          # Preview button must stay before Word.
+          if 'previewExportBtn' not in s: raise SystemExit('preview button missing')
+          if s.count("$('word').addEventListener")!=1: raise SystemExit('word handler count invalid')
+          if s.count("$('zip').addEventListener")!=1: raise SystemExit('zip handler count invalid')
+          if s.count("$('log').addEventListener")!=1: raise SystemExit('log handler count invalid')
+          if 'parseXml(' in s: raise SystemExit('legacy parseXml remains')
           p.write_text(s,encoding='utf-8')
-          assert 'function dl(blob,name){function dl(blob,name){' not in s
-          assert "let p=c.paragraph>0?ps[c.paragraph-1]:null" in s
-          assert "filter(x=>x.status==='applied')){const d=S.docs.find" in s
           print('PATCH PASS',len(s))
       - name: Validate source
         shell: python
         run: |
           from pathlib import Path
           s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
-          required=["function applyOne(c){","let p=c.paragraph>0?ps[c.paragraph-1]:null","filter(x=>x.status==='applied')){const d=S.docs.find","function dl(blob,name){const"]
-          for x in required: assert x in s, x
-          assert 'function dl(blob,name){function dl(blob,name){' not in s
-          assert s.count("$('word').addEventListener('click'") == 1
-          print('VALIDATE PASS')
-      - name: Commit patched v64
+          checks={
+            'apply_fallback':'let target=c.paragraph>0?ps[c.paragraph-1]:null;' in s,
+            'post_all':"filter(x=>x.status==='applied')){" in s,
+            'single_dl':'function dl(blob,name){function dl(blob,name){' not in s,
+            'preview':'previewExportBtn' in s,
+            'word_once':s.count("$('word').addEventListener")==1,
+            'zip_once':s.count("$('zip').addEventListener")==1,
+            'log_once':s.count("$('log').addEventListener")==1,
+            'parser':'function parse(x)' in s and 'function xmlText(x)' in s,
+            'no_parseXml':'parseXml(' not in s,
+          }
+          print(checks)
+          bad=[k for k,v in checks.items() if not v]
+          if bad: raise SystemExit('VALIDATE FAIL: '+','.join(bad))
+      - name: Commit repaired v64
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v64.html
-          git commit -m 'fix(sua-giao-an): final apply export repair'
+          git commit -m 'FINAL-ONE-SHOT-REPAIR apply export and Gemini'
           git push
