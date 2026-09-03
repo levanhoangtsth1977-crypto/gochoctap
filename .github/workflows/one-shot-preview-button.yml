@@ -27,13 +27,14 @@ jobs:
           fn="""function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');const part=c.path||'word/document.xml';if(!d.parts[part])throw Error(c.id+': thiếu XML part');if(c.type==='INTEGRATION'){d.parts[part]=appendIntegration(d.parts[part],c.new)}else{const dom=parse(d.parts[part]),ps=[...dom.getElementsByTagNameNS(NS,'p')];let target=c.paragraph>0?ps[c.paragraph-1]:null;if(c.old&&(!target||!norm(target.textContent||'').includes(norm(c.old))))target=ps.find(q=>norm(q.textContent||'').includes(norm(c.old)));if(!target||!c.old||!replaceExact(target,c.old,c.new))throw Error(c.id+': không tìm thấy OLD trong DOCX');d.parts[part]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"""
           s=s[:a]+fn+s[b:]
 
-          old="for(const c of S.changes.filter(x=>x.status==='applied'&&x.type==='REPLACE'))if(!xmlText(S.docs.find(d=>d.name===c.file).parts[c.path]).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');"
-          new="for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file);const xml=d?.parts?.[c.path||'word/document.xml'];if(!xml)throw Error(c.id+': Post-Validator thiếu XML');if(!xmlText(xml).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW trong DOCX')}"
-          if old not in s: raise SystemExit('post-check marker not found')
-          s=s.replace(old,new,1)
+          # Replace the existing post-check loop by boundary, not by exact whitespace.
+          a=s.find("for(const c of S.changes.filter(x=>x.status==='applied'")
+          b=s.find("S.exportReady=true;",a)
+          if a<0 or b<0: raise SystemExit('post-check boundary not found')
+          post="for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file);const xml=d?.parts?.[c.path||'word/document.xml'];if(!xml)throw Error(c.id+': Post-Validator thiếu XML');if(!xmlText(xml).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW trong DOCX')}"
+          s=s[:a]+post+s[b:]
 
           s=s.replace('function dl(blob,name){function dl(blob,name){','function dl(blob,name){',1)
-
           if 'previewExportBtn' not in s: raise SystemExit('preview button missing')
           if s.count("$('word').addEventListener")!=1: raise SystemExit('word handler invalid')
           if s.count("$('zip').addEventListener")!=1: raise SystemExit('zip handler invalid')
@@ -45,15 +46,20 @@ jobs:
         run: |
           from pathlib import Path
           s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
-          assert 'function applyOne(c){' in s
-          assert 'let target=c.paragraph>0?ps[c.paragraph-1]:null;' in s
-          assert "filter(x=>x.status==='applied')){" in s
-          assert 'function dl(blob,name){function dl(blob,name){' not in s
-          assert s.count("$('word').addEventListener")==1
-          assert s.count("$('zip').addEventListener")==1
-          assert s.count("$('log').addEventListener")==1
-          assert 'parseXml(' not in s
-          print('FINAL VALIDATE PASS')
+          tests=[
+            'let target=c.paragraph>0?ps[c.paragraph-1]:null;' in s,
+            "filter(x=>x.status==='applied')){" in s,
+            'function dl(blob,name){function dl(blob,name){' not in s,
+            s.count("$('word').addEventListener")==1,
+            s.count("$('zip').addEventListener")==1,
+            s.count("$('log').addEventListener")==1,
+            'previewExportBtn' in s,
+            'parseXml(' not in s,
+            'function parse(x)' in s,
+            'function xmlText(x)' in s,
+          ]
+          print(tests)
+          if not all(tests): raise SystemExit('FINAL VALIDATE FAIL')
       - name: Commit repaired v64
         run: |
           git config user.name 'github-actions[bot]'
@@ -63,6 +69,6 @@ jobs:
           git push
       - name: Remove one-shot workflow
         run: |
-          git rm -f .github/workflows/one-shot-preview-button.yml || true
-          git commit -m 'chore: remove final apply export workflow' || true
-          git push || true
+          git rm -f .github/workflows/one-shot-preview-button.yml
+          git commit -m 'chore: remove final apply export workflow'
+          git push
