@@ -1,0 +1,77 @@
+name: One-shot preview button patch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-shot-preview-button.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'chore(sua-giao-an): add preview button')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Patch v64 without rewriting the core
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('sua-giao-an/v64.html')
+          s = p.read_text(encoding='utf-8')
+
+          old_ui = '<h2>📤 Xuất kết quả</h2><button id="word" class="btn p" disabled>📄 Xuất Word</button>'
+          new_ui = '<h2>📤 Xuất kết quả</h2><button id="previewExport" class="btn i" disabled>👁️ XEM TRƯỚC</button><button id="word" class="btn p" disabled>📄 Xuất Word</button>'
+          if old_ui in s and 'id="previewExport"' not in s:
+              s = s.replace(old_ui, new_ui, 1)
+
+          old_sync = "$('previewBtn').disabled=!S.docs.length;"
+          new_sync = "$('previewBtn').disabled=!S.docs.length;$('previewExport').disabled=!S.docs.length;"
+          if old_sync in s and "$ ('previewExport')" not in s:
+              s = s.replace(old_sync, new_sync, 1)
+
+          old_js = "$('previewBtn').addEventListener('click',()=>$('preview').textContent=S.changes.map(c=>'['+c.status+'] '+LABEL[c.subject]+' · '+c.type+' · '+(c.old?c.old+' → ':'')+c.new).join('\\n'));function dl(blob,name){"
+          new_js = "$('previewBtn').addEventListener('click',()=>$('preview').textContent=S.changes.map(c=>'['+c.status+'] '+LABEL[c.subject]+' · '+c.type+' · '+(c.old?c.old+' → ':'')+c.new).join('\\n'));$('previewExport').addEventListener('click',()=>{$('previewBtn').click();$('preview').scrollIntoView({behavior:'smooth',block:'center'});audit('XEM TRUOC');});function dl(blob,name){"
+          if old_js in s and "$('previewExport').addEventListener" not in s:
+              s = s.replace(old_js, new_js, 1)
+
+          checks = [
+              ('previewExport' in s, 'missing previewExport button'),
+              ("$('previewExport').addEventListener" in s, 'missing previewExport handler'),
+              ("$('previewExport').disabled=!S.docs.length;" in s, 'missing previewExport sync'),
+              ('<button id="previewExport" class="btn i" disabled>👁️ XEM TRƯỚC</button><button id="word"' in s, 'button not immediately before Word'),
+          ]
+          bad = [msg for ok, msg in checks if not ok]
+          if bad:
+              raise SystemExit('PATCH FAILED: ' + '; '.join(bad))
+          p.write_text(s, encoding='utf-8')
+          print('PATCH PASS', len(s))
+
+      - name: Validate changed HTML structure
+        shell: python
+        run: |
+          from pathlib import Path
+          s = Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
+          assert s.count('id="previewExport"') == 1
+          assert s.count("$('previewExport').addEventListener") == 1
+          assert 'previewExport' in s
+          print('VALIDATE PASS')
+
+      - name: Commit patch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v64.html
+          if git diff --cached --quiet; then
+            echo 'No changes needed'
+            exit 0
+          fi
+          git commit -m 'chore(sua-giao-an): add preview button'
+          git push
