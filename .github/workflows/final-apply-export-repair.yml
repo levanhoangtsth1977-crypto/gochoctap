@@ -1,0 +1,83 @@
+name: FINAL Apply Export Repair
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/final-apply-export-repair.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'fix(sua-giao-an): finalize apply export')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Patch v64 core
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('sua-giao-an/v64.html')
+          s=p.read_text(encoding='utf-8')
+
+          old_apply="""function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');if(c.type==='INTEGRATION')d.parts[c.path]=appendIntegration(d.parts[c.path],c.new);else{const dom=parse(c.path?d.parts[c.path]:d.parts['word/document.xml']),p=[...dom.getElementsByTagNameNS(NS,'p')][(c.paragraph||1)-1];if(!p||!replaceExact(p,c.old,c.new))throw Error(c.id+': không tìm thấy OLD đúng paragraph');d.parts[c.path]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"""
+          new_apply="""function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');if(c.type==='INTEGRATION'){d.parts[c.path]=appendIntegration(d.parts[c.path],c.new)}else{const part=c.path?d.parts[c.path]:d.parts['word/document.xml'];if(!part)throw Error(c.id+': thiếu XML part');const dom=parse(part),ps=[...dom.getElementsByTagNameNS(NS,'p')];let target=(c.paragraph>0?ps[c.paragraph-1]:null);let ok=false;if(target&&c.old)ok=replaceExact(target,c.old,c.new);if(!ok&&c.old){for(const q of ps){if(norm(q.textContent||'').includes(norm(c.old))){if(replaceExact(q,c.old,c.new)){ok=true;break}}}}if(!ok)throw Error(c.id+': không tìm thấy OLD trong DOCX');d.parts[c.path]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"""
+          if old_apply not in s:
+              raise SystemExit('applyOne marker not found')
+          s=s.replace(old_apply,new_apply,1)
+
+          old_post="""for(const c of S.changes.filter(x=>x.status==='applied'&&x.type==='REPLACE'))if(!xmlText(S.docs.find(d=>d.name===c.file).parts[c.path]).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');"""
+          new_post="""for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file);const xml=d?.parts?.[c.path||'word/document.xml'];if(!xml)throw Error(c.id+': Post-Validator thiếu XML');if(!xmlText(xml).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');}"""
+          if old_post not in s:
+              raise SystemExit('post-check marker not found')
+          s=s.replace(old_post,new_post,1)
+
+          old_dl="function dl(blob,name){function dl(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}"
+          new_dl="function dl(blob,name){const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}"
+          if old_dl not in s:
+              raise SystemExit('duplicate dl marker not found')
+          s=s.replace(old_dl,new_dl,1)
+
+          # Make Validator refuse approval when a Change Set has no executable target.
+          old_val="for(const c of S.changes.filter(x=>x.status==='approved'))if(!c.new)errs.push(c.id+': thiếu NEW');"
+          new_val="for(const c of S.changes.filter(x=>x.status==='approved')){if(!c.new)errs.push(c.id+': thiếu NEW');if(c.type==='REPLACE'&&!c.old)errs.push(c.id+': REPLACE thiếu OLD');if(c.type==='INTEGRATION'&&!c.path)errs.push(c.id+': INTEGRATION thiếu path');}"
+          if old_val in s:s=s.replace(old_val,new_val,1)
+
+          # Final integrity checks for the four critical functions.
+          assert 'function applyOne(c){const d=S.docs.find' in s
+          assert 'if(c.paragraph>0?ps[c.paragraph-1]:null)' in s
+          assert "filter(x=>x.status==='applied'))" in s
+          assert 'function dl(blob,name){function dl(blob,name){' not in s
+          assert "$('previewExportBtn').addEventListener" in s
+          p.write_text(s,encoding='utf-8')
+          print('PATCH PASS',len(s))
+      - name: Validate HTML source
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
+          checks={
+            'applyOne': 'function applyOne(c){const d=S.docs.find' in s,
+            'paragraph_fallback': 'if(c.paragraph>0?ps[c.paragraph-1]:null)' in s,
+            'postcheck_all': "filter(x=>x.status==='applied'))" in s,
+            'single_dl': 'function dl(blob,name){function dl(blob,name){' not in s,
+            'preview_button': "$('previewExportBtn').addEventListener" in s,
+            'xml_parser': 'function parse(x)' in s,
+            'xml_text': 'function xmlText(x)' in s,
+          }
+          bad=[k for k,v in checks.items() if not v]
+          if bad: raise SystemExit('VALIDATE FAIL: '+','.join(bad))
+          print('VALIDATE PASS',checks)
+      - name: Commit and remove repair workflow
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v64.html .github/workflows/final-apply-export-repair.yml
+          git commit -m 'fix(sua-giao-an): finalize apply export' 
+          git rm .github/workflows/final-apply-export-repair.yml
+          git commit -m 'chore(sua-giao-an): remove one-shot final repair'
+          git push
