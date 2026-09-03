@@ -1,0 +1,70 @@
+name: z-final-repair
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/z-final-repair.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: "!contains(github.event.head_commit.message, 'FINAL-REPAIR-DONE')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch v64
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('sua-giao-an/v64.html')
+          s=p.read_text(encoding='utf-8')
+
+          a=s.find('function applyOne(c){')
+          b=s.find('function validate(){',a)
+          if a<0 or b<0:
+              raise SystemExit('applyOne markers not found')
+          apply_fn="""function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');if(c.type==='INTEGRATION'){if(!d.parts[c.path])throw Error(c.id+': thiếu XML part');d.parts[c.path]=appendIntegration(d.parts[c.path],c.new)}else{const part=c.path?d.parts[c.path]:d.parts['word/document.xml'];if(!part)throw Error(c.id+': thiếu XML part');const dom=parse(part),ps=[...dom.getElementsByTagNameNS(NS,'p')];let target=c.paragraph>0?ps[c.paragraph-1]:null;let ok=!!(target&&c.old&&replaceExact(target,c.old,c.new));if(!ok&&c.old){for(const q of ps){if(norm(q.textContent||'').includes(norm(c.old))&&replaceExact(q,c.old,c.new)){ok=true;break}}}if(!ok)throw Error(c.id+': không tìm thấy OLD trong DOCX');d.parts[c.path]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"""
+          s=s[:a]+apply_fn+s[b:]
+
+          old="for(const c of S.changes.filter(x=>x.status==='applied'&&x.type==='REPLACE'))if(!xmlText(S.docs.find(d=>d.name===c.file).parts[c.path]).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');"
+          new="for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file),xml=d?.parts?.[c.path||'word/document.xml'];if(!xml)throw Error(c.id+': Post-Validator thiếu XML');if(!xmlText(xml).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');}"
+          if old not in s: raise SystemExit('post-check marker not found')
+          s=s.replace(old,new,1)
+
+          dup='function dl(blob,name){function dl(blob,name){'
+          if dup not in s: raise SystemExit('duplicate dl marker not found')
+          s=s.replace(dup,'function dl(blob,name){',1)
+
+          p.write_text(s,encoding='utf-8')
+          assert 'function applyOne(c){' in s
+          assert 'target=c.paragraph>0?ps[c.paragraph-1]:null;' in s
+          assert "filter(x=>x.status==='applied'))" in s
+          assert dup not in s
+          print('PATCH PASS',len(s))
+      - name: Validate
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
+          tests={
+            'apply_fallback':'target=c.paragraph>0?ps[c.paragraph-1]:null;' in s,
+            'postcheck_all':"filter(x=>x.status==='applied'))" in s,
+            'single_dl':'function dl(blob,name){function dl(blob,name){' not in s,
+            'preview':'previewExportBtn' in s,
+            'parse':'function parse(x)' in s,
+            'xmlText':'function xmlText(x)' in s,
+          }
+          print(tests)
+          if not all(tests.values()): raise SystemExit('VALIDATE FAIL')
+      - name: Commit and delete workflow
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v64.html .github/workflows/z-final-repair.yml
+          git commit -m 'FINAL-REPAIR-DONE apply export fix'
+          git rm .github/workflows/z-final-repair.yml
+          git commit -m 'chore: remove final repair workflow'
+          git push
