@@ -1,0 +1,41 @@
+name: One-shot Gemini 400 fix
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/fix-gemini-400.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch Gemini test handler only
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('sua-giao-an/v64.html')
+          s=p.read_text(encoding='utf-8')
+          start=s.find("$('gemTest').addEventListener('click'")
+          end=s.find("$('gemRun').addEventListener", start)
+          if start<0 or end<0:
+              raise SystemExit('Gemini test handler markers not found')
+          new="""$('gemTest').addEventListener('click',async()=>{try{const key=$('gemKey').value.trim();if(!key)throw Error('Chưa có Gemini API Key');const selected=$('model').value;const models=[...new Set([selected,'gemini-3.8-flash','gemini-3.7-flash','gemini-3.6-flash'])];$('gemStatus').textContent='⏳ Đang kiểm tra kết nối Gemini…';let last='';for(const model of models){try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{parts:[{text:'Reply with exactly OK.'}]}]})});const raw=await r.text();if(r.ok){$('model').value=model;$('gemStatus').textContent='✅ Gemini hoạt động · '+model;return}let detail='';try{const j=JSON.parse(raw);detail=j?.error?.message||''}catch{}last='HTTP '+r.status+' · '+model+(detail?' · '+detail:'');if(r.status===401||r.status===403)break}catch(e){last=String(e.message||e)+' · '+model}}throw Error(last||'Không kết nối được Gemini')}catch(e){$('gemStatus').textContent='❌ '+e.message}});"""
+          s=s[:start]+new+s[end:]
+          # Remove unsupported legacy sampling options if still present in 3.x request configs.
+          s=s.replace("temperature:.1,","")
+          p.write_text(s,encoding='utf-8')
+          assert s.count("$('gemTest').addEventListener('click'")==1
+          assert 'Reply with exactly OK.' in s
+          assert "temperature:.1," not in s
+          print('PATCH PASS',len(s))
+      - name: Commit
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sua-giao-an/v64.html
+          git commit -m 'fix(sua-giao-an): repair Gemini 400 test request' || exit 0
+          git push
