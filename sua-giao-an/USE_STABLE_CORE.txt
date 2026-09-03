@@ -1,1 +1,0 @@
-Use verified stable v64 blob directly.
