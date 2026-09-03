@@ -1,0 +1,1 @@
+This marker will be removed later; stable core source blob is 6a8a5a8f22e4bc135818045f8aeb9376331f64bb.
