@@ -1,0 +1,14 @@
+{
+  "title":"HỌC LIỆU ĐỐI CHIẾU 2026-2027",
+  "authority":"REFERENCE_ONLY",
+  "note":"Không có một bộ giáo án điện tử quốc gia duy nhất do Bộ GDĐT phát hành. Các tài liệu bên ngoài chỉ dùng để tham khảo, không thay thế CTGDPT, chương trình môn học, YCCĐ, SGK và văn bản chính thức.",
+  "primary_sources":[
+    {"name":"CTGDPT 2018","url":"https://moet.gov.vn/content/vanban/Lists/VBPQ/Attachments/1483/vbhn-chuong-trinh-tong-the.pdf","type":"OFFICIAL"},
+    {"name":"Hướng dẫn thực hiện nhiệm vụ giáo dục tiểu học 2026-2027 / văn bản liên quan","url":"https://moet.gov.vn/","type":"OFFICIAL"},
+    {"name":"Khung năng lực số cho người học - Thông tư 02/2025/TT-BGDĐT","url":"https://vanban.chinhphu.vn/?classid=1&docid=212648&orggroupid=4&pageid=27160","type":"OFFICIAL"}
+  ],
+  "reference_sources":[
+    {"name":"Giáo án lớp 5 Kết nối 2026-2027 - Violet","url":"https://vndoc.com/giao-an-lop-5-ket-noi-tri-thuc-voi-cuoc-song-2026-2027-356012","type":"THIRD_PARTY_REFERENCE","warning":"Kiểm tra bản quyền và tình trạng thẩm định trước khi sử dụng."},
+    {"name":"Giáo án PowerPoint lớp 5 Kết nối 2026-2027 - VnDoc","url":"https://vndoc.com/giao-an-powerpoint-lop-5-ket-noi-tri-thuc-voi-cuoc-song-2026-2027-356013","type":"THIRD_PARTY_REFERENCE","warning":"Tài liệu tham khảo; không phải văn bản chuẩn quốc gia."}
+  ]
+}
