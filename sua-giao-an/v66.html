@@ -4,7 +4,6 @@ try{
  const url='./v64.html?source=v66&cb='+Date.now();
  const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('Không tải được v64.html · HTTP '+r.status);
  let html=await r.text();
- const marker='</body>';
  const patch=String.raw`<script>
 (function(){
 'use strict';
@@ -27,7 +26,7 @@ function evidenceLocation(needle){
  const q=norm(needle); if(!q) return null;
  for(const d of S.docs){
    for(const path of Object.keys(d.parts)){
-     if(!/<w:p\\b/i.test(d.parts[path])) continue;
+     if(!/<w:p\b/i.test(d.parts[path])) continue;
      let ps; try{ps=getPs(parseXml(d.parts[path]))}catch{continue}
      for(let i=0;i<ps.length;i++){
        const t=getText(ps[i]);
@@ -48,7 +47,7 @@ function installGemini(){
      const chunks=[];
      for(const d of S.docs){
        let text='';
-       try{text=Object.keys(d.parts).filter(p=>/<w:p\\b/i.test(d.parts[p])).map(p=>xmlPlainText(d.parts[p])).join('\n')}catch{ text=Object.values(d.parts).join('\n'); }
+       try{text=Object.keys(d.parts).filter(p=>/<w:p\b/i.test(d.parts[p])).map(p=>xmlPlainText(d.parts[p])).join('\n')}catch{ text=Object.values(d.parts).join('\n'); }
        chunks.push('TÀI LIỆU: '+d.name+'\n'+text);
      }
      const body=chunks.join('\n\n').slice(0,220000);
@@ -71,7 +70,6 @@ function patchRuntime(){
  installGemini();
  subjectReport();
 }
-// Đọc XML mà không phụ thuộc hàm xmlText cũ.
 function xmlPlainText(xml){ const d=parseXml(xml); return (d.documentElement&&d.documentElement.textContent)||''; }
 function bootPatch(){try{patchRuntime()}catch(e){const g=$('gemStatus');if(g)g.textContent='❌ Patch runtime: '+e.message}}
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(bootPatch,0)); else setTimeout(bootPatch,0);
