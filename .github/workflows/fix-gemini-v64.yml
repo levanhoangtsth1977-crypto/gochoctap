@@ -1,0 +1,36 @@
+name: Fix Gemini v64
+on:
+  push:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch Gemini handler
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('sua-giao-an/v64.html')
+          s=p.read_text(encoding='utf-8')
+          s=s.replace('<option value="gemini-2.5-flash">Gemini 2.5 Flash</option><option value="gemini-2.5-pro">Gemini 2.5 Pro</option>','<option value="gemini-3.7-flash">Gemini 3.7 Flash — dự phòng</option><option value="gemini-3.6-flash">Gemini 3.6 Flash — dự phòng</option>')
+          old="$('gemTest').addEventListener('click',async()=>{try{$('gemStatus').textContent='⏳ Đang kiểm tra…';await gem();$('gemStatus').textContent='✅ Gemini hoạt động.'}catch(e){$('gemStatus').textContent='❌ '+e.message}});"
+          new="$('gemTest').addEventListener('click',async()=>{try{const key=$('gemKey').value.trim();if(!key)throw Error('Chưa có Gemini API Key');$('gemStatus').textContent='⏳ Đang kiểm tra kết nối Gemini…';const models=[...new Set([$(`model`).value,'gemini-3.7-flash','gemini-3.6-flash'])];let last='';for(const model of models){try{const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},body:JSON.stringify({contents:[{parts:[{text:'Return only JSON: {\\\"ok\\\":true}'}]}],generationConfig:{responseMimeType:'application/json'}})});if(r.ok){$('model').value=model;$('gemStatus').textContent='✅ Gemini hoạt động · '+model;return}last='HTTP '+r.status+' · '+model}catch(e){last=e.message+' · '+model}}throw Error('Gemini không khả dụng · '+last)}catch(e){$('gemStatus').textContent='❌ '+e.message}});"
+          if old in s: s=s.replace(old,new,1)
+          s=s.replace("generationConfig:{temperature:.1,responseMimeType:'application/json'}","generationConfig:{responseMimeType:'application/json',thinkingConfig:{thinkingLevel:'low'}}")
+          s=s.replace("const model=$('model').value,src=", "const models=[...new Set([$(`model`).value,'gemini-3.7-flash','gemini-3.6-flash'])],src=")
+          p.write_text(s,encoding='utf-8')
+          assert 'previewExportBtn' in s
+          assert 'gemini-3.7-flash' in s and 'gemini-3.6-flash' in s
+          assert 'temperature:.1,responseMimeType' not in s
+          print('Gemini patch prepared')
+          PY
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: 'fix(sua-giao-an): stabilize Gemini test and fallback'
+          file_pattern: 'sua-giao-an/v64.html
+'
