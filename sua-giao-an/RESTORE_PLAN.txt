@@ -1,0 +1,1 @@
+Stable v64 restoration plan: keep existing UI/integration data; restore v64 from verified working blob 6a8a5a8f22e4bc135818045f8aeb9376331f64bb without wrapper/iframe/document.write.
