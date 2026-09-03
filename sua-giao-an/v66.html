@@ -1,0 +1,84 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store,no-cache,must-revalidate,max-age=0"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><title>🛠️ TRANG SỬA GIÁO ÁN · v6.6 GEMINI + REPORT</title></head><body><div id="boot">⏳ Đang tải lõi giao diện đầy đủ…</div><script>
+(async()=>{
+try{
+ const url='./v64.html?source=v66&cb='+Date.now();
+ const r=await fetch(url,{cache:'no-store'}); if(!r.ok) throw new Error('Không tải được v64.html · HTTP '+r.status);
+ let html=await r.text();
+ const marker='</body>';
+ const patch=String.raw`<script>
+(function(){
+'use strict';
+function subjectReport(){
+ const labels=LABEL;
+ const selected=S.subjects||[];
+ const lines=['📊 BÁO CÁO THEO TỪNG MÔN',''];
+ for(const s of selected){
+   const rows=(S.changes||[]).filter(c=>c.subject===s);
+   const rule=rows.filter(c=>!c.ai).length;
+   const gem=rows.filter(c=>c.ai).length;
+   const total=rows.length;
+   lines.push('• '+(labels[s]||s)+': Rule '+rule+' · Gemini '+gem+' · Tổng '+total);
+ }
+ const all=S.changes||[];
+ lines.push('','📌 Tổng: '+all.length+' Change Set · '+all.filter(c=>c.status==='verify').length+' cần xác minh · '+all.filter(c=>c.status==='approved').length+' đã duyệt · '+all.filter(c=>c.status==='applied').length+' đã áp dụng');
+ $('report').textContent=lines.join('\n');
+}
+function evidenceLocation(needle){
+ const q=norm(needle); if(!q) return null;
+ for(const d of S.docs){
+   for(const path of Object.keys(d.parts)){
+     if(!/<w:p\\b/i.test(d.parts[path])) continue;
+     let ps; try{ps=getPs(parseXml(d.parts[path]))}catch{continue}
+     for(let i=0;i<ps.length;i++){
+       const t=getText(ps[i]);
+       const rg=normRange(t,needle);
+       if(rg) return {file:d.name,path,paragraph:i+1,position:rg.start+1};
+     }
+   }
+ }
+ return null;
+}
+function installGemini(){
+ const old=$('gemRun'); if(!old) return;
+ const fresh=old.cloneNode(true); old.replaceWith(fresh);
+ fresh.disabled=!(S.loadOk&&S.docs.length&&S.subjects.length);
+ fresh.addEventListener('click',async()=>{
+   try{
+     S.gemBusy=true; sync(); $('gemStatus').textContent='⏳ Gemini đang phân tích '+S.subjects.map(s=>LABEL[s]).join(' · ')+'…';
+     const chunks=[];
+     for(const d of S.docs){
+       let text='';
+       try{text=Object.keys(d.parts).filter(p=>/<w:p\\b/i.test(d.parts[p])).map(p=>xmlPlainText(d.parts[p])).join('\n')}catch{ text=Object.values(d.parts).join('\n'); }
+       chunks.push('TÀI LIỆU: '+d.name+'\n'+text);
+     }
+     const body=chunks.join('\n\n').slice(0,220000);
+     const schema='{"summary":"","issues":[{"subject":"'+S.subjects.join('|')+'","severity":"HIGH|MEDIUM|LOW","old":"","new":"","reason":"","anchor":""}]}';
+     const prompt='Bạn là chuyên gia rà soát giáo án lớp 5, CT GDPT 2018, bộ Kết nối tri thức. Chỉ phân tích các môn được chọn. BẮT BUỘC mỗi issue phải thuộc đúng một môn trong danh sách: '+S.subjects.join(', ')+'. Không tạo vấn đề chỉ vì phỏng đoán. Chỉ tạo issue khi có chuỗi/câu/nội dung bằng chứng trực tiếp trong văn bản. Ưu tiên: cập nhật hành chính khi có căn cứ; năng lực số; công dân số; môi trường; biển đảo; an toàn; tích hợp phù hợp; lỗi nội dung. Không yêu cầu sửa hình ảnh bằng text. old phải là đoạn văn bản thực tế có trong giáo án; new phải là đề xuất thay thế cụ thể. Trả JSON thuần theo schema: '+schema+'\n\nNỘI DUNG GIÁO ÁN:\n'+body;
+     const data=await gemCall(prompt);
+     let n=0;
+     for(const x of (data.issues||[])){
+       const subject=S.subjects.includes(x.subject)?x.subject:null; if(!subject||!x.old||!x.new) continue;
+       const loc=evidenceLocation(x.old); if(!loc) continue;
+       S.changes.push({id:'GEM-'+String(++n).padStart(4,'0'),subject,...loc,old:x.old,new:x.new,reason:x.reason||'Gemini phát hiện từ bằng chứng trực tiếp.',confidence:x.severity==='HIGH'?'HIGH':'MEDIUM',severity:x.severity||'MEDIUM',status:'pending',action:'ai_replace',ai:true});
+     }
+     S.changes=unique(S.changes); $('gemStatus').textContent='✅ Gemini hoàn tất · '+n+' đề xuất có bằng chứng.'; subjectReport(); renderChanges(); audit('Gemini '+n+' đề xuất');
+   }catch(e){$('gemStatus').textContent='❌ '+e.message; audit('Gemini lỗi: '+e.message)} finally {S.gemBusy=false; sync(); subjectReport();}
+ });
+}
+function patchRuntime(){
+ const oldScan=$('scan'); if(oldScan) oldScan.addEventListener('click',()=>setTimeout(subjectReport,0));
+ const oldReset=$('reset'); if(oldReset) oldReset.addEventListener('click',()=>setTimeout(subjectReport,0));
+ installGemini();
+ subjectReport();
+}
+// Đọc XML mà không phụ thuộc hàm xmlText cũ.
+function xmlPlainText(xml){ const d=parseXml(xml); return (d.documentElement&&d.documentElement.textContent)||''; }
+function bootPatch(){try{patchRuntime()}catch(e){const g=$('gemStatus');if(g)g.textContent='❌ Patch runtime: '+e.message}}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',()=>setTimeout(bootPatch,0)); else setTimeout(bootPatch,0);
+})();
+</script>`;
+ html=html.replace('</body>',patch+'</body>');
+ document.open(); document.write(html); document.close();
+}catch(e){document.body.innerHTML='<div style="font:16px Arial;padding:24px;color:#b4232c">❌ '+String(e.message).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</div>';}
+})();
+</script></body></html>
