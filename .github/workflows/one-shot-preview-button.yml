@@ -1,77 +1,68 @@
-name: One-shot preview button patch
-
+name: Final Apply Export Repair
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - '.github/workflows/one-shot-preview-button.yml'
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
-  patch:
-    if: github.event_name == 'workflow_dispatch' || !contains(github.event.head_commit.message, 'chore(sua-giao-an): add preview button')
+  repair:
+    if: "!contains(github.event.head_commit.message, 'FINAL-APPLY-EXPORT-REPAIRED')"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Patch v64 without rewriting the core
+      - uses: actions/checkout@v4
+      - name: Repair v64 Apply and Export
         shell: python
         run: |
           from pathlib import Path
-          p = Path('sua-giao-an/v64.html')
-          s = p.read_text(encoding='utf-8')
+          p=Path('sua-giao-an/v64.html')
+          s=p.read_text(encoding='utf-8')
 
-          old_ui = '<h2>📤 Xuất kết quả</h2><button id="word" class="btn p" disabled>📄 Xuất Word</button>'
-          new_ui = '<h2>📤 Xuất kết quả</h2><button id="previewExport" class="btn i" disabled>👁️ XEM TRƯỚC</button><button id="word" class="btn p" disabled>📄 Xuất Word</button>'
-          if old_ui in s and 'id="previewExport"' not in s:
-              s = s.replace(old_ui, new_ui, 1)
+          a=s.find('function applyOne(c){')
+          b=s.find('function validate(){',a)
+          if a<0 or b<0: raise SystemExit('applyOne markers not found')
+          fn="""function applyOne(c){const d=S.docs.find(x=>x.name===c.file);if(!d)throw Error(c.id+': thiếu file');const part=c.path||'word/document.xml';if(!d.parts[part])throw Error(c.id+': thiếu XML part');if(c.type==='INTEGRATION'){d.parts[part]=appendIntegration(d.parts[part],c.new)}else{const dom=parse(d.parts[part]),ps=[...dom.getElementsByTagNameNS(NS,'p')];let target=c.paragraph>0?ps[c.paragraph-1]:null;if(c.old&&(!target||!norm(target.textContent||'').includes(norm(c.old))))target=ps.find(q=>norm(q.textContent||'').includes(norm(c.old)));if(!target||!c.old||!replaceExact(target,c.old,c.new))throw Error(c.id+': không tìm thấy OLD trong DOCX');d.parts[part]=new XMLSerializer().serializeToString(dom)}c.status='applied'}"""
+          s=s[:a]+fn+s[b:]
 
-          old_sync = "$('previewBtn').disabled=!S.docs.length;"
-          new_sync = "$('previewBtn').disabled=!S.docs.length;$('previewExport').disabled=!S.docs.length;"
-          if old_sync in s and "$ ('previewExport')" not in s:
-              s = s.replace(old_sync, new_sync, 1)
+          old="for(const c of S.changes.filter(x=>x.status==='applied'&&x.type==='REPLACE'))if(!xmlText(S.docs.find(d=>d.name===c.file).parts[c.path]).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW');"
+          new="for(const c of S.changes.filter(x=>x.status==='applied')){const d=S.docs.find(d=>d.name===c.file);const xml=d?.parts?.[c.path||'word/document.xml'];if(!xml)throw Error(c.id+': Post-Validator thiếu XML');if(!xmlText(xml).includes(c.new))throw Error(c.id+': Post-Validator không thấy NEW trong DOCX')}"
+          if old not in s: raise SystemExit('post-check marker not found')
+          s=s.replace(old,new,1)
 
-          old_js = "$('previewBtn').addEventListener('click',()=>$('preview').textContent=S.changes.map(c=>'['+c.status+'] '+LABEL[c.subject]+' · '+c.type+' · '+(c.old?c.old+' → ':'')+c.new).join('\\n'));function dl(blob,name){"
-          new_js = "$('previewBtn').addEventListener('click',()=>$('preview').textContent=S.changes.map(c=>'['+c.status+'] '+LABEL[c.subject]+' · '+c.type+' · '+(c.old?c.old+' → ':'')+c.new).join('\\n'));$('previewExport').addEventListener('click',()=>{$('previewBtn').click();$('preview').scrollIntoView({behavior:'smooth',block:'center'});audit('XEM TRUOC');});function dl(blob,name){"
-          if old_js in s and "$('previewExport').addEventListener" not in s:
-              s = s.replace(old_js, new_js, 1)
+          s=s.replace('function dl(blob,name){function dl(blob,name){','function dl(blob,name){',1)
 
-          checks = [
-              ('previewExport' in s, 'missing previewExport button'),
-              ("$('previewExport').addEventListener" in s, 'missing previewExport handler'),
-              ("$('previewExport').disabled=!S.docs.length;" in s, 'missing previewExport sync'),
-              ('<button id="previewExport" class="btn i" disabled>👁️ XEM TRƯỚC</button><button id="word"' in s, 'button not immediately before Word'),
-          ]
-          bad = [msg for ok, msg in checks if not ok]
-          if bad:
-              raise SystemExit('PATCH FAILED: ' + '; '.join(bad))
-          p.write_text(s, encoding='utf-8')
-          print('PATCH PASS', len(s))
-
-      - name: Validate changed HTML structure
+          if 'previewExportBtn' not in s: raise SystemExit('preview button missing')
+          if s.count("$('word').addEventListener")!=1: raise SystemExit('word handler invalid')
+          if s.count("$('zip').addEventListener")!=1: raise SystemExit('zip handler invalid')
+          if s.count("$('log').addEventListener")!=1: raise SystemExit('log handler invalid')
+          if 'parseXml(' in s: raise SystemExit('legacy parseXml remains')
+          p.write_text(s,encoding='utf-8')
+      - name: Validate repaired source
         shell: python
         run: |
           from pathlib import Path
-          s = Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
-          assert s.count('id="previewExport"') == 1
-          assert s.count("$('previewExport').addEventListener") == 1
-          assert 'previewExport' in s
-          print('VALIDATE PASS')
-
-      - name: Commit patch
+          s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
+          assert 'function applyOne(c){' in s
+          assert 'let target=c.paragraph>0?ps[c.paragraph-1]:null;' in s
+          assert "filter(x=>x.status==='applied')){" in s
+          assert 'function dl(blob,name){function dl(blob,name){' not in s
+          assert s.count("$('word').addEventListener")==1
+          assert s.count("$('zip').addEventListener")==1
+          assert s.count("$('log').addEventListener")==1
+          assert 'parseXml(' not in s
+          print('FINAL VALIDATE PASS')
+      - name: Commit repaired v64
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sua-giao-an/v64.html
-          if git diff --cached --quiet; then
-            echo 'No changes needed'
-            exit 0
-          fi
-          git commit -m 'chore(sua-giao-an): add preview button'
+          git commit -m 'FINAL-APPLY-EXPORT-REPAIRED'
           git push
+      - name: Remove one-shot workflow
+        run: |
+          git rm -f .github/workflows/one-shot-preview-button.yml || true
+          git commit -m 'chore: remove final apply export workflow' || true
+          git push || true
