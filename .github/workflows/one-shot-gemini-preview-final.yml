@@ -12,94 +12,108 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Patch v64 Gemini and Preview
+      - name: Patch v64 Gemini and Preview safely
         shell: python
         run: |
           from pathlib import Path
-          p=Path('sua-giao-an/v64.html')
-          s=p.read_text(encoding='utf-8')
+          p = Path('sua-giao-an/v64.html')
+          s = p.read_text(encoding='utf-8')
 
-          # Replace the heavy all-document Gemini function with per-subject, bounded analysis.
-          start=s.find('async function gem(){')
-          end=s.find("$('gemTest').addEventListener", start)
+          # Replace only the Gemini analysis function.
+          start = s.find('async function gem(){')
+          end = s.find("$('gemTest').addEventListener", start)
           if start < 0 or end < 0:
               raise SystemExit('gem() markers not found')
 
-          new_gem = r'''async function gem(){
-            const key=$('gemKey').value.trim();
-            if(!key)throw Error('Chưa có Gemini API Key');
-            if($('remember').checked)localStorage.setItem('LE_HOANG_GEMINI_API_KEY',key);
-            const selected=$('model').value||'gemini-3.8-flash';
-            const models=[...new Set([selected,'gemini-3.8-flash','gemini-3.7-flash','gemini-3.6-flash','gemini-2.5-flash'])];
-            const selectedSubjects=[...S.subjects];
-            if(!selectedSubjects.length)throw Error('Chưa chọn môn');
-            const status=$('gemStatus');
-            let total=0;
-            const maxDocChars=140000;
-            const maxLibChars=24000;
-            const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-            const callModel=async(model,payload)=>{
-              const ac=new AbortController();
-              const timer=setTimeout(()=>ac.abort(),60000);
+          new_gem = """async function gem(){
+          const key=$('gemKey').value.trim();
+          if(!key)throw Error('Chưa có Gemini API Key');
+          if($('remember').checked)localStorage.setItem('LE_HOANG_GEMINI_API_KEY',key);
+          const selected=$('model').value||'gemini-3.8-flash';
+          const models=[...new Set([selected,'gemini-3.8-flash','gemini-3.7-flash','gemini-3.6-flash','gemini-2.5-flash'])];
+          const selectedSubjects=[...S.subjects];
+          if(!selectedSubjects.length)throw Error('Chưa chọn môn');
+          const status=$('gemStatus');
+          let total=0;
+          const maxDocChars=120000;
+          const maxLibChars=18000;
+          const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+          const callModel=async(model,payload)=>{
+            const ac=new AbortController();
+            const timer=setTimeout(()=>ac.abort(),60000);
+            try{
+              const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{
+                method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},signal:ac.signal,
+                body:JSON.stringify(payload)
+              });
+              const raw=await r.text();
+              if(!r.ok){let detail='';try{const j=JSON.parse(raw);detail=j?.error?.message||j?.error?.status||''}catch{}throw Error('HTTP '+r.status+(detail?' · '+detail:''));}
+              const j=JSON.parse(raw);
+              const text=j?.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join('')||'';
+              if(!text)throw Error('Gemini không trả nội dung');
+              return text;
+            }finally{clearTimeout(timer)}
+          };
+          const subjectText=()=>S.docs.map(d=>xmlText(d.parts['word/document.xml']||'')).join('\\n').slice(0,maxDocChars);
+          const lib=JSON.stringify(DATA['integration-library-2026-2027.json']||{}).slice(0,maxLibChars);
+          for(let si=0;si<selectedSubjects.length;si++){
+            const subject=selectedSubjects[si];
+            status.textContent='⏳ Gemini đang phân tích '+LABEL[subject]+' ('+(si+1)+'/'+selectedSubjects.length+')…';
+            const prompt='Bạn là chuyên gia kế hoạch bài dạy lớp 5 CT GDPT 2018, bộ Kết nối tri thức. Phân tích CHỈ môn '+LABEL[subject]+'. Chỉ trả JSON {\\"summary\\":\\"\\",\\"issues\\":[{\\"subject\\":\\"'+subject+'\\",\\"type\\":\\"INTEGRATION|REPLACE\\",\\"category\\":\\"NLS|CONG_DAN_SO|HCM|DAO_DUC_LOI_SONG|MOI_TRUONG_BDKH|NUOC|BIEN_DAO|BIEN_GIOI_LANH_THO|GIAO_THONG|DUOI_NUOC_ATNTT\\",\\"old\\":\\"\\",\\"new\\":\\"\\",\\"reason\\":\\"\\",\\"confidence\\":\\"HIGH|MEDIUM|LOW\\"}]}. Không xóa nội dung gốc; không đổi YCCD; đề xuất ngắn, khả thi; chỉ sửa khi có căn cứ chắc chắn. Hành chính dùng 34 đơn vị cấp tỉnh = 27 tỉnh + 7 thành phố.\\nTHƯ VIỆN:\\n'+lib+'\\nGIÁO ÁN MÔN:\\n'+subjectText();
+            let last='';
+            let ok=false;
+            for(const model of models){
               try{
-                const r=await fetch('https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(model)+':generateContent',{
-                  method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':key},signal:ac.signal,
-                  body:JSON.stringify(payload)
-                });
-                const raw=await r.text();
-                if(!r.ok){let detail='';try{const j=JSON.parse(raw);detail=j?.error?.message||j?.error?.status||''}catch{}throw Error('HTTP '+r.status+(detail?' · '+detail:''));}
-                const j=JSON.parse(raw);
-                const text=j?.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join('')||'';
-                if(!text)throw Error('Gemini không trả nội dung');
-                return text;
-              }finally{clearTimeout(timer)}
-            };
-            const subjectText=s=>S.docs.map(d=>xmlText(d.parts['word/document.xml']||'')).join('\n').slice(0,maxDocChars);
-            const lib=JSON.stringify(DATA['integration-library-2026-2027.json']||{}).slice(0,maxLibChars);
-            for(let si=0;si<selectedSubjects.length;si++){
-              const subject=selectedSubjects[si];
-              status.textContent='⏳ Gemini đang phân tích '+LABEL[subject]+' ('+(si+1)+'/'+selectedSubjects.length+')…';
-              const prompt='Bạn là chuyên gia kế hoạch bài dạy lớp 5 CT GDPT 2018, bộ Kết nối tri thức. Phân tích CHỈ môn '+LABEL[subject]+'. Chỉ trả JSON {"summary":"","issues":[{"subject":"'+subject+'","type":"INTEGRATION|REPLACE","category":"NLS|CONG_DAN_SO|HCM|DAO_DUC_LOI_SONG|MOI_TRUONG_BDKH|NUOC|BIEN_DAO|BIEN_GIOI_LANH_THO|GIAO_THONG|DUOI_NUOC_ATNTT","old":"","new":"","reason":"","confidence":"HIGH|MEDIUM|LOW"}]}. Không xóa nội dung gốc; không đổi YCCD; đề xuất ngắn, quan sát được, khả thi; chỉ sửa khi có căn cứ chắc chắn. Hành chính dùng 34 đơn vị cấp tỉnh = 27 tỉnh + 7 thành phố.\nTHƯ VIỆN:\n'+lib+'\nGIÁO ÁN MÔN:\n'+subjectText(subject);
-              let last='';
-              let ok=false;
-              for(const model of models){
-                try{
-                  const text=await callModel(model,{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',thinkingConfig:{thinkingLevel:'low'}}});
-                  const data=JSON.parse(text.replace(/^```json\s*/,'').replace(/\s*```$/,''));
-                  let n=0;
-                  for(const x of data.issues||[]){
-                    if(!x.new||x.subject!==subject)continue;
-                    add({id:'GEM-'+String(S.changes.length+1).padStart(4,'0'),subject,type:x.type||'INTEGRATION',file:S.docs[0].name,path:'word/document.xml',paragraph:0,old:x.type==='REPLACE'?(x.old||''):'',new:x.new,reason:x.reason||'Gemini đề xuất theo ngữ cảnh.',source:'GEMINI',confidence:x.confidence||'MEDIUM',status:'pending',ai:true});n++;total++;
-                  }
-                  $('report').textContent+='\n🧠 '+LABEL[subject]+': '+n+' đề xuất · '+model;
-                  ok=true;break;
-                }catch(e){last=model+' · '+String(e.message||e); if(/HTTP (401|403)/.test(String(e.message||e)))break; await sleep(250)}
-              }
-              if(!ok) $('report').textContent+='\n⚠️ '+LABEL[subject]+': Gemini không hoàn tất · '+last;
-              render();
+                const text=await callModel(model,{contents:[{role:'user',parts:[{text:prompt}]}],generationConfig:{responseMimeType:'application/json',thinkingConfig:{thinkingLevel:'low'}}});
+                const data=JSON.parse(text.replace(/^```json\\s*/,'').replace(/\\s*```$/,''));
+                let n=0;
+                for(const x of data.issues||[]){
+                  if(!x.new||x.subject!==subject)continue;
+                  add({id:'GEM-'+String(S.changes.length+1).padStart(4,'0'),subject,type:x.type||'INTEGRATION',file:S.docs[0].name,path:'word/document.xml',paragraph:0,old:x.type==='REPLACE'?(x.old||''):'',new:x.new,reason:x.reason||'Gemini đề xuất theo ngữ cảnh.',source:'GEMINI',confidence:x.confidence||'MEDIUM',status:'pending',ai:true});
+                  n++;total++;
+                }
+                $('report').textContent+='\\n🧠 '+LABEL[subject]+': '+n+' đề xuất · '+model;
+                ok=true;break;
+              }catch(e){last=model+' · '+String(e.message||e);if(/HTTP (401|403)/.test(last))break;await sleep(250)}
             }
-            status.textContent='✅ Gemini hoàn tất · '+total+' đề xuất, tất cả chờ duyệt.';
-            audit('Gemini per-subject '+total+' đề xuất');
+            if(!ok)$('report').textContent+='\\n⚠️ '+LABEL[subject]+': Gemini không hoàn tất · '+last;
+            render();
           }
-          s=s[:start]+new_gem+s[end:]
+          status.textContent='✅ Gemini hoàn tất · '+total+' đề xuất, tất cả chờ duyệt.';
+          audit('Gemini per-subject '+total+' đề xuất');
+        }
+          """
+          s = s[:start] + new_gem + s[end:]
 
-          # Replace export preview click handler with a real preview of applied/pending changes.
-          old="$('previewExportBtn').addEventListener('click',()=>{$('previewBtn').click();const p=$('preview');if(p){p.scrollIntoView({behavior:'smooth',block:'center'});p.style.outline='2px solid #d9a400';setTimeout(()=>p.style.outline='',1200)}});"
-          new="$('previewExportBtn').addEventListener('click',()=>{const applied=S.changes.filter(c=>c.status==='applied');const pending=S.changes.filter(c=>c.status==='approved'||c.status==='pending');const rows=(applied.length?applied:pending);$('preview').textContent=rows.length?rows.map((c,i)=>['#'+(i+1)+' · '+LABEL[c.subject]+' · '+c.type,c.old?'OLD: '+c.old:'', 'NEW: '+c.new,'Trạng thái: '+c.status].filter(Boolean).join('\\n')).join('\\n\\n'):'Chưa có thay đổi để xem trước.';const p=$('preview');p.scrollIntoView({behavior:'smooth',block:'center'});p.style.outline='3px solid #d9a400';setTimeout(()=>p.style.outline='',1500);});"
-          if old in s:
-              s=s.replace(old,new,1)
-          else:
-              raise SystemExit('previewExport handler not found')
+          # Replace Preview button handler without changing the existing Preview engine.
+          marker = "$('previewExportBtn').addEventListener('click',()=>{"
+          pstart = s.find(marker)
+          if pstart < 0:
+              raise SystemExit('previewExport handler marker not found')
+          pend = s.find("});function dl(blob,name){", pstart)
+          if pend < 0:
+              raise SystemExit('previewExport handler end marker not found')
+          new_preview = "$('previewExportBtn').addEventListener('click',()=>{const applied=S.changes.filter(c=>c.status==='applied');const review=S.changes.filter(c=>c.status==='approved'||c.status==='pending');const rows=applied.length?applied:review;$('preview').textContent=rows.length?rows.map((c,i)=>['#'+(i+1)+' · '+LABEL[c.subject]+' · '+c.type,c.old?'OLD: '+c.old:'','NEW: '+c.new,'Trạng thái: '+c.status].filter(Boolean).join('\\n')).join('\\n\\n'):'Chưa có thay đổi để xem trước.';const p=$('preview');p.scrollIntoView({behavior:'smooth',block:'center'});p.style.outline='3px solid #d9a400';setTimeout(()=>p.style.outline='',1500);});function dl(blob,name){"
+          s = s[:pstart] + new_preview + s[pend+3:]
 
-          # Give the export preview button the same safe disabled state as other post-processing controls.
-          s=s.replace("$('previewExportBtn').disabled=!S.docs.length;","$('previewExportBtn').disabled=!S.docs.length;",1)
+          assert s.count("async function gem(){") == 1
+          assert s.count("$('gemTest').addEventListener('click'") == 1
+          assert s.count("$('previewExportBtn').addEventListener('click'") == 1
+          assert 'const maxDocChars=120000' in s
           p.write_text(s,encoding='utf-8')
-          assert 'const maxDocChars=140000' in s
-          assert 'thinkingLevel' in s
-          assert 'async function gem(){' in s
-          assert 'gemini-2.5-flash' in s
-          assert "$('previewExportBtn').addEventListener('click'" in s
           print('PATCH PASS',len(s))
+
+      - name: Validate
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
+          assert s.count("async function gem(){") == 1
+          assert s.count("$('gemTest').addEventListener('click'") == 1
+          assert s.count("$('previewExportBtn').addEventListener('click'") == 1
+          assert 'const maxDocChars=120000' in s
+          print('VALIDATE PASS')
+
       - name: Commit
         shell: bash
         run: |
@@ -108,9 +122,11 @@ jobs:
           git add sua-giao-an/v64.html
           git commit -m 'fix(sua-giao-an): speed Gemini and repair preview' || exit 0
           git push
+
       - name: Remove one-shot workflow
+        if: ${{ success() }}
         shell: bash
         run: |
-          git rm .github/workflows/one-shot-gemini-preview-final.yml || true
-          git commit -m 'chore(sua-giao-an): remove one-shot performance workflow' || true
-          git push || true
+          git rm .github/workflows/one-shot-gemini-preview-final.yml
+          git commit -m 'chore(sua-giao-an): remove one-shot performance workflow'
+          git push
