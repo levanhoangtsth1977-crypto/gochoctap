@@ -1,0 +1,91 @@
+name: One-shot Gemini 429 guard
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/one-shot-gemini-429.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: "!contains(github.event.head_commit.message, 'FINAL-GEMINI-429-GUARD')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch Gemini request guard
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('sua-giao-an/v64.html')
+          s=p.read_text(encoding='utf-8')
+          marker='<!-- GEMINI_429_GUARD -->'
+          if marker in s:
+              print('guard already present')
+              raise SystemExit(0)
+          guard=r'''<script>/* <!-- GEMINI_429_GUARD --> */
+(function(){
+  const nativeFetch=window.fetch.bind(window);
+  const state={last:0,chain:Promise.resolve()};
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  const isGem=url=>typeof url==='string' && /generativelanguage\.googleapis\.com\/v1beta\/models\/[^/]+:generateContent/i.test(url);
+  async function guarded(input,init){
+    const url=typeof input==='string'?input:(input&&input.url)||'';
+    if(!isGem(url)) return nativeFetch(input,init);
+    let body=init&&init.body;
+    let payload=null;
+    try{payload=typeof body==='string'?JSON.parse(body):null}catch(e){}
+    let tries=0;
+    return state.chain=state.chain.then(async()=>{
+      while(Date.now()-state.last<6000) await sleep(6000-(Date.now()-state.last));
+      while(true){
+        state.last=Date.now();
+        const res=await nativeFetch(input,init);
+        if(res.status!==429 || tries>=2) {
+          if(res.status===429){
+            let detail='HTTP 429 · Gemini đang giới hạn quota/rate limit.';
+            try{const j=await res.clone().json(); detail+=' '+(j.error?.message||'RESOURCE_EXHAUSTED');}catch(e){}
+            try{const box=document.getElementById('gemStatus');if(box)box.textContent='❌ '+detail+' · Hệ thống đã tự hãm request để tránh bắn dồn.';}catch(e){}
+          }
+          return res;
+        }
+        const wait=15000*(tries+1);
+        tries++;
+        try{const box=document.getElementById('gemStatus');if(box)box.textContent='⏳ Gemini đang bị giới hạn · tự thử lại sau '+Math.round(wait/1000)+' giây…';}catch(e){}
+        await sleep(wait);
+      }
+    });
+  }
+  window.fetch=guarded;
+})();
+</script>'''
+          if '</body>' not in s: raise SystemExit('body marker missing')
+          s=s.replace('</body>',guard+'</body>',1)
+          p.write_text(s,encoding='utf-8')
+          print('PATCH PASS',len(s))
+      - name: Validate
+        shell: python
+        run: |
+          from pathlib import Path
+          s=Path('sua-giao-an/v64.html').read_text(encoding='utf-8')
+          checks=[
+            'GEMINI_429_GUARD' in s,
+            'window.fetch=guarded' in s,
+            'Date.now()-state.last<6000' in s,
+            'HTTP 429' in s,
+            'nativeFetch(input,init)' in s,
+          ]
+          print('VALIDATE',checks)
+          if not all(checks): raise SystemExit('VALIDATE FAIL')
+      - name: Commit final guard
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+users.noreply.github.com'
+          git add sua-giao-an/v64.html
+          git commit -m 'FINAL-GEMINI-429-GUARD'
+          git push
+      - name: Remove one-shot workflow
+        run: |
+          git rm -f .github/workflows/one-shot-gemini-429.yml
+          git commit -m 'chore: remove one-shot Gemini 429 guard'
+          git push
